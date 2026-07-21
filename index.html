@@ -341,6 +341,7 @@
             border-radius: 16px;
             overflow: hidden;
             display: block;
+            background: #ffffff;
         }
 
         .project-image {
@@ -348,11 +349,59 @@
             width: 100%;
             height: 12rem;
             object-fit: contain;
-            background: #ffffff;
             border-radius: 16px;
             box-shadow: 0 8px 24px rgba(196, 167, 125, 0.12);
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             border: 1px solid rgba(196, 167, 125, 0.1);
+            opacity: 0;
+        }
+
+        .project-image.loaded {
+            opacity: 1;
+        }
+
+        .project-image.error {
+            opacity: 0;
+        }
+
+        /* ===== 图片加载动画 ===== */
+        .image-loader {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #fef9f3 0%, #fff9f0 100%);
+            z-index: 1;
+        }
+
+        .image-loader.hidden {
+            display: none;
+        }
+
+        .loader-cat {
+            font-size: 3rem;
+            animation: catBounce 1.5s ease-in-out infinite;
+        }
+
+        .loader-text {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-top: 0.75rem;
+            animation: textPulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes catBounce {
+            0%, 100% { transform: translateY(0) scale(1); }
+            25% { transform: translateY(-8px) scale(1.05); }
+            50% { transform: translateY(0) scale(0.95); }
+            75% { transform: translateY(-4px) scale(1.02); }
+        }
+
+        @keyframes textPulse {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
         }
 
         .project-image:hover {
@@ -1041,7 +1090,11 @@
 
                         <div class="order-1 md:order-2">
                             <a href="https://dcndeyf61pep.feishu.cn/docx/X0uMdUqLJo6hCtxT1n1ci2FLnNg" target="_blank" class="project-image-wrapper">
-                                <img src="images/ai.jpg" alt="AI小程序" class="project-image">
+                                <div class="image-loader">
+                                    <span class="loader-cat">🐱</span>
+                                    <span class="loader-text">加载中...</span>
+                                </div>
+                                <img src="images/ai.jpg" alt="AI小程序" class="project-image" onload="this.classList.add('loaded'); this.previousElementSibling.classList.add('hidden')" onerror="this.classList.add('error'); this.previousElementSibling.querySelector('.loader-text').textContent='加载失败'">
                             </a>
                         </div>
                     </div>
@@ -1059,7 +1112,11 @@
                     <div class="grid md:grid-cols-2 gap-8 items-center">
                         <div>
                             <a href="https://dcndeyf61pep.feishu.cn/file/SJZCb92csoWYcgxwSYvcV8DQnHb" target="_blank" class="project-image-wrapper">
-                                <img src="images/mscy_compressed.jpg" alt="水土保持管理系统" class="project-image">
+                                <div class="image-loader">
+                                    <span class="loader-cat">🐱</span>
+                                    <span class="loader-text">加载中...</span>
+                                </div>
+                                <img src="images/mscy_compressed.jpg" alt="水土保持管理系统" class="project-image" onload="this.classList.add('loaded'); this.previousElementSibling.classList.add('hidden')" onerror="this.classList.add('error'); this.previousElementSibling.querySelector('.loader-text').textContent='加载失败'">
                             </a>
                         </div>
                         <div>
@@ -1152,7 +1209,11 @@
                         </div>
                         <div class="order-1 md:order-2">
                             <a href="https://dcndeyf61pep.feishu.cn/file/YjTkbF1hcoeAnexBaPJcOQQ1nBc" target="_blank" class="project-image-wrapper">
-                                <img src="images/wdbw.jpg" alt="我的被窝" class="project-image">
+                                <div class="image-loader">
+                                    <span class="loader-cat">🐱</span>
+                                    <span class="loader-text">加载中...</span>
+                                </div>
+                                <img src="images/wdbw.jpg" alt="我的被窝" class="project-image" onload="this.classList.add('loaded'); this.previousElementSibling.classList.add('hidden')" onerror="this.classList.add('error'); this.previousElementSibling.querySelector('.loader-text').textContent='加载失败'">
                             </a>
                         </div>
                     </div>
@@ -1182,7 +1243,11 @@
                     <div class="grid md:grid-cols-2 gap-8 items-center">
                         <div>
                             <a href="https://dcndeyf61pep.feishu.cn/slides/WBI6soHEhl7wfYd23SzcfSidn4d" target="_blank" class="project-image-wrapper">
-                                <img src="images/jh_compressed.jpg" alt="过虑空间" class="project-image project-image-tall">
+                                <div class="image-loader">
+                                    <span class="loader-cat">🐱</span>
+                                    <span class="loader-text">加载中...</span>
+                                </div>
+                                <img src="images/jh_compressed.jpg" alt="过虑空间" class="project-image project-image-tall" onload="this.classList.add('loaded'); this.previousElementSibling.classList.add('hidden')" onerror="this.classList.add('error'); this.previousElementSibling.querySelector('.loader-text').textContent='加载失败'">
                             </a>
                         </div>
                         <div>
@@ -1285,7 +1350,11 @@
                         </div>
                         <div class="order-1 md:order-2">
                             <a href="https://www.bilibili.com/video/BV1Bo4y1x7hv/?vd_source=9b69073227bf41d63a3ca206543c5695#reply398270465" target="_blank" class="project-image-wrapper">
-                                <img src="images/dh_compressed.jpg" alt="蒸汽末日" class="project-image project-image-tall">
+                                <div class="image-loader">
+                                    <span class="loader-cat">🐱</span>
+                                    <span class="loader-text">加载中...</span>
+                                </div>
+                                <img src="images/dh_compressed.jpg" alt="蒸汽末日" class="project-image project-image-tall" onload="this.classList.add('loaded'); this.previousElementSibling.classList.add('hidden')" onerror="this.classList.add('error'); this.previousElementSibling.querySelector('.loader-text').textContent='加载失败'">
                             </a>
                         </div>
                     </div>
@@ -1352,7 +1421,11 @@
                         </div>
                         <div class="order-1 md:order-2">
                             <a href="https://www.bilibili.com/video/BV1gX4y1p7f1/?spm_id_from=333.1387.homepage.video_card.click" target="_blank" class="project-image-wrapper">
-                                <img src="images/sqss_compressed.jpg" alt="虚拟展馆漫游" class="project-image">
+                                <div class="image-loader">
+                                    <span class="loader-cat">🐱</span>
+                                    <span class="loader-text">加载中...</span>
+                                </div>
+                                <img src="images/sqss_compressed.jpg" alt="虚拟展馆漫游" class="project-image" onload="this.classList.add('loaded'); this.previousElementSibling.classList.add('hidden')" onerror="this.classList.add('error'); this.previousElementSibling.querySelector('.loader-text').textContent='加载失败'">
                             </a>
                         </div>
                     </div>
@@ -1370,7 +1443,11 @@
                     <div class="grid md:grid-cols-2 gap-8 items-center">
                         <div>
                             <a href="https://www.bilibili.com/video/BV1LY41117jQ/?vd_source=9b69073227bf41d63a3ca206543c5695#reply145432201248" target="_blank" class="project-image-wrapper">
-                                <img src="images/yx.jpg" alt="山麓草木香" class="project-image">
+                                <div class="image-loader">
+                                    <span class="loader-cat">🐱</span>
+                                    <span class="loader-text">加载中...</span>
+                                </div>
+                                <img src="images/yx.jpg" alt="山麓草木香" class="project-image" onload="this.classList.add('loaded'); this.previousElementSibling.classList.add('hidden')" onerror="this.classList.add('error'); this.previousElementSibling.querySelector('.loader-text').textContent='加载失败'">
                             </a>
                         </div>
                         <div>
@@ -1462,7 +1539,11 @@
                         </div>
                         <div class="order-1 md:order-2">
                             <a href="https://easylink.cc/owfi8o" target="_blank" class="project-image-wrapper">
-                                <img src="images/kydwy_compressed.jpg" alt="抗疫大作战" class="project-image">
+                                <div class="image-loader">
+                                    <span class="loader-cat">🐱</span>
+                                    <span class="loader-text">加载中...</span>
+                                </div>
+                                <img src="images/kydwy_compressed.jpg" alt="抗疫大作战" class="project-image" onload="this.classList.add('loaded'); this.previousElementSibling.classList.add('hidden')" onerror="this.classList.add('error'); this.previousElementSibling.querySelector('.loader-text').textContent='加载失败'">
                             </a>
                         </div>
                     </div>
