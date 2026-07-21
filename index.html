@@ -1,0 +1,1711 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的作品集 - Digital Media</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&family=Ma+Shan+Zheng&display=swap');
+
+        :root {
+            --primary: #c4a77d;
+            --secondary: #e8dcc4;
+            --accent: #d4a574;
+            --warm-bg: #fdfbf7;
+            --card-bg: rgba(255, 255, 255, 0.85);
+            --text-primary: #5c4a3a;
+            --text-secondary: #8b7355;
+            --text-muted: #a89b7d;
+            --border-color: rgba(196, 167, 125, 0.3);
+            --shadow-soft: 0 8px 32px rgba(196, 167, 125, 0.15);
+            --shadow-hover: 0 16px 48px rgba(196, 167, 125, 0.25);
+            --gradient-main: linear-gradient(135deg, #c4a77d 0%, #e8dcc4 50%, #d4a574 100%);
+            --gradient-text: linear-gradient(135deg, #5c4a3a 0%, #8b7355 50%, #c4a77d 100%);
+        }
+
+        :root[data-theme="mint"] {
+            --primary: #7db899;
+            --secondary: #d8f0e5;
+            --accent: #6ba685;
+            --warm-bg: #f6fbf8;
+            --card-bg: rgba(255, 255, 255, 0.85);
+            --text-primary: #3a5c4a;
+            --text-secondary: #558b6b;
+            --text-muted: #7db899;
+            --border-color: rgba(125, 184, 153, 0.3);
+            --shadow-soft: 0 8px 32px rgba(125, 184, 153, 0.15);
+            --shadow-hover: 0 16px 48px rgba(125, 184, 153, 0.25);
+            --gradient-main: linear-gradient(135deg, #7db899 0%, #d8f0e5 50%, #6ba685 100%);
+            --gradient-text: linear-gradient(135deg, #3a5c4a 0%, #558b6b 50%, #7db899 100%);
+        }
+
+        :root[data-theme="lavender"] {
+            --primary: #a79bc4;
+            --secondary: #e8e4f0;
+            --accent: #9585b8;
+            --warm-bg: #f8f6fb;
+            --card-bg: rgba(255, 255, 255, 0.85);
+            --text-primary: #4a3a5c;
+            --text-secondary: #736b8b;
+            --text-muted: #a79bc4;
+            --border-color: rgba(167, 155, 196, 0.3);
+            --shadow-soft: 0 8px 32px rgba(167, 155, 196, 0.15);
+            --shadow-hover: 0 16px 48px rgba(167, 155, 196, 0.25);
+            --gradient-main: linear-gradient(135deg, #a79bc4 0%, #e8e4f0 50%, #9585b8 100%);
+            --gradient-text: linear-gradient(135deg, #4a3a5c 0%, #736b8b 50%, #a79bc4 100%);
+        }
+
+        :root[data-theme="coral"] {
+            --primary: #e89b7d;
+            --secondary: #f8e4dc;
+            --accent: #d48565;
+            --warm-bg: #fdf8f6;
+            --card-bg: rgba(255, 255, 255, 0.85);
+            --text-primary: #5c3a3a;
+            --text-secondary: #8b5555;
+            --text-muted: #e89b7d;
+            --border-color: rgba(232, 155, 125, 0.3);
+            --shadow-soft: 0 8px 32px rgba(232, 155, 125, 0.15);
+            --shadow-hover: 0 16px 48px rgba(232, 155, 125, 0.25);
+            --gradient-main: linear-gradient(135deg, #e89b7d 0%, #f8e4dc 50%, #d48565 100%);
+            --gradient-text: linear-gradient(135deg, #5c3a3a 0%, #8b5555 50%, #e89b7d 100%);
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            background: var(--warm-bg);
+            background-image: 
+                radial-gradient(circle at 20% 80%, rgba(196, 167, 125, 0.06) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(212, 165, 116, 0.05) 0%, transparent 50%),
+                url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23c4a77d' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            overflow-x: hidden;
+            transition: background 0.5s ease;
+        }
+
+        .font-art {
+            font-family: 'Ma Shan Zheng', cursive;
+        }
+
+        #particles-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        .glass-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            box-shadow: var(--shadow-soft);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        nav.glass-card {
+            border-radius: 0 !important;
+            border-left: none !important;
+            border-right: none !important;
+            border-top: none !important;
+            box-shadow: 0 4px 20px rgba(196, 167, 125, 0.08) !important;
+            background: rgba(255, 255, 255, 0.9) !important;
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+        }
+
+        footer.glass-card {
+            border-radius: 0 !important;
+            border-left: none !important;
+            border-right: none !important;
+            border-bottom: none !important;
+            box-shadow: 0 -4px 20px rgba(196, 167, 125, 0.08) !important;
+            background: rgba(255, 255, 255, 0.9) !important;
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+        }
+
+        nav img {
+            width: 180px !important;
+            height: 50px !important;
+            object-fit: contain;
+            border-radius: 6px;
+        }
+
+        .gradient-text {
+            background: var(--gradient-text);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hover-lift {
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .hover-lift:hover {
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .bounce-in {
+            animation: bounceIn 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        @keyframes bounceIn {
+            0% { transform: scale(0.3); opacity: 0; }
+            50% { transform: scale(1.05); }
+            70% { transform: scale(0.9); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .scroll-reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .scroll-reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .ripple {
+            position: fixed;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(196, 167, 125, 0.3) 0%, rgba(212, 165, 116, 0.1) 40%, transparent 70%);
+            transform: scale(0);
+            animation: rippleEffect 0.8s ease-out;
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        @keyframes rippleEffect {
+            to {
+                transform: scale(6);
+                opacity: 0;
+            }
+        }
+
+        .nav-item {
+            position: relative;
+            padding: 8px 16px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .nav-item::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 3px;
+            background: var(--gradient-main);
+            transform: translateX(-50%);
+            transition: width 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            border-radius: 2px;
+        }
+
+        .nav-item:hover::after {
+            width: 80%;
+        }
+
+        .nav-item:hover {
+            color: var(--primary);
+        }
+
+        /* ===== 时间轴（卡片自包含式：圆点、日期、轴线均由 project-card 管理） ===== */
+        .timeline-section {
+            position: relative;
+        }
+
+        .timeline-section .project-card {
+            position: relative;
+            padding-left: 60px;
+            margin-bottom: 2rem;
+        }
+
+        .timeline-section > article:last-child {
+            margin-bottom: 0;
+        }
+
+        /* 轴线：从当前圆点底部延伸至下一圆点顶部，不穿过内容 */
+        .timeline-line {
+            position: absolute;
+            left: 20px;
+            top: 30px;
+            bottom: -44px;
+            width: 3px;
+            background: linear-gradient(180deg, var(--primary) 0%, rgba(196, 167, 125, 0.2) 100%);
+            border-radius: 3px;
+            z-index: 0;
+        }
+
+        /* 最后一个项目不向下延伸轴线 */
+        .timeline-section > article:last-child .timeline-line {
+            display: none;
+        }
+
+        /* 时间轴圆点 - 位于卡片左上角 */
+        .timeline-dot {
+            position: absolute;
+            left: 12px;
+            top: 12px;
+            width: 18px;
+            height: 18px;
+            background: var(--warm-bg);
+            border-radius: 50%;
+            border: 3px solid var(--primary);
+            box-shadow: 0 0 0 3px rgba(196, 167, 125, 0.1);
+            z-index: 2;
+            transition: all 0.3s ease;
+        }
+
+        .timeline-dot::before {
+            content: '';
+            position: absolute;
+            inset: 3px;
+            background: var(--primary);
+            border-radius: 50%;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .project-card:hover .timeline-dot::before {
+            opacity: 1;
+        }
+
+        .project-card:hover .timeline-dot {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(212, 165, 116, 0.15), 0 0 12px rgba(212, 165, 116, 0.3);
+        }
+
+        /* 日期区域 - 位于圆点右侧，正常文档流，不重叠轴线与内容 */
+        .timeline-date {
+            margin-bottom: 0.75rem;
+            text-align: left;
+        }
+
+        .timeline-date-year {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--primary);
+            line-height: 1.1;
+            letter-spacing: 0.5px;
+        }
+
+        .timeline-date-month {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            margin-top: 2px;
+            letter-spacing: 1px;
+        }
+
+        @media (max-width: 767px) {
+            .timeline-section .project-card {
+                padding-left: 45px;
+            }
+            .timeline-line {
+                left: 12px;
+                top: 28px;
+                bottom: -44px;
+            }
+            .timeline-dot {
+                left: 6px;
+                top: 10px;
+                width: 16px;
+                height: 16px;
+            }
+            .timeline-date {
+                display: flex;
+                align-items: baseline;
+                gap: 0.5rem;
+                margin-bottom: 0.5rem;
+            }
+            .timeline-date-year {
+                font-size: 1rem;
+            }
+        }
+
+        /* ===== 项目图片 ===== */
+        .project-image-wrapper {
+            position: relative;
+            border-radius: 16px;
+            overflow: hidden;
+            display: block;
+        }
+
+        .project-image {
+            display: block;
+            width: 100%;
+            height: 12rem;
+            object-fit: contain;
+            background: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 8px 24px rgba(196, 167, 125, 0.12);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(196, 167, 125, 0.1);
+        }
+
+        .project-image:hover {
+            transform: scale(1.02);
+            box-shadow: 0 16px 40px rgba(196, 167, 125, 0.2);
+        }
+
+        .project-image-tall {
+            height: 14rem;
+        }
+
+        @media (max-width: 767px) {
+            .project-image { height: 10rem; }
+            .project-image-tall { height: 11rem; }
+        }
+
+        /* ===== 板块标题 ===== */
+        .section-heading {
+            margin-bottom: 2.5rem;
+        }
+
+        .section-heading-label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 3px;
+            color: var(--primary);
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+        }
+
+        .section-heading-title {
+            font-size: 1.875rem;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 0.5rem;
+        }
+
+        .section-heading-desc {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+            max-width: 540px;
+        }
+
+        /* ===== 介绍区 Hero ===== */
+        .hero-section {
+            position: relative;
+            padding: 4rem 0 3rem;
+        }
+
+        .hero-label {
+            font-size: 0.8rem;
+            letter-spacing: 4px;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .hero-label::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg, var(--primary), transparent);
+            max-width: 120px;
+        }
+
+        .hero-title {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 1.25rem;
+        }
+
+        .hero-title .accent {
+            background: var(--gradient-text);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-quote {
+            font-size: 1.05rem;
+            line-height: 1.9;
+            color: var(--text-secondary);
+            max-width: 520px;
+            margin-bottom: 2rem;
+            position: relative;
+            padding-left: 1.5rem;
+            border-left: 3px solid var(--primary);
+        }
+
+        .hero-meta {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            max-width: 520px;
+            margin-bottom: 2rem;
+        }
+
+        .hero-meta-item {
+            padding: 1rem 1.25rem;
+            background: rgba(196, 167, 125, 0.08);
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+
+        .hero-meta-item:hover {
+            background: rgba(196, 167, 125, 0.12);
+            transform: translateY(-2px);
+        }
+
+        .hero-meta-label {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            margin-bottom: 0.4rem;
+        }
+
+        .hero-meta-value {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .hero-skills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+            max-width: 520px;
+        }
+
+        .hero-skill-pill {
+            padding: 0.45rem 0.9rem;
+            background: white;
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            transition: all 0.3s ease;
+        }
+
+        .hero-skill-pill:hover {
+            background: var(--gradient-main);
+            color: white;
+            border-color: transparent;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(196, 167, 125, 0.3);
+        }
+
+        .hero-image-side {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .hero-image-frame {
+            position: relative;
+        }
+
+        .hero-image-frame::before {
+            content: '';
+            position: absolute;
+            inset: -12px;
+            border: 2px dashed var(--primary);
+            border-radius: 32px;
+            opacity: 0.3;
+            animation: rotateBg 20s linear infinite;
+        }
+
+        @keyframes rotateBg {
+            to { transform: rotate(360deg); }
+        }
+
+        .hero-image-frame img {
+            width: 280px;
+            height: 280px;
+            object-fit: cover;
+            border-radius: 28px;
+            box-shadow: 0 20px 60px rgba(196, 167, 125, 0.3);
+        }
+
+        .hero-badge {
+            position: absolute;
+            background: white;
+            border-radius: 16px;
+            padding: 10px 16px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+            border: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            animation: floatBadge 4s ease-in-out infinite;
+        }
+
+        .hero-badge-1 {
+            top: 20px;
+            right: -20px;
+            animation-delay: 0s;
+        }
+
+        .hero-badge-2 {
+            bottom: 40px;
+            left: -30px;
+            animation-delay: 2s;
+        }
+
+        @keyframes floatBadge {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+
+        .hero-badge-icon {
+            width: 32px;
+            height: 32px;
+            background: var(--gradient-main);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 14px;
+        }
+
+        .hero-badge-text {
+            font-size: 0.8rem;
+            color: var(--text-primary);
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        @media (max-width: 767px) {
+            .hero-section {
+                padding: 2rem 0 1.5rem;
+            }
+            .hero-image-side {
+                margin-bottom: 2rem;
+            }
+            .hero-image-frame img {
+                width: 220px;
+                height: 220px;
+            }
+            .hero-badge-1 {
+                right: -10px;
+            }
+            .hero-badge-2 {
+                left: -10px;
+            }
+        }
+
+        /* ===== 项目卡片（STAR 结构） ===== */
+        .project-card {
+            position: relative;
+            padding: 1.75rem;
+            border-radius: 1.5rem;
+            background: rgba(255, 255, 255, 0.5);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .project-card:hover {
+            background: rgba(255, 255, 255, 0.8);
+        }
+
+        .project-header {
+            margin-bottom: 1.25rem;
+        }
+
+        .project-tag {
+            display: inline-block;
+            padding: 3px 10px;
+            background: rgba(196, 167, 125, 0.12);
+            color: var(--primary);
+            border-radius: 10px;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.6rem;
+        }
+
+        .project-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            line-height: 1.3;
+            transition: color 0.3s ease;
+        }
+
+        a:hover .project-title {
+            color: var(--primary);
+        }
+
+        .star-grid {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 0.6rem 0.75rem;
+            margin: 0;
+            padding: 0;
+        }
+
+        .star-label {
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            width: 28px;
+            height: 28px;
+            background: var(--gradient-main);
+            border-radius: 8px;
+            color: white;
+            font-size: 12px;
+            font-weight: 700;
+            padding-top: 5px;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .star-content {
+            font-size: 0.875rem;
+            line-height: 1.7;
+            color: var(--text-secondary);
+        }
+
+        .star-content strong {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .project-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+            margin-top: 1.25rem;
+            padding-top: 1rem;
+            border-top: 1px dashed var(--border-color);
+        }
+
+        .tag-chip {
+            padding: 4px 10px;
+            background: rgba(196, 167, 125, 0.08);
+            color: var(--text-secondary);
+            border-radius: 14px;
+            font-size: 11.5px;
+            transition: all 0.3s ease;
+        }
+
+        .tag-chip:hover {
+            background: var(--gradient-main);
+            color: white;
+        }
+
+        /* ===== 主题切换面板 ===== */
+        .theme-toggle-panel {
+            position: fixed;
+            right: -80px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(12px);
+            border-radius: 16px 0 0 16px;
+            padding: 16px 12px;
+            box-shadow: 0 8px 32px rgba(196, 167, 125, 0.2);
+            transition: right 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 100;
+            display: none;
+        }
+
+        .theme-toggle-panel.active {
+            right: 0;
+        }
+
+        .theme-toggle-btn {
+            position: absolute;
+            left: -44px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 44px;
+            height: 44px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 12px 0 0 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: -4px 0 16px rgba(196, 167, 125, 0.15);
+            transition: all 0.3s ease;
+            color: var(--text-primary);
+        }
+
+        .theme-toggle-btn:hover {
+            background: var(--gradient-main);
+            color: white;
+        }
+
+        .theme-color {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            margin: 8px 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .theme-color:hover {
+            transform: scale(1.15);
+            border-color: rgba(255, 255, 255, 0.8);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .theme-color.active {
+            transform: scale(1.15);
+            border-color: white;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .theme-warm { background: linear-gradient(135deg, #c4a77d, #d4a574); }
+        .theme-mint { background: linear-gradient(135deg, #7db899, #6ba685); }
+        .theme-lavender { background: linear-gradient(135deg, #a79bc4, #9585b8); }
+        .theme-coral { background: linear-gradient(135deg, #e89b7d, #d48565); }
+
+        @media (min-width: 768px) {
+            .theme-toggle-panel { display: block; }
+        }
+
+        /* ===== 返回顶部 ===== */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 48px;
+            height: 48px;
+            background: var(--gradient-main);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 6px 20px rgba(196, 167, 125, 0.4);
+            z-index: 99;
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .back-to-top:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 28px rgba(196, 167, 125, 0.5);
+        }
+
+        /* ===== 类别快速跳转 ===== */
+        .category-cards {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0.75rem;
+            margin-top: 2rem;
+        }
+
+        .category-card {
+            padding: 1rem 0.75rem;
+            text-align: center;
+            border-radius: 16px;
+            background: white;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            text-decoration: none;
+            display: block;
+        }
+
+        .category-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 28px rgba(196, 167, 125, 0.2);
+            border-color: var(--primary);
+        }
+
+        .category-card-icon {
+            width: 40px;
+            height: 40px;
+            margin: 0 auto 0.5rem;
+            background: var(--gradient-main);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 16px;
+        }
+
+        .category-card-text {
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        @media (max-width: 767px) {
+            .category-cards {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 0.6rem;
+            }
+        }
+
+        /* 清除旧的重复样式 */
+        .animate-circle, .skill-pill, .intro-highlight,
+        .section-title, .section-subtitle, .social-link,
+        .profile-image-wrapper, .quote-mark {
+            /* 兼容：保留关键变量，移除冗余 */
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+    <canvas id="particles-bg"></canvas>
+
+    <!-- 顶部导航 -->
+    <nav class="fixed top-0 left-0 right-0 z-50 glass-card rounded-none px-6 md:px-8 py-3 md:py-4">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div class="text-xl font-bold gradient-text">
+                <img src="images/logo.jpg" alt="Logo">
+            </div>
+            <div class="hidden md:flex space-x-8">
+                <a href="#intro" class="nav-item text-gray-600">介绍</a>
+                <a href="#web" class="nav-item text-gray-600">完整项目</a>
+                <a href="#jh" class="nav-item text-gray-600">交互设计</a>
+                <a href="#dh" class="nav-item text-gray-600">三维动画</a>
+                <a href="#yx" class="nav-item text-gray-600">游戏设计</a>
+            </div>
+            <button class="md:hidden text-gray-600" id="menu-btn">
+                <i class="fas fa-bars text-xl"></i>
+            </button>
+        </div>
+        <div class="md:hidden hidden mt-4 pb-2" id="mobile-menu">
+            <div class="flex flex-col space-y-2">
+                <a href="#intro" class="nav-item text-gray-600">介绍</a>
+                <a href="#web" class="nav-item text-gray-600">完整项目</a>
+                <a href="#jh" class="nav-item text-gray-600">交互设计</a>
+                <a href="#dh" class="nav-item text-gray-600">三维动画</a>
+                <a href="#yx" class="nav-item text-gray-600">游戏设计</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 主题切换面板 -->
+    <div class="theme-toggle-panel" id="theme-panel">
+        <div class="theme-toggle-btn" id="theme-toggle-btn">
+            <i class="fas fa-palette"></i>
+        </div>
+        <div class="flex flex-col items-center">
+            <span class="text-xs text-gray-500 mb-2">主题</span>
+            <div class="theme-color theme-warm active" data-theme="warm" title="暖阳"></div>
+            <div class="theme-color theme-mint" data-theme="mint" title="薄荷"></div>
+            <div class="theme-color theme-lavender" data-theme="lavender" title="薰衣草"></div>
+            <div class="theme-color theme-coral" data-theme="coral" title="珊瑚"></div>
+        </div>
+    </div>
+
+    <div class="back-to-top" id="back-to-top">
+        <i class="fas fa-arrow-up"></i>
+    </div>
+
+    <div class="container px-4 py-24 md:py-28 max-w-5xl mx-auto">
+
+        <!-- ========== 介绍区（新风格） ========== -->
+        <section id="intro" class="scroll-reveal">
+            <div class="hero-section">
+                <div class="grid md:grid-cols-5 gap-10 items-center">
+                    <!-- 左侧文字 -->
+                    <div class="md:col-span-3 order-2 md:order-1">
+                        <p class="hero-label">PORTFOLIO · 作品集</p>
+                        <h1 class="hero-title">
+                           
+                            <span class="accent">AI 设计工程师</span>
+                        </h1>
+
+                        <p class="hero-quote">
+                            从用户研究到交互设计，从前端开发到全栈实现，从三维动画到游戏逻辑，
+                            我喜欢站在「设计 × 技术」的交叉点上看世界。
+                            现在，我在学习让 AI 从工具变成创作伙伴，欢迎你见证我的成长。
+                        </p>
+
+
+                        <div class="category-cards">
+                            <a href="#web" class="category-card">
+                                <div class="category-card-icon"><i class="fas fa-globe"></i></div>
+                                <div class="category-card-text">完整项目</div>
+                            </a>
+                            <a href="#jh" class="category-card">
+                                <div class="category-card-icon"><i class="fas fa-mouse-pointer"></i></div>
+                                <div class="category-card-text">交互设计</div>
+                            </a>
+                            <a href="#dh" class="category-card">
+                                <div class="category-card-icon"><i class="fas fa-film"></i></div>
+                                <div class="category-card-text">三维动画</div>
+                            </a>
+                            <a href="#yx" class="category-card">
+                                <div class="category-card-icon"><i class="fas fa-gamepad"></i></div>
+                                <div class="category-card-text">游戏设计</div>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- 右侧图 -->
+                    <div class="md:col-span-2 order-1 md:order-2 hero-image-side">
+                        <div class="hero-image-frame">
+                            <img src="images/bg.png" alt="个人形象">
+                            <div class="hero-badge hero-badge-1">
+                                <div class="hero-badge-icon"><i class="fas fa-code"></i></div>
+                                <span class="hero-badge-text">金融信贷经验</span>
+                            </div>
+                            <div class="hero-badge hero-badge-2">
+                                <div class="hero-badge-icon"><i class="fas fa-robot"></i></div>
+                                <span class="hero-badge-text">AI转型中</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== 完整项目 + 时间轴 ========== -->
+        <section id="web" class="scroll-reveal mb-12">
+            <div class="section-heading">
+                <p class="section-heading-label">01 / FULL PROJECTS</p>
+                <h2 class="section-heading-title gradient-text">完整项目</h2>
+                <p class="section-heading-desc">从真实需求出发，经历完整产品生命周期的实践案例</p>
+            </div>
+
+            <div class="timeline-section" id="timeline-web">
+
+                <!-- 项目1：吃什么 -->
+                <article class="project-card hover-lift mb-8 relative">
+                    <div class="timeline-line"></div>
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-date">
+                        <div class="timeline-date-year">2026</div>
+                        <div class="timeline-date-month">06</div>
+                    </div>
+
+                    <div class="grid md:grid-cols-2 gap-8 items-center">
+                        <div class="order-2 md:order-1">
+                            <a href="https://dcndeyf61pep.feishu.cn/docx/X0uMdUqLJo6hCtxT1n1ci2FLnNg" target="_blank" class="block">
+                                <div class="project-header">
+                                    <span class="project-tag">AI 产品实践</span>
+                                    <h3 class="project-title">【吃什么】AI 小程序设计</h3>
+                                </div>
+
+                                <div class="star-grid">
+                                    <div class="star-label">S</div>
+                                    <div class="star-content">
+                                        "今天吃什么"是日常生活中最高频的决策难题。作为经常在饭点纠结的人，我想把这个个人痛点变成一个真正可用的小产品，并用 AI 能力提升体验。
+                                    </div>
+
+                                    <div class="star-label">T</div>
+                                    <div class="star-content">
+                                        从 0 到 1 打造一款 AI 驱动的吃饭决策小程序，包含个性化餐厅推荐、朋友聚会转盘等功能，并支持快速迭代上线。
+                                    </div>
+
+                                    <div class="star-label">A</div>
+                                    <div class="star-content">
+                                        基于 Coze 平台通过 vibecoding 多轮迭代完成需求落地；接入高德 API 实现附近餐厅搜索作为数据库；设计转盘抽卡玩法覆盖朋友聚会场景；收集用户反馈后持续优化功能。
+                                    </div>
+
+                                    <div class="star-label">R</div>
+                                    <div class="star-content">
+                                        小程序上线后积累 10+ 真实用户；根据反馈迭代 4 次，新增本地收藏等功能；验证了 AI 从提效到共创的工作方式。
+                                    </div>
+                                </div>
+
+                                <div class="project-tags">
+                                    <span class="tag-chip">需求分析</span>
+                                    <span class="tag-chip">PRD 文档</span>
+                                    <span class="tag-chip">vibecoding</span>
+                                    <span class="tag-chip">Coze</span>
+                                    <span class="tag-chip">高德 API</span>
+                                </div>
+                            </a>
+                        </div>
+
+                        <div class="order-1 md:order-2">
+                            <a href="https://dcndeyf61pep.feishu.cn/docx/X0uMdUqLJo6hCtxT1n1ci2FLnNg" target="_blank" class="project-image-wrapper">
+                                <img src="images/ai.bmp" alt="AI小程序" class="project-image">
+                            </a>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- 项目2：高速公路 -->
+                <article class="project-card hover-lift mb-8 relative">
+                    <div class="timeline-line"></div>
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-date">
+                        <div class="timeline-date-year">2024</div>
+                        <div class="timeline-date-month">06</div>
+                    </div>
+
+                    <div class="grid md:grid-cols-2 gap-8 items-center">
+                        <div>
+                            <a href="https://dcndeyf61pep.feishu.cn/file/SJZCb92csoWYcgxwSYvcV8DQnHb" target="_blank" class="project-image-wrapper">
+                                <img src="images/mscy.jpg" alt="水土保持管理系统" class="project-image">
+                            </a>
+                        </div>
+                        <div>
+                            <a href="https://dcndeyf61pep.feishu.cn/file/SJZCb92csoWYcgxwSYvcV8DQnHb" target="_blank" class="block">
+                                <div class="project-header">
+                                    <span class="project-tag">ToB 系统全生命周期跟进</span>
+                                    <h3 class="project-title">高速公路水土保持管理系统</h3>
+                                </div>
+
+                                <div class="star-grid">
+                                    <div class="star-label">S</div>
+                                    <div class="star-content">
+                                        与广东省交通研究设计院联合的项目。面向八种不同角色的单位，传统线下流程存在数据不透明、统计易错、协作效率低等核心痛点。
+                                    </div>
+
+                                    <div class="star-label">T</div>
+                                    <div class="star-content">
+                                        从需求调研到系统上线全流程负责，统筹产品、UI、前端、后端协作，交付一套可投产使用的 ToB 管理系统。
+                                    </div>
+
+                                    <div class="star-label">A</div>
+                                    <div class="star-content">
+                                        深入调研 8 类角色办公流程，输出需求分析报告；设计系统功能架构与操作流程；基于 Vue + ElementUI 搭建前端框架，实现动态路由权限与 ECharts 数据可视化；统筹团队推进项目。
+                                    </div>
+
+                                    <div class="star-label">R</div>
+                                    <div class="star-content">
+                                        系统已投产使用；完成 20+ 名员工培训与使用手册；累计迭代优化 12+ 功能点；打通前后端数据链路，提升工程数据管理效率与风险管控能力。
+                                    </div>
+                                </div>
+
+                                <div class="project-tags">
+                                    <span class="tag-chip">项目经理</span>
+                                    <span class="tag-chip">产品经理</span>
+                                    <span class="tag-chip">前端开发</span>
+                                    <span class="tag-chip">Vue</span>
+                                    <span class="tag-chip">ECharts</span>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- 项目3：我的被窝 -->
+                <article class="project-card hover-lift relative">
+                    <div class="timeline-line"></div>
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-date">
+                        <div class="timeline-date-year">2022</div>
+                        <div class="timeline-date-month">12</div>
+                    </div>
+
+                    <div class="grid md:grid-cols-2 gap-8 items-center">
+                        <div class="order-2 md:order-1">
+                            <a href="https://dcndeyf61pep.feishu.cn/wiki/HL2owiQaWiOtrJk1aPbc8Wyrnkf?from=from_copylink" target="_blank" class="block">
+                                <div class="project-header">
+                                    <span class="project-tag">全栈前后台开发</span>
+                                    <h3 class="project-title">我的被窝 · 个人博客系统</h3>
+                                </div>
+
+                                <div class="star-grid">
+                                    <div class="star-label">S</div>
+                                    <div class="star-content">
+                                        设计一个属于自己的内容阵地，记录思考、展示作品，也作为全栈开发能力的一次实战。
+                                    </div>
+
+                                    <div class="star-label">T</div>
+                                    <div class="star-content">
+                                        独立完成一个前后台兼备的个人博客系统，包括文章、用户、分类、搜索等完整功能，并成功部署上线。
+                                    </div>
+
+                                    <div class="star-label">A</div>
+                                    <div class="star-content">
+                                        使用 jQuery + Bootstrap + Art-Template 构建前台展示页面；MongoDB 做数据存储；实现文章增删改查、用户管理、分类标签、分页搜索等功能；完成前后台联调与部署。
+                                    </div>
+
+                                    <div class="star-label">R</div>
+                                    <div class="star-content">
+                                        第一个全栈部署上线的项目；建立了对 Web 全链路的系统理解；为后续更大规模项目打下扎实的前端与数据库基础。
+                                    </div>
+                                </div>
+
+                                <div class="project-tags">
+                                    <span class="tag-chip">jQuery</span>
+                                    <span class="tag-chip">Bootstrap</span>
+                                    <span class="tag-chip">MongoDB</span>
+                                    <span class="tag-chip">Art-Template</span>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="order-1 md:order-2">
+                            <a href="https://dcndeyf61pep.feishu.cn/file/YjTkbF1hcoeAnexBaPJcOQQ1nBc" target="_blank" class="project-image-wrapper">
+                                <img src="images/wdbw.jpg" alt="我的被窝" class="project-image">
+                            </a>
+                        </div>
+                    </div>
+                </article>
+
+            </div>
+        </section>
+
+        <!-- ========== 交互设计 + 时间轴 ========== -->
+        <section id="jh" class="scroll-reveal mb-12">
+            <div class="section-heading">
+                <p class="section-heading-label">02 / UX DESIGN</p>
+                <h2 class="section-heading-title gradient-text">交互设计</h2>
+                <p class="section-heading-desc">从用户研究到原型交付的完整设计推导过程</p>
+            </div>
+
+            <div class="timeline-section">
+
+                <article class="project-card hover-lift relative">
+                    <div class="timeline-line"></div>
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-date">
+                        <div class="timeline-date-year">2022</div>
+                        <div class="timeline-date-month">12</div>
+                    </div>
+
+                    <div class="grid md:grid-cols-2 gap-8 items-center">
+                        <div>
+                            <a href="https://dcndeyf61pep.feishu.cn/slides/WBI6soHEhl7wfYd23SzcfSidn4d" target="_blank" class="project-image-wrapper">
+                                <img src="images/jh.jpg" alt="过虑空间" class="project-image project-image-tall">
+                            </a>
+                        </div>
+                        <div>
+                            <a href="https://dcndeyf61pep.feishu.cn/slides/WBI6soHEhl7wfYd23SzcfSidn4d" target="_blank" class="block">
+                                <div class="project-header">
+                                    <span class="project-tag">完整 UX 流程</span>
+                                    <h3 class="project-title">过虑空间 · VR 焦虑疗养空间</h3>
+                                </div>
+
+                                <div class="star-grid">
+                                    <div class="star-label">S</div>
+                                    <div class="star-content">
+                                        大学生心理压力普遍存在，但传统心理咨询存在隐私顾虑与触达门槛。我们希望用 VR 项目提供一个更私密的情绪出口。
+                                    </div>
+
+                                    <div class="star-label">T</div>
+                                    <div class="star-content">
+                                        完成从用户研究、数据分析到信息架构、低保真与高保真原型的完整交互设计流程，并产出可落地的设计方案。
+                                    </div>
+
+                                    <div class="star-label">A</div>
+                                    <div class="star-content">
+                                        完成竞品分析与用户旅程图；使用 SPSS 做因子聚类分析与二元 Logistic 回归，挖掘核心需求；输出信息架构、低保真与高保真原型，完成设计推导闭环。
+                                    </div>
+
+                                    <div class="star-label">R</div>
+                                    <div class="star-content">
+                                        完整呈现了从数据洞察到设计方案的推导过程；验证了定量研究与定性设计相结合的方法体系。
+                                    </div>
+                                </div>
+
+                                <div class="project-tags">
+                                    <span class="tag-chip">用户旅程图</span>
+                                    <span class="tag-chip">竞品分析</span>
+                                    <span class="tag-chip">SPSS</span>
+                                    <span class="tag-chip">因子聚类</span>
+                                    <span class="tag-chip">回归分析</span>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <!-- ========== 三维动画 + 时间轴 ========== -->
+        <section id="dh" class="scroll-reveal mb-12">
+            <div class="section-heading">
+                <p class="section-heading-label">03 / 3D ANIMATION</p>
+                <h2 class="section-heading-title gradient-text">三维动画</h2>
+                <p class="section-heading-desc">3D建模、绑骨骼、上动作、摇镜头的全流程设计</p>
+            </div>
+
+            <div class="timeline-section">
+
+                <article class="project-card hover-lift relative">
+                    <div class="timeline-line"></div>
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-date">
+                        <div class="timeline-date-year">2022</div>
+                        <div class="timeline-date-month">12</div>
+                    </div>
+
+                    <div class="grid md:grid-cols-2 gap-8 items-center">
+                        <div class="order-2 md:order-1">
+                            <a href="https://www.bilibili.com/video/BV1Bo4y1x7hv/?vd_source=9b69073227bf41d63a3ca206543c5695#reply398270465" target="_blank" class="block">
+                                <div class="project-header">
+                                    <span class="project-tag">电影概念预告片</span>
+                                    <h3 class="project-title">蒸汽末日</h3>
+                                </div>
+
+                                <div class="star-grid">
+                                    <div class="star-label">S</div>
+                                    <div class="star-content">
+                                        环境问题越来越严峻，希望通过概念预告片的形式，唤起人们对环境保护的关注。
+                                    </div>
+
+                                    <div class="star-label">T</div>
+                                    <div class="star-content">
+                                        以朋克废墟风格打造一部电影场景概念预告片，从剧本到建模到镜头到渲染剪辑成片完成三维动画短片制作。
+                                    </div>
+
+                                    <div class="star-label">A</div>
+                                    <div class="star-content">
+                                        负责剧本编写，搭建世界观与叙事节奏；参与部分 3DMax 建模与材质贴图；完成视频剪辑、配乐与节奏把控，确保成片的情绪表达。
+                                    </div>
+
+                                    <div class="star-label">R</div>
+                                    <div class="star-content">
+                                        完成一部完整的三维概念预告片，探索了用视觉叙事传递社会议题的表达路径。
+                                    </div>
+                                </div>
+
+                                <div class="project-tags">
+                                    <span class="tag-chip">剧本编写</span>
+                                    <span class="tag-chip">3DMax</span>
+                                    <span class="tag-chip">视频剪辑</span>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="order-1 md:order-2">
+                            <a href="https://www.bilibili.com/video/BV1Bo4y1x7hv/?vd_source=9b69073227bf41d63a3ca206543c5695#reply398270465" target="_blank" class="project-image-wrapper">
+                                <img src="images/dh.jpg" alt="蒸汽末日" class="project-image project-image-tall">
+                            </a>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <!-- ========== 游戏设计 + 时间轴 ========== -->
+        <section id="yx" class="scroll-reveal">
+            <div class="section-heading">
+                <p class="section-heading-label">04 / GAME DESIGN</p>
+                <h2 class="section-heading-title gradient-text">游戏设计</h2>
+                <p class="section-heading-desc">Unity 引擎中的多人交互与 gameplay 系统设计</p>
+            </div>
+
+            <div class="timeline-section">
+
+                <!-- 游戏1：虚拟展馆 -->
+                <article class="project-card hover-lift mb-8 relative">
+                    <div class="timeline-line"></div>
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-date">
+                        <div class="timeline-date-year">2023</div>
+                        <div class="timeline-date-month">06</div>
+                    </div>
+
+                    <div class="grid md:grid-cols-2 gap-8 items-center">
+                        <div class="order-2 md:order-1">
+                            <a href="https://www.bilibili.com/video/BV1gX4y1p7f1/?spm_id_from=333.1387.homepage.video_card.click" target="_blank" class="block">
+                                <div class="project-header">
+                                    <span class="project-tag">VR 联机展馆</span>
+                                    <h3 class="project-title">虚拟展馆漫游</h3>
+                                </div>
+
+                                <div class="star-grid">
+                                    <div class="star-label">S</div>
+                                    <div class="star-content">
+                                        希望用数字展馆展示岭南画派陈金章先生的山青水色作品与广彩瓷作品，并支持多人同时在线参观与互动。
+                                    </div>
+
+                                    <div class="star-label">T</div>
+                                    <div class="star-content">
+                                        基于 Unity 打造一个可多人联机的虚拟展馆，实现第三人称漫游、作品介绍、NPC 交互与在线聊天功能。
+                                    </div>
+
+                                    <div class="star-label">A</div>
+                                    <div class="star-content">
+                                        搭建 Unity 场景与展馆布局；使用 Mirror 框架实现在线聊天；完成第三人称视角漫游、人物动画系统、作品展示动画与 NPC 交互逻辑。
+                                    </div>
+
+                                    <div class="star-label">R</div>
+                                    <div class="star-content">
+                                        完成一个可联机漫游的虚拟展馆原型；掌握了 Unity 多人联机与 gameplay 系统开发能力。
+                                    </div>
+                                </div>
+
+                                <div class="project-tags">
+                                    <span class="tag-chip">Unity</span>
+                                    <span class="tag-chip">Mirror</span>
+                                    <span class="tag-chip">VR</span>
+                                    <span class="tag-chip">多用户联机</span>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="order-1 md:order-2">
+                            <a href="https://www.bilibili.com/video/BV1gX4y1p7f1/?spm_id_from=333.1387.homepage.video_card.click" target="_blank" class="project-image-wrapper">
+                                <img src="images/sqss.jpg" alt="虚拟展馆漫游" class="project-image">
+                            </a>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- 游戏2：山麓草木香 -->
+                <article class="project-card hover-lift mb-8 relative">
+                    <div class="timeline-line"></div>
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-date">
+                        <div class="timeline-date-year">2022</div>
+                        <div class="timeline-date-month">12</div>
+                    </div>
+
+                    <div class="grid md:grid-cols-2 gap-8 items-center">
+                        <div>
+                            <a href="https://www.bilibili.com/video/BV1LY41117jQ/?vd_source=9b69073227bf41d63a3ca206543c5695#reply145432201248" target="_blank" class="project-image-wrapper">
+                                <img src="images/yx.jpg" alt="山麓草木香" class="project-image">
+                            </a>
+                        </div>
+                        <div>
+                            <a href="https://www.bilibili.com/video/BV1LY41117jQ/?vd_source=9b69073227bf41d63a3ca206543c5695#reply145432201248" target="_blank" class="block">
+                                <div class="project-header">
+                                    <span class="project-tag">三维游戏开发</span>
+                                    <h3 class="project-title">山麓草木香</h3>
+                                </div>
+
+                                <div class="star-grid">
+                                    <div class="star-label">S</div>
+                                    <div class="star-content">
+                                        现代中药受植物生长季节、环境、地域、价格、管制等因素影响，实地采摘与鉴别实践周期短、受自然条件限制大。
+                                    </div>
+
+                                    <div class="star-label">T</div>
+                                    <div class="star-content">
+                                        制作一款模拟采药师日常生活的游戏，用游戏化方式向更多人科普中药文化与采药知识。
+                                    </div>
+
+                                    <div class="star-label">A</div>
+                                    <div class="star-content">
+                                        设计并开发采药模拟系统，包括视野切换、地图导航与小地图、草药刷新机制、人物动画与工具切换、背包数据库管理，以及开场动画与音视频系统。
+                                    </div>
+
+                                    <div class="star-label">R</div>
+                                    <div class="star-content">
+                                        完成一款功能完整的采药模拟游戏，通过游戏化方式向大众科普了传统采药文化。
+                                    </div>
+                                </div>
+
+                                <div class="project-tags">
+                                    <span class="tag-chip">Unity</span>
+                                    <span class="tag-chip">地图导航</span>
+                                    <span class="tag-chip">背包系统</span>
+                                    <span class="tag-chip">动画设计</span>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- 游戏3：抗疫大作战（新增） -->
+                <article class="project-card hover-lift relative">
+                    <div class="timeline-line"></div>
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-date">
+                        <div class="timeline-date-year">2021</div>
+                        <div class="timeline-date-month">09</div>
+                    </div>
+
+                    <div class="grid md:grid-cols-2 gap-8 items-center">
+                        <div class="order-2 md:order-1">
+                            <a href="https://easylink.cc/owfi8o" target="_blank" class="block">
+                                <div class="project-header">
+                                    <span class="project-tag">RPG 游戏设计</span>
+                                    <h3 class="project-title">抗疫动物园</h3>
+                                </div>
+
+                                <div class="star-grid">
+                                    <div class="star-label">S</div>
+                                    <div class="star-content">
+                                        疫情时代，无数平凡人挺身而出守护城市。作为那个时期的亲历者，希望用游戏的方式记录那段不平凡的日子，传递抗疫精神。
+                                    </div>
+
+                                    <div class="star-label">T</div>
+                                    <div class="star-content">
+                                        制作一款以抗疫为主题的 RPG 视觉小说游戏，通过剧情叙事展现普通人的坚守与付出。
+                                    </div>
+
+                                    <div class="star-label">A</div>
+                                    <div class="star-content">
+                                        使用 The NVL Maker 引擎开发；编写多线剧情脚本；设计角色与场景；实现分支选项与结局系统；配乐与音效制作。
+                                    </div>
+
+                                    <div class="star-label">R</div>
+                                    <div class="star-content">
+                                        完成一款完整的抗疫主题视觉小说；用游戏形式留存了那段特殊时期的集体记忆。
+                                    </div>
+                                </div>
+
+                                <div class="project-tags">
+                                    <span class="tag-chip">The NVL Maker</span>
+                                    <span class="tag-chip">剧情设计</span>
+                                    <span class="tag-chip">视觉小说</span>
+                                    <span class="tag-chip">RPG</span>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="order-1 md:order-2">
+                            <a href="https://easylink.cc/owfi8o" target="_blank" class="project-image-wrapper">
+                                <img src="images/kydwy.png" alt="抗疫大作战" class="project-image">
+                            </a>
+                        </div>
+                    </div>
+                </article>
+
+            </div>
+        </section>
+
+    </div>
+
+    <!-- 底部 -->
+    <footer class="glass-card rounded-none mt-8 px-6 md:px-8 py-10">
+        <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8">
+            <div class="text-center md:text-left">
+                <h5 class="text-[#5c4a3a] font-semibold mb-4">关于我</h5>
+                <ul class="space-y-3">
+                    <li><a href="#" class="text-[#6b6b6b] hover:text-[#c4a77d] transition-colors flex items-center"><i class="bi bi-book mr-2"></i> GDUT · 数字媒体技术 · 本科</a></li>
+                    <li><a href="#" class="text-[#6b6b6b] hover:text-[#c4a77d] transition-colors flex items-center"><i class="bi bi-pin-map-fill mr-2"></i> 深圳 · AI设计工程师</a></li>
+                    <li><a href="#" class="text-[#6b6b6b] hover:text-[#c4a77d] transition-colors flex items-center"><i class="bi bi-layers mr-2"></i> 前端 · 产品设计 · AIcoding</a></li>
+                    <li><a href="#" class="text-[#6b6b6b] hover:text-[#c4a77d] transition-colors flex items-center"><i class="bi bi-envelope-open-fill mr-2"></i> xd316012029@163.com</a></li>
+                </ul>
+            </div>
+            <div class="flex flex-col items-center">
+                <img src="images/askme.jpg" alt="微信二维码" class="w-32 h-32 rounded-xl shadow-lg mb-2">
+                <p class="text-[#6b6b6b] text-sm">扫码加微信</p>
+            </div>
+        </div>
+        <div class="max-w-6xl mx-auto mt-8 pt-6 border-t border-[#e8dcc4]/50 text-center">
+            <p class="text-[#a89b7d] text-sm">© 2026 感谢观看 | 用心创造每一个作品</p>
+        </div>
+    </footer>
+
+    <script>
+        const canvas = document.getElementById('particles-bg');
+        const ctx = canvas.getContext('2d');
+
+        let width, height;
+        const particles = [];
+        const particleCount = 50;
+        const mouse = { x: null, y: null, radius: 120 };
+
+        function resize() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+
+        class Particle {
+            constructor() {
+                this.reset();
+            }
+
+            reset() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.vx = (Math.random() - 0.5) * 0.3;
+                this.vy = (Math.random() - 0.5) * 0.3;
+                this.radius = Math.random() * 2 + 1;
+                this.baseRadius = this.radius;
+                this.color = `rgba(196, ${Math.random() * 40 + 140}, ${Math.random() * 40 + 100}, ${Math.random() * 0.2 + 0.1})`;
+            }
+
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+
+                if (mouse.x !== null && mouse.y !== null) {
+                    const dx = this.x - mouse.x;
+                    const dy = this.y - mouse.y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+
+                    if (distance < mouse.radius && distance > 0) {
+                        const force = (mouse.radius - distance) / mouse.radius;
+                        this.x += (dx / distance) * force * 1.5;
+                        this.y += (dy / distance) * force * 1.5;
+                        this.radius = this.baseRadius + force * 1.5;
+                    } else {
+                        this.radius = this.baseRadius;
+                    }
+                }
+
+                if (this.x < 0 || this.x > width) this.vx *= -1;
+                if (this.y < 0 || this.y > height) this.vy *= -1;
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                ctx.fillStyle = this.color;
+                ctx.fill();
+            }
+        }
+
+        function init() {
+            resize();
+            for (let i = 0; i < particleCount; i++) {
+                particles.push(new Particle());
+            }
+        }
+
+        function drawConnections() {
+            for (let i = 0; i < particles.length; i++) {
+                for (let j = i + 1; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+
+                    if (distance < 120) {
+                        ctx.beginPath();
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.strokeStyle = `rgba(196, 167, 125, ${0.06 * (1 - distance / 120)})`;
+                        ctx.lineWidth = 0.6;
+                        ctx.stroke();
+                    }
+                }
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, width, height);
+            
+            particles.forEach(particle => {
+                particle.update();
+                particle.draw();
+            });
+
+            drawConnections();
+            requestAnimationFrame(animate);
+        }
+
+        window.addEventListener('mousemove', (e) => {
+            mouse.x = e.clientX;
+            mouse.y = e.clientY;
+        });
+
+        window.addEventListener('mouseout', () => {
+            mouse.x = null;
+            mouse.y = null;
+        });
+
+        window.addEventListener('resize', resize);
+        init();
+        animate();
+
+        document.addEventListener('click', (e) => {
+            const ripple = document.createElement('div');
+            ripple.className = 'ripple';
+            ripple.style.left = e.clientX + 'px';
+            ripple.style.top = e.clientY + 'px';
+            ripple.style.width = '100px';
+            ripple.style.height = '100px';
+            ripple.style.marginLeft = '-50px';
+            ripple.style.marginTop = '-50px';
+            document.body.appendChild(ripple);
+
+            setTimeout(() => {
+                ripple.remove();
+            }, 800);
+        });
+
+        const menuBtn = document.getElementById('menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        menuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        const sections = document.querySelectorAll('.scroll-reveal');
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry, index) => {
+                if (entry.isIntersecting) {
+                    setTimeout(() => {
+                        entry.target.classList.add('active');
+                    }, index * 80);
+                }
+            });
+        }, {
+            threshold: 0.08,
+            rootMargin: '0px 0px -80px 0px'
+        });
+
+        sections.forEach(section => {
+            observer.observe(section);
+        });
+
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                    mobileMenu.classList.add('hidden');
+                }
+            });
+        });
+
+        const themePanel = document.getElementById('theme-panel');
+        const themeToggleBtn = document.getElementById('theme-toggle-btn');
+        const themeColors = document.querySelectorAll('.theme-color');
+
+        themeToggleBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            themePanel.classList.toggle('active');
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!themePanel.contains(e.target)) {
+                themePanel.classList.remove('active');
+            }
+        });
+
+        themeColors.forEach(color => {
+            color.addEventListener('click', () => {
+                const theme = color.dataset.theme;
+                document.documentElement.setAttribute('data-theme', theme);
+                
+                themeColors.forEach(c => c.classList.remove('active'));
+                color.classList.add('active');
+                
+                themePanel.classList.remove('active');
+            });
+        });
+
+        const backToTop = document.getElementById('back-to-top');
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 500) {
+                backToTop.classList.add('visible');
+            } else {
+                backToTop.classList.remove('visible');
+            }
+        });
+
+        backToTop.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    </script>
+</body>
+</html>
