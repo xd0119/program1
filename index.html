@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -75,9 +76,12 @@
             --gradient-text: linear-gradient(135deg, #5c3a3a 0%, #8b5555 50%, #e89b7d 100%);
         }
 
-        * { box-sizing: border-box; }
+        * {
+            box-sizing: border-box;
+        }
 
-        html, body {
+        html,
+        body {
             overflow-x: hidden;
             max-width: 100%;
         }
@@ -95,10 +99,12 @@
                 radial-gradient(circle at 80% 20%, rgba(212, 165, 116, 0.05) 0%, transparent 50%),
                 url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23c4a77d' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
             overflow-x: hidden;
-            overflow-x: clip; /* clip 比 hidden 更彻底，不会创建滚动容器 */
+            overflow-x: clip;
+            /* clip 比 hidden 更彻底，不会创建滚动容器 */
             transition: background 0.5s ease;
             width: 100%;
-            position: relative; /* 让 absolute 子元素相对 body 定位，便于裁剪溢出 */
+            position: relative;
+            /* 让 absolute 子元素相对 body 定位，便于裁剪溢出 */
         }
 
         .font-art {
@@ -174,10 +180,23 @@
         }
 
         @keyframes bounceIn {
-            0% { transform: scale(0.3); opacity: 0; }
-            50% { transform: scale(1.05); }
-            70% { transform: scale(0.9); }
-            100% { transform: scale(1); opacity: 1; }
+            0% {
+                transform: scale(0.3);
+                opacity: 0;
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
+
+            70% {
+                transform: scale(0.9);
+            }
+
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
         }
 
         .scroll-reveal {
@@ -247,7 +266,7 @@
             margin-bottom: 2rem;
         }
 
-        .timeline-section > article:last-child {
+        .timeline-section>article:last-child {
             margin-bottom: 0;
         }
 
@@ -264,7 +283,7 @@
         }
 
         /* 最后一个项目不向下延伸轴线 */
-        .timeline-section > article:last-child .timeline-line {
+        .timeline-section>article:last-child .timeline-line {
             display: none;
         }
 
@@ -327,23 +346,27 @@
             .timeline-section .project-card {
                 padding-left: 45px;
             }
+
             .timeline-line {
                 left: 12px;
                 top: 28px;
                 bottom: -44px;
             }
+
             .timeline-dot {
                 left: 6px;
                 top: 10px;
                 width: 16px;
                 height: 16px;
             }
+
             .timeline-date {
                 display: flex;
                 align-items: baseline;
                 gap: 0.5rem;
                 margin-bottom: 0.5rem;
             }
+
             .timeline-date-year {
                 font-size: 1rem;
             }
@@ -427,11 +450,25 @@
         }
 
         @keyframes loading-324 {
-            0% { transform: translate(18px); }
-            25% { transform: translate(0); }
-            50% { transform: translate(-18px); }
-            75% { transform: translate(0); }
-            100% { transform: translate(18px); }
+            0% {
+                transform: translate(18px);
+            }
+
+            25% {
+                transform: translate(0);
+            }
+
+            50% {
+                transform: translate(-18px);
+            }
+
+            75% {
+                transform: translate(0);
+            }
+
+            100% {
+                transform: translate(18px);
+            }
         }
 
         .typing-indicator {
@@ -439,7 +476,7 @@
             gap: 4px;
             padding: 8px 0;
         }
-        
+
         .typing-indicator span {
             width: 6px;
             height: 6px;
@@ -447,14 +484,30 @@
             border-radius: 50%;
             animation: typing-bounce 1.4s infinite ease-in-out both;
         }
-        
-        .typing-indicator span:nth-child(1) { animation-delay: -0.32s; }
-        .typing-indicator span:nth-child(2) { animation-delay: -0.16s; }
-        .typing-indicator span:nth-child(3) { animation-delay: 0s; }
-        
+
+        .typing-indicator span:nth-child(1) {
+            animation-delay: -0.32s;
+        }
+
+        .typing-indicator span:nth-child(2) {
+            animation-delay: -0.16s;
+        }
+
+        .typing-indicator span:nth-child(3) {
+            animation-delay: 0s;
+        }
+
         @keyframes typing-bounce {
-            0%, 80%, 100% { transform: scale(0); }
-            40% { transform: scale(1); }
+
+            0%,
+            80%,
+            100% {
+                transform: scale(0);
+            }
+
+            40% {
+                transform: scale(1);
+            }
         }
 
         .project-image:hover {
@@ -467,8 +520,13 @@
         }
 
         @media (max-width: 767px) {
-            .project-image { height: 10rem; }
-            .project-image-tall { height: 11rem; }
+            .project-image {
+                height: 10rem;
+            }
+
+            .project-image-tall {
+                height: 11rem;
+            }
         }
 
         /* ===== 板块标题 ===== */
@@ -630,7 +688,9 @@
         }
 
         @keyframes rotateBg {
-            to { transform: rotate(360deg); }
+            to {
+                transform: rotate(360deg);
+            }
         }
 
         .hero-image-frame img {
@@ -667,8 +727,15 @@
         }
 
         @keyframes floatBadge {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-8px); }
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-8px);
+            }
         }
 
         .hero-badge-icon {
@@ -697,13 +764,16 @@
             .hero-section {
                 padding: 2rem 0 1.5rem;
             }
+
             .hero-image-side {
                 margin-bottom: 2rem;
             }
+
             .hero-image-frame img {
                 width: 220px;
                 height: 220px;
             }
+
             .hero-badge {
                 position: static;
                 animation: none;
@@ -712,25 +782,31 @@
                 padding: 8px 12px;
                 box-shadow: 0 4px 12px rgba(196, 167, 125, 0.15);
             }
-            .hero-badge-1, .hero-badge-2 {
+
+            .hero-badge-1,
+            .hero-badge-2 {
                 right: auto;
                 left: auto;
                 top: auto;
                 bottom: auto;
                 animation-delay: 0s;
             }
+
             .hero-image-frame {
                 display: flex;
                 flex-direction: column;
                 align-items: center;
                 gap: 0.75rem;
             }
+
             .hero-image-frame img {
                 order: 1;
             }
+
             .hero-badge-1 {
                 order: 2;
             }
+
             .hero-badge-2 {
                 order: 3;
             }
@@ -901,13 +977,26 @@
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
         }
 
-        .theme-warm { background: linear-gradient(135deg, #c4a77d, #d4a574); }
-        .theme-mint { background: linear-gradient(135deg, #7db899, #6ba685); }
-        .theme-lavender { background: linear-gradient(135deg, #a79bc4, #9585b8); }
-        .theme-coral { background: linear-gradient(135deg, #e89b7d, #d48565); }
+        .theme-warm {
+            background: linear-gradient(135deg, #c4a77d, #d4a574);
+        }
+
+        .theme-mint {
+            background: linear-gradient(135deg, #7db899, #6ba685);
+        }
+
+        .theme-lavender {
+            background: linear-gradient(135deg, #a79bc4, #9585b8);
+        }
+
+        .theme-coral {
+            background: linear-gradient(135deg, #e89b7d, #d48565);
+        }
 
         @media (min-width: 768px) {
-            .theme-toggle-panel { display: block; }
+            .theme-toggle-panel {
+                display: block;
+            }
         }
 
         /* ===== 返回顶部 ===== */
@@ -930,6 +1019,7 @@
             box-shadow: 0 6px 20px rgba(196, 167, 125, 0.4);
             z-index: 99;
         }
+
         @media (min-width: 768px) {
             .back-to-top {
                 bottom: 104px;
@@ -937,6 +1027,7 @@
                 width: 48px;
                 height: 48px;
             }
+
             #chat-widget {
                 bottom: 1.5rem !important;
                 right: 1.5rem !important;
@@ -1006,9 +1097,14 @@
         }
 
         /* 清除旧的重复样式 */
-        .animate-circle, .skill-pill, .intro-highlight,
-        .section-title, .section-subtitle, .social-link,
-        .profile-image-wrapper, .quote-mark {
+        .animate-circle,
+        .skill-pill,
+        .intro-highlight,
+        .section-title,
+        .section-subtitle,
+        .social-link,
+        .profile-image-wrapper,
+        .quote-mark {
             /* 兼容：保留关键变量，移除冗余 */
         }
 
@@ -1017,42 +1113,52 @@
             background: #fff;
             transition: border-color 0.5s ease;
         }
+
         .chat-header {
             background: linear-gradient(135deg, var(--primary), var(--accent));
             transition: background 0.5s ease;
         }
+
         .chat-messages {
             background: var(--warm-bg);
             transition: background 0.5s ease;
         }
+
         .chat-input-area {
             background: #fff;
             border-top: 1px solid var(--border-color);
             transition: border-color 0.5s ease;
         }
+
         .chat-input-field {
             background: var(--secondary);
             color: var(--text-primary);
             transition: background 0.5s ease, color 0.5s ease;
         }
+
         .chat-input-field:focus {
             box-shadow: 0 0 0 2px rgba(var(--primary-rgb, 196, 167, 125), 0.3);
         }
+
         .chat-send-btn {
             background: var(--primary);
             transition: background 0.5s ease;
         }
+
         .chat-send-btn:hover {
             background: var(--accent);
         }
+
         .chat-text {
             color: var(--text-secondary);
             transition: color 0.5s ease;
         }
+
         .chat-avatar-user {
             background: var(--primary);
             transition: background 0.5s ease;
         }
+
         .chat-bubble-user {
             background: var(--primary);
             transition: background 0.5s ease;
@@ -1076,43 +1182,58 @@
             z-index: 9998 !important;
             animation: slideInRight 0.32s cubic-bezier(0.4, 0, 0.2, 1);
         }
+
         @keyframes slideInRight {
-            from { transform: translateX(100%); }
-            to { transform: translateX(0); }
+            from {
+                transform: translateX(100%);
+            }
+
+            to {
+                transform: translateX(0);
+            }
         }
 
         /* B方案：主内容平滑让出右侧35%空间 */
         .container {
             transition: margin-right 0.32s cubic-bezier(0.4, 0, 0.2, 1);
         }
+
         body.chat-side-open .container {
             margin-right: 35%;
         }
+
         /* nav 内容也同步让出，避免被面板遮挡 */
-        nav > div {
+        nav>div {
             transition: margin-right 0.32s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        body.chat-side-open nav > div {
+
+        body.chat-side-open nav>div {
             margin-right: 35%;
         }
+
         /* footer 内容也同步让出 */
-        footer > div {
+        footer>div {
             transition: margin-right 0.32s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        body.chat-side-open footer > div {
+
+        body.chat-side-open footer>div {
             margin-right: 35%;
         }
+
         /* 右下角浮动按钮（置顶、聊天入口）同步让出，避免被半屏面板遮挡 */
         .back-to-top {
             transition: right 0.32s cubic-bezier(0.4, 0, 0.2, 1);
         }
+
         body.chat-side-open .back-to-top {
             right: calc(35% + 1.5rem) !important;
         }
+
         /* 半屏模式下隐藏聊天入口按钮（已打开，无需再显示） */
         #chat-toggle {
             transition: opacity 0.2s ease;
         }
+
         body.chat-side-open #chat-toggle {
             opacity: 0 !important;
             visibility: hidden !important;
@@ -1137,12 +1258,14 @@
             z-index: 9999 !important;
             overscroll-behavior: contain !important;
         }
+
         #chat-container.chat-fullscreen .chat-messages {
             min-height: 0 !important;
             flex: 1 1 0 !important;
             overscroll-behavior: contain !important;
             -webkit-overflow-scrolling: touch;
         }
+
         body.chat-no-scroll {
             overflow: hidden !important;
             position: fixed !important;
@@ -1151,10 +1274,14 @@
         }
 
         /* 全局防溢出 */
-        img, video, canvas {
+        img,
+        video,
+        canvas {
             max-width: 100%;
         }
-        pre, code {
+
+        pre,
+        code {
             white-space: pre-wrap;
             word-break: break-word;
         }
@@ -1166,44 +1293,56 @@
                 /* 横屏下强制裁剪所有子元素溢出，防止 badge 撑大页面 */
                 overflow: hidden;
             }
+
             .hero-image-side {
                 overflow: hidden;
             }
+
             .hero-image-frame {
                 overflow: visible;
             }
+
             /* 横屏下移除装饰性外溢：虚线边框不再向外扩展 */
             .hero-image-frame::before {
                 inset: 0 !important;
                 border-radius: 28px !important;
             }
+
             .hero-image-frame img {
                 width: 140px !important;
                 height: 140px !important;
             }
+
             .hero-title {
                 font-size: 1.8rem !important;
             }
+
             .section-heading-title {
                 font-size: 1.4rem !important;
             }
+
             nav {
                 padding-top: 0.5rem !important;
                 padding-bottom: 0.5rem !important;
             }
+
             .project-image {
                 height: 8rem !important;
             }
+
             #chat-widget {
                 bottom: 0.5rem !important;
             }
+
             .back-to-top {
                 bottom: 64px !important;
             }
+
             /* 横屏下把向外突出的 badge 拉回容器内，避免撑大宽度 */
             .hero-badge-1 {
                 right: 0 !important;
             }
+
             .hero-badge-2 {
                 left: 0 !important;
             }
@@ -1217,17 +1356,21 @@
                 align-items: center;
                 gap: 0.5rem;
             }
+
             .hero-image-frame img {
                 order: 1;
             }
+
             .hero-badge {
                 position: static !important;
                 animation: none !important;
                 padding: 6px 10px;
             }
+
             .hero-badge-1 {
                 order: 2;
             }
+
             .hero-badge-2 {
                 order: 3;
             }
@@ -1237,23 +1380,29 @@
             #chat-container {
                 min-height: 400px;
             }
+
             #chat-container.chat-fullscreen {
                 min-height: 100vh;
             }
         }
     </style>
 </head>
+
 <body class="text-gray-800">
     <canvas id="particles-bg"></canvas>
 
     <!-- 顶部导航 -->
-    <nav class="fixed top-0 left-0 right-0 z-50 glass-card rounded-none px-4 md:px-8 py-3 md:py-4" style="overflow-x: hidden;">
+    <nav class="fixed top-0 left-0 right-0 z-50 glass-card rounded-none px-4 md:px-8 py-3 md:py-4"
+        style="overflow-x: hidden;">
         <div class="max-w-7xl mx-auto flex justify-between items-center" style="min-width: 0;">
             <div class="text-xl font-bold gradient-text relative">
-                <div class="image-loader" style="position:absolute;inset:0;background:rgba(255,255,255,0.9);border-radius:6px;">
+                <div class="image-loader"
+                    style="position:absolute;inset:0;background:rgba(255,255,255,0.9);border-radius:6px;">
                     <div class="loading-324" style="transform:scale(0.6);"></div>
                 </div>
-                <img src="images/logo_compressed.jpg" alt="Logo" style="opacity:0;transition:opacity 0.3s ease;" onload="this.style.opacity='1'; this.previousElementSibling.style.display='none'" onerror="this.previousElementSibling.style.display='none'; this.style.opacity='1'">
+                <img src="images/logo_compressed.jpg" alt="Logo" style="opacity:0;transition:opacity 0.3s ease;"
+                    onload="this.style.opacity='1'; this.previousElementSibling.style.display='none'"
+                    onerror="this.previousElementSibling.style.display='none'; this.style.opacity='1'">
             </div>
             <div class="hidden md:flex space-x-8">
                 <a href="#intro" class="nav-item text-gray-600">介绍</a>
@@ -1305,7 +1454,7 @@
                     <div class="md:col-span-3 order-2 md:order-1">
                         <p class="hero-label">PORTFOLIO · 作品集</p>
                         <h1 class="hero-title">
-                           
+
                             <span class="accent">AI 设计工程师</span>
                         </h1>
 
@@ -1343,7 +1492,10 @@
                             <div class="image-loader">
                                 <div class="loading-324"></div>
                             </div>
-                            <img src="images/bg_compressed.jpg" alt="个人形象" style="opacity:0;transition:opacity 0.3s ease;" onload="this.style.opacity='1'; this.previousElementSibling.style.display='none'" onerror="this.previousElementSibling.style.display='none'; this.style.opacity='1'">
+                            <img src="images/bg_compressed.jpg" alt="个人形象"
+                                style="opacity:0;transition:opacity 0.3s ease;"
+                                onload="this.style.opacity='1'; this.previousElementSibling.style.display='none'"
+                                onerror="this.previousElementSibling.style.display='none'; this.style.opacity='1'">
                             <div class="hero-badge hero-badge-1">
                                 <div class="hero-badge-icon"><i class="fas fa-code"></i></div>
                                 <span class="hero-badge-text">金融信贷经验</span>
@@ -1379,7 +1531,8 @@
 
                     <div class="grid md:grid-cols-2 gap-8 items-center">
                         <div class="order-2 md:order-1">
-                            <a href="https://dcndeyf61pep.feishu.cn/docx/X0uMdUqLJo6hCtxT1n1ci2FLnNg" target="_blank" class="block">
+                            <a href="https://dcndeyf61pep.feishu.cn/docx/X0uMdUqLJo6hCtxT1n1ci2FLnNg" target="_blank"
+                                class="block">
                                 <div class="project-header">
                                     <span class="project-tag">AI 产品实践</span>
                                     <h3 class="project-title">【吃什么】AI 小程序设计</h3>
@@ -1398,7 +1551,8 @@
 
                                     <div class="star-label">A</div>
                                     <div class="star-content">
-                                        基于 Coze 平台通过 vibecoding 多轮迭代完成需求落地；接入高德 API 实现附近餐厅搜索作为数据库；设计转盘抽卡玩法覆盖朋友聚会场景；收集用户反馈后持续优化功能。
+                                        基于 Coze 平台通过 vibecoding 多轮迭代完成需求落地；接入高德 API
+                                        实现附近餐厅搜索作为数据库；设计转盘抽卡玩法覆盖朋友聚会场景；收集用户反馈后持续优化功能。
                                     </div>
 
                                     <div class="star-label">R</div>
@@ -1417,11 +1571,14 @@
                         </div>
 
                         <div class="order-1 md:order-2">
-                            <a href="https://dcndeyf61pep.feishu.cn/docx/X0uMdUqLJo6hCtxT1n1ci2FLnNg" target="_blank" class="project-image-wrapper">
+                            <a href="https://dcndeyf61pep.feishu.cn/docx/X0uMdUqLJo6hCtxT1n1ci2FLnNg" target="_blank"
+                                class="project-image-wrapper">
                                 <div class="image-loader">
                                     <div class="loading-324"></div>
                                 </div>
-                                <img src="images/ai.jpg" alt="AI小程序" class="project-image" onload="this.classList.add('loaded'); this.previousElementSibling.classList.add('hidden')" onerror="this.classList.add('error'); this.previousElementSibling.classList.add('hidden')">
+                                <img src="images/ai.jpg" alt="AI小程序" class="project-image"
+                                    onload="this.classList.add('loaded'); this.previousElementSibling.classList.add('hidden')"
+                                    onerror="this.classList.add('error'); this.previousElementSibling.classList.add('hidden')">
                             </a>
                         </div>
                     </div>
@@ -1438,15 +1595,19 @@
 
                     <div class="grid md:grid-cols-2 gap-8 items-center">
                         <div>
-                            <a href="https://dcndeyf61pep.feishu.cn/file/SJZCb92csoWYcgxwSYvcV8DQnHb" target="_blank" class="project-image-wrapper">
+                            <a href="https://dcndeyf61pep.feishu.cn/file/SJZCb92csoWYcgxwSYvcV8DQnHb" target="_blank"
+                                class="project-image-wrapper">
                                 <div class="image-loader">
                                     <div class="loading-324"></div>
                                 </div>
-                                <img src="images/mscy_compressed.jpg" alt="水土保持管理系统" class="project-image" onload="this.classList.add('loaded'); this.previousElementSibling.classList.add('hidden')" onerror="this.classList.add('error'); this.previousElementSibling.classList.add('hidden')">
+                                <img src="images/mscy_compressed.jpg" alt="水土保持管理系统" class="project-image"
+                                    onload="this.classList.add('loaded'); this.previousElementSibling.classList.add('hidden')"
+                                    onerror="this.classList.add('error'); this.previousElementSibling.classList.add('hidden')">
                             </a>
                         </div>
                         <div>
-                            <a href="https://dcndeyf61pep.feishu.cn/file/SJZCb92csoWYcgxwSYvcV8DQnHb" target="_blank" class="block">
+                            <a href="https://dcndeyf61pep.feishu.cn/file/SJZCb92csoWYcgxwSYvcV8DQnHb" target="_blank"
+                                class="block">
                                 <div class="project-header">
                                     <span class="project-tag">ToB 系统全生命周期跟进</span>
                                     <h3 class="project-title">高速公路水土保持管理系统</h3>
@@ -1465,7 +1626,8 @@
 
                                     <div class="star-label">A</div>
                                     <div class="star-content">
-                                        深入调研 8 类角色办公流程，输出需求分析报告；设计系统功能架构与操作流程；基于 Vue + ElementUI 搭建前端框架，实现动态路由权限与 ECharts 数据可视化；统筹团队推进项目。
+                                        深入调研 8 类角色办公流程，输出需求分析报告；设计系统功能架构与操作流程；基于 Vue + ElementUI 搭建前端框架，实现动态路由权限与
+                                        ECharts 数据可视化；统筹团队推进项目。
                                     </div>
 
                                     <div class="star-label">R</div>
@@ -1497,7 +1659,8 @@
 
                     <div class="grid md:grid-cols-2 gap-8 items-center">
                         <div class="order-2 md:order-1">
-                            <a href="https://dcndeyf61pep.feishu.cn/wiki/HL2owiQaWiOtrJk1aPbc8Wyrnkf?from=from_copylink" target="_blank" class="block">
+                            <a href="https://dcndeyf61pep.feishu.cn/wiki/HL2owiQaWiOtrJk1aPbc8Wyrnkf?from=from_copylink"
+                                target="_blank" class="block">
                                 <div class="project-header">
                                     <span class="project-tag">全栈前后台开发</span>
                                     <h3 class="project-title">我的被窝 · 个人博客系统</h3>
@@ -1516,7 +1679,8 @@
 
                                     <div class="star-label">A</div>
                                     <div class="star-content">
-                                        使用 jQuery + Bootstrap + Art-Template 构建前台展示页面；MongoDB 做数据存储；实现文章增删改查、用户管理、分类标签、分页搜索等功能；完成前后台联调与部署。
+                                        使用 jQuery + Bootstrap + Art-Template 构建前台展示页面；MongoDB
+                                        做数据存储；实现文章增删改查、用户管理、分类标签、分页搜索等功能；完成前后台联调与部署。
                                     </div>
 
                                     <div class="star-label">R</div>
@@ -1534,11 +1698,14 @@
                             </a>
                         </div>
                         <div class="order-1 md:order-2">
-                            <a href="https://dcndeyf61pep.feishu.cn/file/YjTkbF1hcoeAnexBaPJcOQQ1nBc" target="_blank" class="project-image-wrapper">
+                            <a href="https://dcndeyf61pep.feishu.cn/file/YjTkbF1hcoeAnexBaPJcOQQ1nBc" target="_blank"
+                                class="project-image-wrapper">
                                 <div class="image-loader">
                                     <div class="loading-324"></div>
                                 </div>
-                                <img src="images/wdbw.jpg" alt="我的被窝" class="project-image" onload="this.classList.add('loaded'); this.previousElementSibling.classList.add('hidden')" onerror="this.classList.add('error'); this.previousElementSibling.classList.add('hidden')">
+                                <img src="images/wdbw.jpg" alt="我的被窝" class="project-image"
+                                    onload="this.classList.add('loaded'); this.previousElementSibling.classList.add('hidden')"
+                                    onerror="this.classList.add('error'); this.previousElementSibling.classList.add('hidden')">
                             </a>
                         </div>
                     </div>
@@ -1567,15 +1734,19 @@
 
                     <div class="grid md:grid-cols-2 gap-8 items-center">
                         <div>
-                            <a href="https://dcndeyf61pep.feishu.cn/slides/WBI6soHEhl7wfYd23SzcfSidn4d" target="_blank" class="project-image-wrapper">
+                            <a href="https://dcndeyf61pep.feishu.cn/slides/WBI6soHEhl7wfYd23SzcfSidn4d" target="_blank"
+                                class="project-image-wrapper">
                                 <div class="image-loader">
                                     <div class="loading-324"></div>
                                 </div>
-                                <img src="images/jh_compressed.jpg" alt="过虑空间" class="project-image project-image-tall" onload="this.classList.add('loaded'); this.previousElementSibling.classList.add('hidden')" onerror="this.classList.add('error'); this.previousElementSibling.classList.add('hidden')">
+                                <img src="images/jh_compressed.jpg" alt="过虑空间" class="project-image project-image-tall"
+                                    onload="this.classList.add('loaded'); this.previousElementSibling.classList.add('hidden')"
+                                    onerror="this.classList.add('error'); this.previousElementSibling.classList.add('hidden')">
                             </a>
                         </div>
                         <div>
-                            <a href="https://dcndeyf61pep.feishu.cn/slides/WBI6soHEhl7wfYd23SzcfSidn4d" target="_blank" class="block">
+                            <a href="https://dcndeyf61pep.feishu.cn/slides/WBI6soHEhl7wfYd23SzcfSidn4d" target="_blank"
+                                class="block">
                                 <div class="project-header">
                                     <span class="project-tag">完整 UX 流程</span>
                                     <h3 class="project-title">过虑空间 · VR 焦虑疗养空间</h3>
@@ -1637,7 +1808,8 @@
 
                     <div class="grid md:grid-cols-2 gap-8 items-center">
                         <div class="order-2 md:order-1">
-                            <a href="https://www.bilibili.com/video/BV1Bo4y1x7hv/?vd_source=9b69073227bf41d63a3ca206543c5695#reply398270465" target="_blank" class="block">
+                            <a href="https://www.bilibili.com/video/BV1Bo4y1x7hv/?vd_source=9b69073227bf41d63a3ca206543c5695#reply398270465"
+                                target="_blank" class="block">
                                 <div class="project-header">
                                     <span class="project-tag">电影概念预告片</span>
                                     <h3 class="project-title">蒸汽末日</h3>
@@ -1673,11 +1845,14 @@
                             </a>
                         </div>
                         <div class="order-1 md:order-2">
-                            <a href="https://www.bilibili.com/video/BV1Bo4y1x7hv/?vd_source=9b69073227bf41d63a3ca206543c5695#reply398270465" target="_blank" class="project-image-wrapper">
+                            <a href="https://www.bilibili.com/video/BV1Bo4y1x7hv/?vd_source=9b69073227bf41d63a3ca206543c5695#reply398270465"
+                                target="_blank" class="project-image-wrapper">
                                 <div class="image-loader">
                                     <div class="loading-324"></div>
                                 </div>
-                                <img src="images/dh_compressed.jpg" alt="蒸汽末日" class="project-image project-image-tall" onload="this.classList.add('loaded'); this.previousElementSibling.classList.add('hidden')" onerror="this.classList.add('error'); this.previousElementSibling.classList.add('hidden')">
+                                <img src="images/dh_compressed.jpg" alt="蒸汽末日" class="project-image project-image-tall"
+                                    onload="this.classList.add('loaded'); this.previousElementSibling.classList.add('hidden')"
+                                    onerror="this.classList.add('error'); this.previousElementSibling.classList.add('hidden')">
                             </a>
                         </div>
                     </div>
@@ -1706,7 +1881,8 @@
 
                     <div class="grid md:grid-cols-2 gap-8 items-center">
                         <div class="order-2 md:order-1">
-                            <a href="https://www.bilibili.com/video/BV1gX4y1p7f1/?spm_id_from=333.1387.homepage.video_card.click" target="_blank" class="block">
+                            <a href="https://www.bilibili.com/video/BV1gX4y1p7f1/?spm_id_from=333.1387.homepage.video_card.click"
+                                target="_blank" class="block">
                                 <div class="project-header">
                                     <span class="project-tag">VR 联机展馆</span>
                                     <h3 class="project-title">虚拟展馆漫游</h3>
@@ -1743,11 +1919,14 @@
                             </a>
                         </div>
                         <div class="order-1 md:order-2">
-                            <a href="https://www.bilibili.com/video/BV1gX4y1p7f1/?spm_id_from=333.1387.homepage.video_card.click" target="_blank" class="project-image-wrapper">
+                            <a href="https://www.bilibili.com/video/BV1gX4y1p7f1/?spm_id_from=333.1387.homepage.video_card.click"
+                                target="_blank" class="project-image-wrapper">
                                 <div class="image-loader">
                                     <div class="loading-324"></div>
                                 </div>
-                                <img src="images/sqss_compressed.jpg" alt="虚拟展馆漫游" class="project-image" onload="this.classList.add('loaded'); this.previousElementSibling.classList.add('hidden')" onerror="this.classList.add('error'); this.previousElementSibling.classList.add('hidden')">
+                                <img src="images/sqss_compressed.jpg" alt="虚拟展馆漫游" class="project-image"
+                                    onload="this.classList.add('loaded'); this.previousElementSibling.classList.add('hidden')"
+                                    onerror="this.classList.add('error'); this.previousElementSibling.classList.add('hidden')">
                             </a>
                         </div>
                     </div>
@@ -1764,15 +1943,19 @@
 
                     <div class="grid md:grid-cols-2 gap-8 items-center">
                         <div>
-                            <a href="https://www.bilibili.com/video/BV1LY41117jQ/?vd_source=9b69073227bf41d63a3ca206543c5695#reply145432201248" target="_blank" class="project-image-wrapper">
+                            <a href="https://www.bilibili.com/video/BV1LY41117jQ/?vd_source=9b69073227bf41d63a3ca206543c5695#reply145432201248"
+                                target="_blank" class="project-image-wrapper">
                                 <div class="image-loader">
                                     <div class="loading-324"></div>
                                 </div>
-                                <img src="images/yx.jpg" alt="山麓草木香" class="project-image" onload="this.classList.add('loaded'); this.previousElementSibling.classList.add('hidden')" onerror="this.classList.add('error'); this.previousElementSibling.classList.add('hidden')">
+                                <img src="images/yx.jpg" alt="山麓草木香" class="project-image"
+                                    onload="this.classList.add('loaded'); this.previousElementSibling.classList.add('hidden')"
+                                    onerror="this.classList.add('error'); this.previousElementSibling.classList.add('hidden')">
                             </a>
                         </div>
                         <div>
-                            <a href="https://www.bilibili.com/video/BV1LY41117jQ/?vd_source=9b69073227bf41d63a3ca206543c5695#reply145432201248" target="_blank" class="block">
+                            <a href="https://www.bilibili.com/video/BV1LY41117jQ/?vd_source=9b69073227bf41d63a3ca206543c5695#reply145432201248"
+                                target="_blank" class="block">
                                 <div class="project-header">
                                     <span class="project-tag">三维游戏开发</span>
                                     <h3 class="project-title">山麓草木香</h3>
@@ -1805,7 +1988,7 @@
                                     <span class="tag-chip">C++</span>
                                     <span class="tag-chip">地图导航</span>
                                     <span class="tag-chip">背包系统</span>
-                                    
+
                                 </div>
                             </a>
                         </div>
@@ -1863,7 +2046,9 @@
                                 <div class="image-loader">
                                     <div class="loading-324"></div>
                                 </div>
-                                <img src="images/kydwy_compressed.jpg" alt="抗疫大作战" class="project-image" onload="this.classList.add('loaded'); this.previousElementSibling.classList.add('hidden')" onerror="this.classList.add('error'); this.previousElementSibling.classList.add('hidden')">
+                                <img src="images/kydwy_compressed.jpg" alt="抗疫大作战" class="project-image"
+                                    onload="this.classList.add('loaded'); this.previousElementSibling.classList.add('hidden')"
+                                    onerror="this.classList.add('error'); this.previousElementSibling.classList.add('hidden')">
                             </a>
                         </div>
                     </div>
@@ -1880,10 +2065,14 @@
             <div class="text-center md:text-left">
                 <h5 class="text-[#5c4a3a] font-semibold mb-4">关于我</h5>
                 <ul class="space-y-3">
-                    <li><a href="#" class="text-[#6b6b6b] hover:text-[#c4a77d] transition-colors flex items-center"><i class="bi bi-book mr-2"></i> GDUT · 数字媒体技术 · 本科</a></li>
-                    <li><a href="#" class="text-[#6b6b6b] hover:text-[#c4a77d] transition-colors flex items-center"><i class="bi bi-pin-map-fill mr-2"></i> 深圳 · AI设计工程师</a></li>
-                    <li><a href="#" class="text-[#6b6b6b] hover:text-[#c4a77d] transition-colors flex items-center"><i class="bi bi-layers mr-2"></i> 前端 · 产品设计 · AIcoding</a></li>
-                    <li><a href="#" class="text-[#6b6b6b] hover:text-[#c4a77d] transition-colors flex items-center"><i class="bi bi-envelope-open-fill mr-2"></i> xd316012029@163.com</a></li>
+                    <li><a href="#" class="text-[#6b6b6b] hover:text-[#c4a77d] transition-colors flex items-center"><i
+                                class="bi bi-book mr-2"></i> GDUT · 数字媒体技术 · 本科</a></li>
+                    <li><a href="#" class="text-[#6b6b6b] hover:text-[#c4a77d] transition-colors flex items-center"><i
+                                class="bi bi-pin-map-fill mr-2"></i> 深圳 · AI设计工程师</a></li>
+                    <li><a href="#" class="text-[#6b6b6b] hover:text-[#c4a77d] transition-colors flex items-center"><i
+                                class="bi bi-layers mr-2"></i> 前端 · 产品设计 · AIcoding</a></li>
+                    <li><a href="#" class="text-[#6b6b6b] hover:text-[#c4a77d] transition-colors flex items-center"><i
+                                class="bi bi-envelope-open-fill mr-2"></i> xd316012029@163.com</a></li>
                 </ul>
             </div>
             <div class="flex flex-col items-center relative">
@@ -1891,7 +2080,10 @@
                     <div class="loading-324"></div>
                     <span style="position:absolute;bottom:8px;color:#a89b7d;font-size:0.75rem;">加载中...</span>
                 </div>
-                <img src="images/askme.jpg" alt="微信二维码" class="w-32 h-32 rounded-xl shadow-lg mb-2" style="opacity:0;transition:opacity 0.3s ease;" onload="this.style.opacity='1'; this.previousElementSibling.style.display='none'" onerror="this.previousElementSibling.style.display='none'; this.style.opacity='1'">
+                <img src="images/askme.jpg" alt="微信二维码" class="w-32 h-32 rounded-xl shadow-lg mb-2"
+                    style="opacity:0;transition:opacity 0.3s ease;"
+                    onload="this.style.opacity='1'; this.previousElementSibling.style.display='none'"
+                    onerror="this.previousElementSibling.style.display='none'; this.style.opacity='1'">
                 <p class="text-[#6b6b6b] text-sm">扫码加微信</p>
             </div>
         </div>
@@ -1902,39 +2094,54 @@
 
     <!-- AI 聊天组件 -->
     <div id="chat-widget" class="fixed z-50" style="bottom: 1rem; right: 0.75rem;">
-        <button id="chat-toggle" class="w-14 h-14 md:w-16 md:h-16 rounded-full shadow-lg flex items-center justify-center hover:scale-110 transition-transform duration-300" style="box-shadow: 0 4px 20px rgba(196, 167, 125, 0.3);">
+        <button id="chat-toggle"
+            class="w-14 h-14 md:w-16 md:h-16 rounded-full shadow-lg flex items-center justify-center hover:scale-110 transition-transform duration-300"
+            style="box-shadow: 0 4px 20px rgba(196, 167, 125, 0.3);">
             <img src="images/可爱比耶.png" alt="聊天" id="chat-avatar" class="w-full h-full object-contain">
         </button>
-        
-        <div id="chat-container" class="hidden fixed bottom-24 md:bottom-32 right-2 left-2 md:left-auto md:right-6 md:w-[420px] bg-white rounded-2xl shadow-2xl overflow-hidden flex flex-col chat-theme" style="border: 1px solid var(--border-color); max-height: calc(100vh - 8rem); max-width: calc(100vw - 1rem);" onclick="event.stopPropagation()">
+
+        <div id="chat-container"
+            class="hidden fixed bottom-24 md:bottom-32 right-2 left-2 md:left-auto md:right-6 md:w-[420px] bg-white rounded-2xl shadow-2xl overflow-hidden flex flex-col chat-theme"
+            style="border: 1px solid var(--border-color); max-height: calc(100vh - 8rem); max-width: calc(100vw - 1rem);"
+            onclick="event.stopPropagation()">
             <div class="chat-header px-4 py-3 flex items-center justify-between flex-shrink-0">
                 <div class="flex items-center min-w-0">
-                    <img src="images/可爱比耶.png" alt="头像" class="w-7 h-7 md:w-8 md:h-8 rounded-full object-contain flex-shrink-0">
+                    <img src="images/可爱比耶.png" alt="头像"
+                        class="w-7 h-7 md:w-8 md:h-8 rounded-full object-contain flex-shrink-0">
                     <span class="ml-2 md:ml-3 text-white font-medium text-sm md:text-base truncate">XD小助理</span>
                 </div>
                 <div class="flex items-center gap-1 flex-shrink-0">
-                    <button id="chat-expand" class="hidden md:flex text-white/80 hover:text-white transition-colors w-8 h-8 items-center justify-center" title="切换窗口大小">
+                    <button id="chat-expand"
+                        class="hidden md:flex text-white/80 hover:text-white transition-colors w-8 h-8 items-center justify-center"
+                        title="切换窗口大小">
                         <i class="fas fa-compress text-sm"></i>
                     </button>
-                    <button id="chat-close" class="text-white/80 hover:text-white transition-colors w-8 h-8 flex items-center justify-center" title="关闭">
+                    <button id="chat-close"
+                        class="text-white/80 hover:text-white transition-colors w-8 h-8 flex items-center justify-center"
+                        title="关闭">
                         <i class="fas fa-times"></i>
                     </button>
                 </div>
             </div>
-            
-            <div id="chat-messages" class="chat-messages flex-1 overflow-y-auto p-3 md:p-4 space-y-3" style="min-height: 200px;">
+
+            <div id="chat-messages" class="chat-messages flex-1 overflow-y-auto p-3 md:p-4 space-y-3"
+                style="min-height: 200px;">
                 <div class="flex items-start">
-                    <img src="images/可爱斜眼.png" alt="头像" class="w-7 h-7 md:w-8 md:h-8 rounded-full object-contain flex-shrink-0">
-                    <div class="ml-3 bg-white px-3 py-2 rounded-xl rounded-tl-none shadow-sm max-w-[78%] md:max-w-[85%]">
+                    <img src="images/可爱斜眼.png" alt="头像"
+                        class="w-7 h-7 md:w-8 md:h-8 rounded-full object-contain flex-shrink-0">
+                    <div
+                        class="ml-3 bg-white px-3 py-2 rounded-xl rounded-tl-none shadow-sm max-w-[78%] md:max-w-[85%]">
                         <p class="chat-text text-sm">你好！我是XD的小助理，这里可以了解XD更多基本情况和项目情况。😊你可以问我：水保项目里你具体负责了什么模块？</p>
                     </div>
                 </div>
             </div>
-            
+
             <div class="chat-input-area p-3 flex-shrink-0">
                 <div class="flex items-center gap-2">
-                    <input type="text" id="chat-input" placeholder="输入你的问题..." class="chat-input-field flex-1 min-w-0 px-4 py-2 rounded-full text-sm focus:outline-none">
-                    <button id="chat-send" class="chat-send-btn w-10 h-10 rounded-full flex items-center justify-center text-white transition-colors flex-shrink-0">
+                    <input type="text" id="chat-input" placeholder="输入你的问题..."
+                        class="chat-input-field flex-1 min-w-0 px-4 py-2 rounded-full text-sm focus:outline-none">
+                    <button id="chat-send"
+                        class="chat-send-btn w-10 h-10 rounded-full flex items-center justify-center text-white transition-colors flex-shrink-0">
                         <i class="fas fa-paper-plane text-sm"></i>
                     </button>
                 </div>
@@ -2030,7 +2237,7 @@
 
         function animate() {
             ctx.clearRect(0, 0, width, height);
-            
+
             particles.forEach(particle => {
                 particle.update();
                 particle.draw();
@@ -2097,7 +2304,7 @@
         });
 
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
+            anchor.addEventListener('click', function (e) {
                 e.preventDefault();
                 const target = document.querySelector(this.getAttribute('href'));
                 if (target) {
@@ -2129,10 +2336,10 @@
             color.addEventListener('click', () => {
                 const theme = color.dataset.theme;
                 document.documentElement.setAttribute('data-theme', theme);
-                
+
                 themeColors.forEach(c => c.classList.remove('active'));
                 color.classList.add('active');
-                
+
                 themePanel.classList.remove('active');
             });
         });
@@ -2226,7 +2433,214 @@
 
         const COZE_PAT = 'pat_e4AbMba50BBJh6Z7oQ1CzfRJiR0M36PJzbJFtUGoBjrH15G8s4JBAheF5jIJN8TU';
         const COZE_BOT_ID = '7665565693240672265';
+        const ZHIPU_API_KEY = '81fb7bcd51824f508d4b800754bc69f4.IjmcK2MuCE7DiD9A';
         let cozeConversationId = '';
+
+        /* ===== 智谱 System Prompt（核心知识库摘要） ===== */
+        const ZHIPU_SYSTEM_PROMPT = `你是许晓丹（XD）的个人AI助手，负责回答关于XD的求职、项目经历、技能背景等问题。
+
+【核心信息】
+- 姓名：许晓丹（XD），24岁
+- 学历：广东工业大学数字媒体技术专业，2024届，GPA前5%
+- 求职意向：AI设计工程师 / AI产品经理
+- 工作经历：广发银行深圳分行客户经理（2024.07-2026.07），负责4亿元零售信贷盘子管理
+- 核心竞争力：AI实战经验（Trae/Coze Vibe Coding）、技术+设计双重能力、快速学习能力、业务理解能力、8个完整项目经验
+
+【主要项目】
+1. 【吃什么】小程序（2026.05-2026.06）：Coze Vibe Coding从0到1开发，店铺转盘+活动抽抽，推荐满意度65%→85%
+2. 水保管控系统（2023.07-2024.04）：产品经理/项目组长，Vue2+ElementUI，审批效率提升70%，数据错误率12%→1%
+3. 我的被窝博客（2023.03-2023.06）：全栈开发，用到Express+MongoDB
+4. 过虑空间VR情绪疗养（2022.09-2023.01）：交互设计课程作业
+5. 游戏项目：虚拟展馆、山麓草木香游戏、抗疫大作战RPG
+
+【技术栈】
+- 前端：Vue3
+- 后端：Node.js+Express、MongoDB
+- AI：Trae/Coze、RAG知识库、Prompt优化
+- 游戏：Unity3D+C#
+- 设计：Figma、PS、C4D、UE
+
+【回答规则】
+- 直接回答，不要复述用户问题
+- 不要每次都做自我介绍
+- 项目回答格式：[项目名称]担任[角色]，负责[核心职责]，使用[技术栈]，实现[主要功能]，成果[具体数据]
+- 如果不确定的信息，直接说"这个问题建议联系本人电话咨询~"`;
+
+        /* ===== 本地FAQ降级库（最终兜底） ===== */
+        const LOCAL_FAQ = [
+            {
+                keywords: ['你是谁', '叫什么', '介绍自己', '介绍一下', '自我', '名字'],
+                answer: '我是许晓丹（XD），24岁，毕业于广东工业大学数字媒体技术专业。有2年金融信贷工作经验，现在正在转型AI设计领域。很高兴认识你！'
+            },
+            {
+                keywords: ['核心竞争力', '优势', '特长', '擅长什么', '亮点'],
+                answer: '我的核心竞争力包括：\n1. AI实战经验：使用Trae独立完成小程序从0到1开发并上线，具备Vibe Coding完整经验；基于业务问题搭建Agent解决实际咨询问题\n2. 技术+设计双重能力：计算机专业背景 + 现代UI/UX设计能力\n3. 快速学习能力：在职考取软考中级，持续跟进AI领域\n4. 业务理解能力：2年金融信贷经验，熟悉信贷全流程\n5. 项目经验丰富：0-1完整项目经验，涵盖Web、小程序、游戏、VR、三维动画'
+            },
+            {
+                keywords: ['为什么转行', '为什么离开银行', '离开广发', '辞职', '换工作'],
+                answer: '职业成长节奏和银行不够匹配，希望找到更有挑战性的平台，在专业领域进一步深耕。'
+            },
+            {
+                keywords: ['项目', '做过什么', '经历', '作品', '案例'],
+                answer: '我做过8个完整项目，主要包括：\n\n1. 【吃什么】小程序（2026.05-2026.06）\n   使用Coze进行Vibe Coding从0到1开发，包括店铺转盘、活动抽抽、收藏评分等功能，推荐满意度从65%提升至85%\n\n2. 高速公路工程水土保持全过程管控系统（2023.07-2024.04）\n   担任产品经理/项目组长，与广东省交通规划设计研究院校企合作，审批效率提升70%，数据错误率从12%降至1%\n\n3. 我的被窝（个人博客，2023.03-2023.06）\n   Express + MongoDB 全栈开发，含前台文章/留言、后台管理/权限控制\n\n4. 过虑空间 | VR情绪疗养空间交互设计（2022.09-2023.01）\n   面向焦虑大学生的VR情绪疗养空间，交互设计项目\n\n还有三维动画、虚拟展馆、游戏开发等项目，你想了解哪个？'
+            },
+            {
+                keywords: ['水保', '水土保持', '高速公路', '交通规划', '审批', '管控系统'],
+                answer: '【高速公路工程水土保持全过程管控系统】是我最有成就感的项目，2023.07-2024.04 广东省交通规划设计研究院校企合作。\n\n我担任产品经理/项目组长，负责：\n- 需求调研：深度访谈企业员工，梳理审批慢、数据乱、信息不对齐三大痛点\n- 产品方案设计：设计系统功能架构，输出PRD与高保真原型（Figma）\n- 前端开发：Vue2+ElementUI，搭建动态路由、echarts可视化预警\n- 项目管理：统筹全生命周期，对接企业部署上线，输出标准化使用手册\n\n技术栈：Vue2 + ElementUI + Springboot + MySQL + ECharts\n成果：审批效率提升70%，数据错误率从12%降至1%\n我主要负责模块：工程施工、工程管理、水保验收'
+            },
+            {
+                keywords: ['吃什么', '小程序', '餐厅', '推荐', '转盘'],
+                answer: '【吃什么】小程序是我用Coze做Vibe Coding从0到1开发的，2026.05-2026.06。\n\n背景：朋友聚会时面临"吃什么"的选择困难\n\n功能：\n- 店铺转盘：随机选择附近餐厅，支持35种意图场景的智能搜索\n- 种类选择：早餐/午餐/晚餐/减脂餐/夜宵/下午茶\n- 活动抽抽：50个内置活动卡片，解决周末去哪玩\n- 收藏夹与评分系统：越用越懂用户偏好\n\n技术亮点：基于高德地图POI，推荐附近真实存在的餐厅和活动场所。推荐满意度从65%提升至85%。'
+            },
+            {
+                keywords: ['博客', '被窝', '个人网站'],
+                answer: '【我的被窝】是我的个人博客，2023.03-2023.06全栈独立开发。\n\n技术栈：Express + art-template + MongoDB + jQuery\n\n功能：\n- 前台：首页文章列表、文章详情页（含评论/目录锚点跳转）、百宝箱、留言板、作品集\n- 后台：用户管理（增删改查）、文章管理（发布/编辑/删除）、分页模块\n- 登录系统：密码MD5加密、角色权限判断（普通用户/管理员）\n- 交互设计：表单验证、模态框确认、未登录拦截\n\n设计亮点：个人原创形象LOGO、莫兰迪黄配色(#d8caaf)、圆角毛玻璃风格\n部署地址：https://gitee.com/xu-xiaodan/blog1'
+            },
+            {
+                keywords: ['技术', '技能', '会什么', '技术栈', '开发'],
+                answer: '我的技术栈涵盖：\n\n前端：HTML/CSS/JavaScript、Vue3、uni-app\n\n后端：Node.js + Express\n\n数据库：MongoDB、MySQL\n\nAI与智能体：Cursor 、Trae 、Coze平台、RAG知识库搭建、Prompt优化、评测集设计\n\n游戏开发：Unity3D + C#、Mirror多用户联机、C4D基础建模\n\n三维与视觉：3DSMAX/C4D、UE4/UE5、PS、PR\n\n产品设计：Figma原型、需求分析、用户研究、PRD撰写、竞品分析\n\n其他：系统集成项目管理工程师（软考中级）'
+            },
+            {
+                keywords: ['广发', '银行', '金融', '信贷', '客户经理', '工作'],
+                answer: '我在广发银行深圳分行担任客户经理（零售信贷经理），2024.07-2026.07。\n\n主要工作：\n- 负责4亿元零售信贷盘子的全生命周期管理\n- 熟悉抵押经营贷、信用消费贷等核心产品\n- 对接中培养了客户需求挖掘能力\n- 搭建零售业务问答FAQ智能体：知识库100+条，评测集50+条，回答准确率从48%提升至82%\n\n这段经历让我对金融业务有了深入理解，也锻炼了结构化思维和沟通能力。'
+            },
+            {
+                keywords: ['最有成就感', '最满意', '最自豪', '最喜欢的项目', '最有意义'],
+                answer: '最有成就感的项目是【高速公路工程水土保持全过程管控系统】。\n\n这是真实投产上线的系统，与广东省交通规划设计研究院校企合作。我从需求调研到产品方案设计，再到前端开发（Vue2+ElementUI），全程深度参与。\n\n成果数据：审批效率提升70%，数据错误率从12%降至1%。看到企业员工的工作流程因为我们的系统而变得更高效，这种真实的价值感是最让我有成就感的。'
+            },
+            {
+                keywords: ['教育', '学校', '学历', '毕业', '大学', 'GDUT'],
+                answer: '我本科毕业于广东工业大学（GDUT），数字媒体技术专业，2020.09-2024.06。\n\n学业表现：GPA前5%，获得优秀学生奖学金\n\n相关课程：交互设计、设计色彩、图学基础、数据结构与算法基础、数据库原理及应用、计算机网络、三维动画技术、虚拟现实技术、游戏开发原理、动态网页设计\n\n证书：CET-6、系统集成项目管理工程师中级（2025年11月在职考取）'
+            },
+            {
+                keywords: ['求职', '意向', '找工作', '目标岗位', '职业规划'],
+                answer: '我的求职意向是AI设计工程师 / AI产品经理。\n\n我希望在AI产品设计领域深耕，利用我的技术背景（前端开发+游戏开发）、设计能力（UI/UX+交互设计）和业务理解力（金融信贷2年经验），打造出真正解决用户痛点的AI产品。'
+            },
+            {
+                keywords: ['联系方式', '联系你', '邮箱', '微信', '怎么找你'],
+                answer: '很高兴你对我的作品感兴趣！你可以通过页面底部的联系方式找到我。'
+            }
+        ];
+
+        function getLocalAnswer(userMsg) {
+            const msg = userMsg.toLowerCase();
+            let bestMatch = null;
+            let bestScore = 0;
+            for (const item of LOCAL_FAQ) {
+                let score = 0;
+                for (const kw of item.keywords) {
+                    if (msg.includes(kw.toLowerCase())) {
+                        score++;
+                        if (kw.length <= 4) score += 0.5;
+                    }
+                }
+                if (score > bestScore) {
+                    bestScore = score;
+                    bestMatch = item;
+                }
+            }
+            return bestMatch && bestScore >= 1 ? bestMatch.answer : null;
+        }
+
+        /* ===== 三层降级：Coze → 智谱 → 本地FAQ ===== */
+        async function callCoze(message) {
+            const payload = {
+                bot_id: COZE_BOT_ID,
+                user: 'visitor',
+                query: message,
+                stream: false
+            };
+            if (cozeConversationId) {
+                payload.conversation_id = cozeConversationId;
+            }
+            const response = await fetch('https://api.coze.cn/open_api/v2/chat', {
+                method: 'POST',
+                headers: {
+                    'Authorization': 'Bearer ' + COZE_PAT,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(payload)
+            });
+            const data = await response.json();
+            if (data.code && data.code !== 0) {
+                return { success: false, error: data.msg || 'Coze错误', data };
+            }
+            if (data.conversation_id) {
+                cozeConversationId = data.conversation_id;
+            }
+            let answer = '';
+            if (data.messages && data.messages.length > 0) {
+                const answerMsg = data.messages.find(m => m.role === 'assistant' && m.type === 'answer');
+                if (answerMsg) answer = answerMsg.content;
+            }
+            if (!answer && data.data) {
+                answer = data.data.output || data.data.answer || '';
+            }
+            return { success: true, answer: answer || '这个问题建议联系本人电话咨询~' };
+        }
+
+        /* 智谱知识库检索 */
+        async function retrieveZhipuKnowledge(query) {
+            const response = await fetch('https://open.bigmodel.cn/api/llm-application/open/knowledge/retrieve', {
+                method: 'POST',
+                headers: {
+                    'Authorization': 'Bearer ' + ZHIPU_API_KEY,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    query: query,
+                    knowledge_ids: ['2079942180952223744'],
+                    top_k: 5,
+                    recall_method: 'mixed'
+                })
+            });
+            const data = await response.json();
+            if (data.code !== 200 || !data.data || data.data.length === 0) {
+                return null;
+            }
+            // 拼接检索到的知识库片段
+            const contexts = data.data.map((item, idx) =>
+                `[资料${idx + 1}]${item.metadata.doc_name ? `（来自《${item.metadata.doc_name}》）` : ''}\n${item.text}`
+            ).join('\n\n');
+            return contexts;
+        }
+
+        async function callZhipu(message) {
+            // 先检索知识库
+            let knowledgeContext = '';
+            try {
+                knowledgeContext = await retrieveZhipuKnowledge(message);
+            } catch (e) {
+                // 检索失败则只用 system prompt 兜底
+            }
+
+            // 构建 system prompt：原始规则 + 检索到的知识库片段
+            let systemContent = ZHIPU_SYSTEM_PROMPT;
+            if (knowledgeContext) {
+                systemContent += `\n\n【参考资料】\n以下是从知识库中检索到的相关资料，请优先依据这些资料回答用户问题。如果资料中没有相关信息，请根据你已知的信息回答，不要编造。\n\n${knowledgeContext}`;
+            }
+
+            const response = await fetch('https://open.bigmodel.cn/api/paas/v4/chat/completions', {
+                method: 'POST',
+                headers: {
+                    'Authorization': 'Bearer ' + ZHIPU_API_KEY,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    model: 'glm-4-flash',
+                    messages: [
+                        { role: 'system', content: systemContent },
+                        { role: 'user', content: message }
+                    ]
+                })
+            });
+            const data = await response.json();
+            if (data.error) {
+                return { success: false, error: data.error.message || '智谱错误' };
+            }
+            const answer = data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content;
+            return { success: true, answer: answer || '这个问题建议联系本人电话咨询~' };
+        }
 
         async function sendMessage() {
             const message = chatInput.value.trim();
@@ -2234,68 +2648,57 @@
 
             addMessage('user', message);
             chatInput.value = '';
-            
+
             addMessage('bot', '');
             const lastMessage = chatMessages.lastElementChild;
-            
+
+            // 第1层：Coze
             try {
-                const payload = {
-                    bot_id: COZE_BOT_ID,
-                    user: 'visitor',
-                    query: message,
-                    stream: false
-                };
-
-                if (cozeConversationId) {
-                    payload.conversation_id = cozeConversationId;
+                const cozeResult = await callCoze(message);
+                if (cozeResult.success) {
+                    updateMessage(lastMessage, cozeResult.answer);
+                    return;
                 }
-
-                const response = await fetch('https://api.coze.cn/open_api/v2/chat', {
-                    method: 'POST',
-                    headers: {
-                        'Authorization': 'Bearer ' + COZE_PAT,
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(payload)
-                });
-
-                const data = await response.json();
-                
-                if (data.code && data.code !== 0) {
-                    updateMessage(lastMessage, '抱歉，出错了：' + (data.msg || '未知错误'));
-                } else {
-                    if (data.conversation_id) {
-                        cozeConversationId = data.conversation_id;
-                    }
-                    let answer = '';
-                    if (data.messages && data.messages.length > 0) {
-                        const answerMsg = data.messages.find(m => m.role === 'assistant' && m.type === 'answer');
-                        if (answerMsg) {
-                            answer = answerMsg.content;
-                        }
-                    }
-                    if (!answer && data.data) {
-                        answer = data.data.output || data.data.answer || '';
-                    }
-                    if (!answer) {
-                        answer = '抱歉，我暂时无法回答这个问题。';
-                    }
-                    updateMessage(lastMessage, answer);
+                const errMsg = (cozeResult.error || '').toLowerCase();
+                const isQuotaError = errMsg.includes('余额') || errMsg.includes('额度') || errMsg.includes('resource') || errMsg.includes('quota');
+                if (!isQuotaError) {
+                    updateMessage(lastMessage, '抱歉，出错了：' + cozeResult.error);
+                    return;
                 }
-            } catch (error) {
-                updateMessage(lastMessage, '网络连接失败，请稍后重试');
+                // Coze额度不足，继续降级
+            } catch (e) {
+                // Coze网络失败，继续降级
+            }
+
+            // 第2层：智谱
+            try {
+                const zhipuResult = await callZhipu(message);
+                if (zhipuResult.success) {
+                    updateMessage(lastMessage, zhipuResult.answer + '\n\n---\n💡 来自智谱AI');
+                    return;
+                }
+                // 智谱也失败，继续降级
+            } catch (e) {
+                // 智谱网络失败，继续降级
+            }
+
+            // 第3层：本地FAQ
+            const localAnswer = getLocalAnswer(message);
+            if (localAnswer) {
+                updateMessage(lastMessage, '【本地模式】' + localAnswer + '\n\n---\n💡 来自本地知识库');
+            } else {
+                updateMessage(lastMessage, '这个问题建议联系本人电话咨询~\n\n您可以尝试询问以下问题（本地知识库可回答）：\n•介绍一下自己\n• 你做过哪些项目\n• 你的核心竞争力是什么\n• 你会什么技术\n• 最有成就感的项目\n');
             }
         }
 
         function addMessage(sender, content) {
             const div = document.createElement('div');
             div.className = `flex items-start gap-3 ${sender === 'user' ? 'flex-row-reverse' : ''}`;
-            
+
             const avatar = document.createElement('div');
-            avatar.className = `w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 overflow-hidden ${
-                sender === 'user' ? 'chat-avatar-user text-white' : ''
-            }`;
-            
+            avatar.className = `w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 overflow-hidden ${sender === 'user' ? 'chat-avatar-user text-white' : ''
+                }`;
+
             if (sender === 'user') {
                 avatar.innerHTML = '<i class="fas fa-user text-sm"></i>';
             } else {
@@ -2304,20 +2707,19 @@
                 img.className = 'w-full h-full object-contain';
                 avatar.appendChild(img);
             }
-            
+
             const bubble = document.createElement('div');
-            bubble.className = `px-3 py-2 rounded-xl shadow-sm max-w-[85%] text-sm ${
-                sender === 'user' 
-                    ? 'chat-bubble-user text-white rounded-tr-none' 
+            bubble.className = `px-3 py-2 rounded-xl shadow-sm max-w-[85%] text-sm ${sender === 'user'
+                    ? 'chat-bubble-user text-white rounded-tr-none'
                     : 'bg-white chat-text rounded-tl-none'
-            }`;
-            
+                }`;
+
             if (content) {
                 bubble.innerHTML = content.replace(/\n/g, '<br>');
             } else {
                 bubble.innerHTML = '<div class="typing-indicator"><span></span><span></span><span></span></div>';
             }
-            
+
             div.appendChild(avatar);
             div.appendChild(bubble);
             chatMessages.appendChild(div);
@@ -2335,4 +2737,5 @@
         }
     </script>
 </body>
+
 </html>
