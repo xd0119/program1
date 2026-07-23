@@ -1058,12 +1058,65 @@
             transition: background 0.5s ease;
         }
 
-        /* 半屏模式（PC端） */
+        /* 半屏模式（PC端方案B：右侧固定35% + 主内容让出空间） */
         #chat-container.chat-halfscreen {
-            width: 50% !important;
-            max-width: 50% !important;
-            height: calc(100vh - 8rem) !important;
-            max-height: calc(100vh - 8rem) !important;
+            position: fixed !important;
+            top: 0 !important;
+            right: 0 !important;
+            bottom: 0 !important;
+            left: auto !important;
+            width: 35% !important;
+            max-width: 35% !important;
+            height: 100vh !important;
+            max-height: 100vh !important;
+            border-radius: 0 !important;
+            border: none !important;
+            border-left: 1px solid var(--border-color) !important;
+            box-shadow: -16px 0 48px rgba(0, 0, 0, 0.12) !important;
+            z-index: 9998 !important;
+            animation: slideInRight 0.32s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        @keyframes slideInRight {
+            from { transform: translateX(100%); }
+            to { transform: translateX(0); }
+        }
+
+        /* B方案：主内容平滑让出右侧35%空间 */
+        .container {
+            transition: margin-right 0.32s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        body.chat-side-open .container {
+            margin-right: 35%;
+        }
+        /* nav 内容也同步让出，避免被面板遮挡 */
+        nav > div {
+            transition: margin-right 0.32s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        body.chat-side-open nav > div {
+            margin-right: 35%;
+        }
+        /* footer 内容也同步让出 */
+        footer > div {
+            transition: margin-right 0.32s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        body.chat-side-open footer > div {
+            margin-right: 35%;
+        }
+        /* 右下角浮动按钮（置顶、聊天入口）同步让出，避免被半屏面板遮挡 */
+        .back-to-top {
+            transition: right 0.32s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        body.chat-side-open .back-to-top {
+            right: calc(35% + 1.5rem) !important;
+        }
+        /* 半屏模式下隐藏聊天入口按钮（已打开，无需再显示） */
+        #chat-toggle {
+            transition: opacity 0.2s ease;
+        }
+        body.chat-side-open #chat-toggle {
+            opacity: 0 !important;
+            visibility: hidden !important;
+            pointer-events: none !important;
         }
 
         /* 全屏模式（移动端） */
@@ -1242,7 +1295,7 @@
         <i class="fas fa-arrow-up"></i>
     </div>
 
-    <div class="container px-4 py-24 md:py-28 max-w-5xl mx-auto" style="overflow-x: hidden; max-width: 100%;">
+    <div class="container px-4 py-24 md:py-28 max-w-5xl mx-auto" style="overflow-x: hidden;">
 
         <!-- ========== 介绍区（新风格） ========== -->
         <section id="intro" class="scroll-reveal">
@@ -1860,8 +1913,8 @@
                     <span class="ml-2 md:ml-3 text-white font-medium text-sm md:text-base truncate">XD小助理</span>
                 </div>
                 <div class="flex items-center gap-1 flex-shrink-0">
-                    <button id="chat-expand" class="text-white/80 hover:text-white transition-colors w-8 h-8 flex items-center justify-center" title="半屏显示">
-                        <i class="fas fa-expand text-sm"></i>
+                    <button id="chat-expand" class="hidden md:flex text-white/80 hover:text-white transition-colors w-8 h-8 items-center justify-center" title="切换窗口大小">
+                        <i class="fas fa-compress text-sm"></i>
                     </button>
                     <button id="chat-close" class="text-white/80 hover:text-white transition-colors w-8 h-8 flex items-center justify-center" title="关闭">
                         <i class="fas fa-times"></i>
@@ -2114,43 +2167,53 @@
 
         chatToggle.addEventListener('click', (e) => {
             e.stopPropagation();
+            const willOpen = chatContainer.classList.contains('hidden');
             chatContainer.classList.toggle('hidden');
             avatarIndex = (avatarIndex + 1) % 2;
             chatAvatar.src = avatarImages[avatarIndex];
+            if (!willOpen) return;
+            // 打开时根据终端选择模式
+            if (window.innerWidth < 768) {
+                // 移动端：直接全屏
+                chatContainer.classList.add('chat-fullscreen');
+                chatExpand.querySelector('i').className = 'fas fa-compress text-sm';
+                document.body.classList.add('chat-no-scroll');
+            } else {
+                // PC端：默认半屏（方案B）
+                chatContainer.classList.add('chat-halfscreen');
+                chatExpand.querySelector('i').className = 'fas fa-compress text-sm';
+                document.body.classList.add('chat-side-open');
+            }
         });
 
         chatClose.addEventListener('click', () => {
             chatContainer.classList.add('hidden');
             chatContainer.classList.remove('chat-halfscreen', 'chat-fullscreen');
-            chatExpand.querySelector('i').className = 'fas fa-expand text-sm';
-            document.body.classList.remove('chat-no-scroll');
+            chatExpand.querySelector('i').className = 'fas fa-compress text-sm';
+            document.body.classList.remove('chat-no-scroll', 'chat-side-open');
         });
 
         chatExpand.addEventListener('click', (e) => {
             e.stopPropagation();
-            const isMobile = window.innerWidth < 768;
-            const icon = chatExpand.querySelector('i');
-            if (isMobile) {
-                const isFullscreen = chatContainer.classList.toggle('chat-fullscreen');
-                icon.className = isFullscreen ? 'fas fa-compress text-sm' : 'fas fa-expand text-sm';
-                if (isFullscreen) {
-                    document.body.classList.add('chat-no-scroll');
-                } else {
-                    document.body.classList.remove('chat-no-scroll');
-                }
+            // 仅PC端可用（移动端按钮已隐藏）
+            const isHalf = chatContainer.classList.toggle('chat-halfscreen');
+            chatExpand.querySelector('i').className = isHalf ? 'fas fa-compress text-sm' : 'fas fa-expand text-sm';
+            if (isHalf) {
+                document.body.classList.add('chat-side-open');
             } else {
-                const isHalf = chatContainer.classList.toggle('chat-halfscreen');
-                icon.className = isHalf ? 'fas fa-compress text-sm' : 'fas fa-expand text-sm';
+                document.body.classList.remove('chat-side-open');
             }
         });
 
         document.addEventListener('click', (e) => {
             if (chatContainer.classList.contains('hidden')) return;
             if (chatContainer.contains(e.target) || chatToggle.contains(e.target)) return;
+            // PC端半屏模式不响应外部点击关闭（控制台风格，常驻）
+            if (window.innerWidth >= 768 && chatContainer.classList.contains('chat-halfscreen')) return;
             chatContainer.classList.add('hidden');
             chatContainer.classList.remove('chat-halfscreen', 'chat-fullscreen');
-            chatExpand.querySelector('i').className = 'fas fa-expand text-sm';
-            document.body.classList.remove('chat-no-scroll');
+            chatExpand.querySelector('i').className = 'fas fa-compress text-sm';
+            document.body.classList.remove('chat-no-scroll', 'chat-side-open');
         });
 
         chatInput.addEventListener('keypress', (e) => {
