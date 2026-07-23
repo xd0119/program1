@@ -77,15 +77,28 @@
 
         * { box-sizing: border-box; }
 
+        html, body {
+            overflow-x: hidden;
+            max-width: 100%;
+        }
+
+        html {
+            /* iOS Safari 下 overflow-x:hidden 不可靠，配合 clip 彻底裁剪 */
+            overflow-x: clip;
+        }
+
         body {
             font-family: 'Noto Sans SC', sans-serif;
             background: var(--warm-bg);
-            background-image: 
+            background-image:
                 radial-gradient(circle at 20% 80%, rgba(196, 167, 125, 0.06) 0%, transparent 50%),
                 radial-gradient(circle at 80% 20%, rgba(212, 165, 116, 0.05) 0%, transparent 50%),
                 url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23c4a77d' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
             overflow-x: hidden;
+            overflow-x: clip; /* clip 比 hidden 更彻底，不会创建滚动容器 */
             transition: background 0.5s ease;
+            width: 100%;
+            position: relative; /* 让 absolute 子元素相对 body 定位，便于裁剪溢出 */
         }
 
         .font-art {
@@ -374,6 +387,8 @@
             justify-content: center;
             background: linear-gradient(135deg, #fef9f3 0%, #fff9f0 100%);
             z-index: 1;
+            overflow: hidden;
+            border-radius: inherit;
         }
 
         .image-loader.hidden {
@@ -673,6 +688,9 @@
             color: var(--text-primary);
             font-weight: 500;
             white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 100%;
         }
 
         @media (max-width: 767px) {
@@ -895,10 +913,10 @@
         /* ===== 返回顶部 ===== */
         .back-to-top {
             position: fixed;
-            bottom: 30px;
-            right: 30px;
-            width: 48px;
-            height: 48px;
+            bottom: 88px;
+            right: 0.75rem;
+            width: 44px;
+            height: 44px;
             background: var(--gradient-main);
             color: white;
             border-radius: 50%;
@@ -911,6 +929,18 @@
             transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
             box-shadow: 0 6px 20px rgba(196, 167, 125, 0.4);
             z-index: 99;
+        }
+        @media (min-width: 768px) {
+            .back-to-top {
+                bottom: 104px;
+                right: 1.5rem;
+                width: 48px;
+                height: 48px;
+            }
+            #chat-widget {
+                bottom: 1.5rem !important;
+                right: 1.5rem !important;
+            }
         }
 
         .back-to-top.visible {
@@ -1028,10 +1058,10 @@
             transition: background 0.5s ease;
         }
 
-        /* 半屏模式（PC） */
+        /* 半屏模式（PC端） */
         #chat-container.chat-halfscreen {
-            width: 50vw !important;
-            max-width: 50vw !important;
+            width: 50% !important;
+            max-width: 50% !important;
             height: calc(100vh - 8rem) !important;
             max-height: calc(100vh - 8rem) !important;
         }
@@ -1043,16 +1073,111 @@
             left: 0 !important;
             right: 0 !important;
             bottom: 0 !important;
-            width: 100vw !important;
-            max-width: 100vw !important;
+            width: 100% !important;
+            max-width: 100% !important;
             height: 100vh !important;
             max-height: 100vh !important;
+            height: 100dvh !important;
+            max-height: 100dvh !important;
             border-radius: 0 !important;
             border: none !important;
             z-index: 9999 !important;
+            overscroll-behavior: contain !important;
         }
         #chat-container.chat-fullscreen .chat-messages {
             min-height: 0 !important;
+            flex: 1 1 0 !important;
+            overscroll-behavior: contain !important;
+            -webkit-overflow-scrolling: touch;
+        }
+        body.chat-no-scroll {
+            overflow: hidden !important;
+            position: fixed !important;
+            width: 100% !important;
+            height: 100% !important;
+        }
+
+        /* 全局防溢出 */
+        img, video, canvas {
+            max-width: 100%;
+        }
+        pre, code {
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+
+        /* 横屏模式优化 */
+        @media (max-width: 926px) and (orientation: landscape) {
+            .hero-section {
+                padding: 1.5rem 0 1rem;
+                /* 横屏下强制裁剪所有子元素溢出，防止 badge 撑大页面 */
+                overflow: hidden;
+            }
+            .hero-image-side {
+                overflow: hidden;
+            }
+            .hero-image-frame {
+                overflow: visible;
+            }
+            /* 横屏下移除装饰性外溢：虚线边框不再向外扩展 */
+            .hero-image-frame::before {
+                inset: 0 !important;
+                border-radius: 28px !important;
+            }
+            .hero-image-frame img {
+                width: 140px !important;
+                height: 140px !important;
+            }
+            .hero-title {
+                font-size: 1.8rem !important;
+            }
+            .section-heading-title {
+                font-size: 1.4rem !important;
+            }
+            nav {
+                padding-top: 0.5rem !important;
+                padding-bottom: 0.5rem !important;
+            }
+            .project-image {
+                height: 8rem !important;
+            }
+            #chat-widget {
+                bottom: 0.5rem !important;
+            }
+            .back-to-top {
+                bottom: 64px !important;
+            }
+            /* 横屏下把向外突出的 badge 拉回容器内，避免撑大宽度 */
+            .hero-badge-1 {
+                right: 0 !important;
+            }
+            .hero-badge-2 {
+                left: 0 !important;
+            }
+        }
+
+        /* 极窄横屏（如 iPhone 12/13 横屏 844x390）下，badge 直接改为静态排列 */
+        @media (max-width: 926px) and (orientation: landscape) and (max-height: 500px) {
+            .hero-image-frame {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 0.5rem;
+            }
+            .hero-image-frame img {
+                order: 1;
+            }
+            .hero-badge {
+                position: static !important;
+                animation: none !important;
+                padding: 6px 10px;
+            }
+            .hero-badge-1 {
+                order: 2;
+            }
+            .hero-badge-2 {
+                order: 3;
+            }
         }
 
         @media (max-width: 767px) {
@@ -1069,8 +1194,8 @@
     <canvas id="particles-bg"></canvas>
 
     <!-- 顶部导航 -->
-    <nav class="fixed top-0 left-0 right-0 z-50 glass-card rounded-none px-6 md:px-8 py-3 md:py-4">
-        <div class="max-w-7xl mx-auto flex justify-between items-center">
+    <nav class="fixed top-0 left-0 right-0 z-50 glass-card rounded-none px-4 md:px-8 py-3 md:py-4" style="overflow-x: hidden;">
+        <div class="max-w-7xl mx-auto flex justify-between items-center" style="min-width: 0;">
             <div class="text-xl font-bold gradient-text relative">
                 <div class="image-loader" style="position:absolute;inset:0;background:rgba(255,255,255,0.9);border-radius:6px;">
                     <div class="loading-324" style="transform:scale(0.6);"></div>
@@ -1117,7 +1242,7 @@
         <i class="fas fa-arrow-up"></i>
     </div>
 
-    <div class="container px-4 py-24 md:py-28 max-w-5xl mx-auto">
+    <div class="container px-4 py-24 md:py-28 max-w-5xl mx-auto" style="overflow-x: hidden; max-width: 100%;">
 
         <!-- ========== 介绍区（新风格） ========== -->
         <section id="intro" class="scroll-reveal">
@@ -1723,12 +1848,12 @@
     </footer>
 
     <!-- AI 聊天组件 -->
-    <div id="chat-widget" class="fixed bottom-20 right-4 md:right-6 z-50">
+    <div id="chat-widget" class="fixed z-50" style="bottom: 1rem; right: 0.75rem;">
         <button id="chat-toggle" class="w-14 h-14 md:w-16 md:h-16 rounded-full shadow-lg flex items-center justify-center hover:scale-110 transition-transform duration-300" style="box-shadow: 0 4px 20px rgba(196, 167, 125, 0.3);">
             <img src="images/可爱比耶.png" alt="聊天" id="chat-avatar" class="w-full h-full object-contain">
         </button>
         
-        <div id="chat-container" class="hidden fixed bottom-24 md:bottom-32 right-2 left-2 md:left-auto md:right-6 md:w-[420px] bg-white rounded-2xl shadow-2xl overflow-hidden flex flex-col chat-theme" style="border: 1px solid var(--border-color); max-height: calc(100vh - 8rem); max-width: calc(100vw - 1rem);">
+        <div id="chat-container" class="hidden fixed bottom-24 md:bottom-32 right-2 left-2 md:left-auto md:right-6 md:w-[420px] bg-white rounded-2xl shadow-2xl overflow-hidden flex flex-col chat-theme" style="border: 1px solid var(--border-color); max-height: calc(100vh - 8rem); max-width: calc(100vw - 1rem);" onclick="event.stopPropagation()">
             <div class="chat-header px-4 py-3 flex items-center justify-between flex-shrink-0">
                 <div class="flex items-center min-w-0">
                     <img src="images/可爱比耶.png" alt="头像" class="w-7 h-7 md:w-8 md:h-8 rounded-full object-contain flex-shrink-0">
@@ -1987,7 +2112,8 @@
         let avatarIndex = 0;
         const avatarImages = ['images/可爱比耶.png', 'images/可爱斜眼.png'];
 
-        chatToggle.addEventListener('click', () => {
+        chatToggle.addEventListener('click', (e) => {
+            e.stopPropagation();
             chatContainer.classList.toggle('hidden');
             avatarIndex = (avatarIndex + 1) % 2;
             chatAvatar.src = avatarImages[avatarIndex];
@@ -1997,18 +2123,34 @@
             chatContainer.classList.add('hidden');
             chatContainer.classList.remove('chat-halfscreen', 'chat-fullscreen');
             chatExpand.querySelector('i').className = 'fas fa-expand text-sm';
+            document.body.classList.remove('chat-no-scroll');
         });
 
-        chatExpand.addEventListener('click', () => {
+        chatExpand.addEventListener('click', (e) => {
+            e.stopPropagation();
             const isMobile = window.innerWidth < 768;
             const icon = chatExpand.querySelector('i');
             if (isMobile) {
                 const isFullscreen = chatContainer.classList.toggle('chat-fullscreen');
                 icon.className = isFullscreen ? 'fas fa-compress text-sm' : 'fas fa-expand text-sm';
+                if (isFullscreen) {
+                    document.body.classList.add('chat-no-scroll');
+                } else {
+                    document.body.classList.remove('chat-no-scroll');
+                }
             } else {
                 const isHalf = chatContainer.classList.toggle('chat-halfscreen');
                 icon.className = isHalf ? 'fas fa-compress text-sm' : 'fas fa-expand text-sm';
             }
+        });
+
+        document.addEventListener('click', (e) => {
+            if (chatContainer.classList.contains('hidden')) return;
+            if (chatContainer.contains(e.target) || chatToggle.contains(e.target)) return;
+            chatContainer.classList.add('hidden');
+            chatContainer.classList.remove('chat-halfscreen', 'chat-fullscreen');
+            chatExpand.querySelector('i').className = 'fas fa-expand text-sm';
+            document.body.classList.remove('chat-no-scroll');
         });
 
         chatInput.addEventListener('keypress', (e) => {
