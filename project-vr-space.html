@@ -1,0 +1,2083 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>过虑空间 · VR焦虑情绪疗养空间 - XD作品集</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" href="images/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="project-shared.css">
+    <style>
+        :root {
+            /* 项目主题色：低饱和橙红与黑紫（vr 特有） */
+            --vr-coral: #d97757;
+            --vr-coral-soft: rgba(217, 119, 87, 0.12);
+            --vr-purple: #2a1f3d;
+        }
+
+        a { color: inherit; text-decoration: none; }
+
+        /* 用户画像切换演示 */
+        .persona-switch {
+            display: flex;
+            gap: 0.4rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .persona-btn {
+            flex: 1;
+            padding: 0.5rem 0.4rem;
+            background: rgba(255, 255, 255, 0.7);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 0.78rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.25s;
+            font-family: inherit;
+        }
+
+        .persona-btn:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .persona-btn.active {
+            background: var(--gradient-main);
+            border-color: transparent;
+            color: #fff;
+            box-shadow: var(--shadow-soft);
+        }
+
+        .persona-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            padding: 1rem;
+            display: none;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .persona-card.show {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .persona-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            color: #fff;
+            margin-bottom: 0.6rem;
+        }
+
+        .persona-name {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.15rem;
+        }
+
+        .persona-tag {
+            display: inline-block;
+            font-size: 0.7rem;
+            padding: 2px 8px;
+            border-radius: 8px;
+            margin-bottom: 0.6rem;
+            font-weight: 600;
+        }
+
+        .persona-field {
+            margin-bottom: 0.55rem;
+            font-size: 0.78rem;
+            line-height: 1.6;
+        }
+
+        .persona-field-label {
+            font-size: 0.68rem;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            margin-bottom: 0.15rem;
+            font-weight: 600;
+        }
+
+        .persona-field-value {
+            color: var(--text-secondary);
+        }
+
+        .persona-path {
+            background: rgba(196, 167, 125, 0.08);
+            border-radius: 8px;
+            padding: 0.5rem 0.6rem;
+            margin-top: 0.4rem;
+        }
+
+        .persona-path-step {
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            padding: 0.15rem 0;
+        }
+
+        .persona-path-step i {
+            color: var(--primary);
+            font-size: 0.7rem;
+        }
+
+        .persona-path-arrow {
+            color: var(--text-muted);
+            font-size: 0.65rem;
+            text-align: center;
+            padding: 0.1rem 0;
+        }
+
+        /* 中间：文章区 */
+        .article-col {
+            padding: 2.5rem 3rem;
+            overflow-y: auto;
+            max-width: 100%;
+        }
+
+        .article-col::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .article-col::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .article-col::-webkit-scrollbar-thumb {
+            background: var(--border-color);
+            border-radius: 3px;
+        }
+
+        .article-header {
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px dashed var(--border-color);
+        }
+
+        .article-tag {
+            display: inline-block;
+            padding: 4px 12px;
+            background: var(--vr-coral-soft);
+            color: var(--vr-coral);
+            border-radius: 10px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+        }
+
+        .article-title {
+            font-size: 2rem;
+            font-weight: 700;
+            line-height: 1.3;
+            margin-bottom: 0.75rem;
+            background: var(--gradient-text);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .article-slogan {
+            font-size: 1.05rem;
+            color: var(--vr-coral);
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .article-subtitle {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        .article-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .article-meta span {
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+        }
+
+        .article-meta i {
+            color: var(--primary);
+        }
+
+        .cover-img {
+            width: 100%;
+            max-height: 280px;
+            object-fit: cover;
+            border-radius: 14px;
+            margin: 0 0 1.5rem;
+            border: 1px solid var(--border-color);
+        }
+
+        .article-section {
+            margin-bottom: 2rem;
+        }
+
+        .article-h2 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            padding-left: 0.8rem;
+            border-left: 4px solid var(--primary);
+            scroll-margin-top: 80px;
+        }
+
+        .article-h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin: 1.25rem 0 0.6rem;
+            scroll-margin-top: 80px;
+        }
+
+        .article-p {
+            color: var(--text-secondary);
+            margin-bottom: 0.8rem;
+            line-height: 1.85;
+        }
+
+        .article-p strong {
+            color: var(--text-primary);
+        }
+
+        .article-list {
+            color: var(--text-secondary);
+            margin: 0.5rem 0 0.8rem 1.5rem;
+            line-height: 1.9;
+        }
+
+        .article-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+            font-size: 0.9rem;
+        }
+
+        .article-table th,
+        .article-table td {
+            border: 1px solid var(--border-color);
+            padding: 0.7rem 1rem;
+            text-align: left;
+            vertical-align: top;
+        }
+
+        .article-table th {
+            background: rgba(196, 167, 125, 0.1);
+            font-weight: 600;
+            color: var(--text-primary);
+            white-space: nowrap;
+        }
+
+        .article-table tr:nth-child(even) td {
+            background: rgba(196, 167, 125, 0.04);
+        }
+
+        .article-code {
+            background: #2d2d2d;
+            color: #e8dcc4;
+            padding: 1rem 1.25rem;
+            border-radius: 10px;
+            font-family: 'Consolas', monospace;
+            font-size: 0.85rem;
+            line-height: 1.7;
+            overflow-x: auto;
+            margin: 1rem 0;
+            white-space: pre;
+        }
+
+        .article-highlight {
+            background: rgba(196, 167, 125, 0.1);
+            border-left: 3px solid var(--primary);
+            padding: 0.8rem 1.2rem;
+            border-radius: 0 10px 10px 0;
+            margin: 1rem 0;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.8;
+        }
+
+        .article-highlight strong {
+            color: var(--text-primary);
+        }
+
+        .article-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 1rem;
+            margin: 1.25rem 0;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.7);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 1.6rem;
+            font-weight: 700;
+            background: var(--gradient-text);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.2;
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-top: 0.3rem;
+        }
+
+        /* PEST 矩阵卡片 */
+        .pest-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.8rem;
+            margin: 1rem 0;
+        }
+
+        .pest-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 0.9rem 1rem;
+        }
+
+        .pest-card-head {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            font-size: 0.95rem;
+            margin-bottom: 0.4rem;
+        }
+
+        .pest-card-head i {
+            color: var(--vr-coral);
+        }
+
+        .pest-card-body {
+            font-size: 0.82rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        /* 功能模块卡片 */
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 0.9rem;
+            margin: 1rem 0;
+        }
+
+        .feature-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1rem;
+            transition: all 0.3s;
+        }
+
+        .feature-card:hover {
+            border-color: var(--primary);
+            box-shadow: var(--shadow-soft);
+            transform: translateY(-2px);
+        }
+
+        .feature-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            background: var(--vr-coral-soft);
+            color: var(--vr-coral);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .feature-name {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.3rem;
+        }
+
+        .feature-desc {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .feature-tags {
+            margin-top: 0.5rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.3rem;
+        }
+
+        .feature-tag {
+            font-size: 0.7rem;
+            padding: 2px 8px;
+            background: rgba(196, 167, 125, 0.1);
+            color: var(--primary);
+            border-radius: 6px;
+        }
+
+        /* 任务流程 */
+        .flow-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1rem 1.1rem;
+            margin: 1rem 0;
+        }
+
+        .flow-head {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            margin-bottom: 0.8rem;
+            padding-bottom: 0.6rem;
+            border-bottom: 1px dashed var(--border-color);
+        }
+
+        .flow-avatar {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-weight: 700;
+            font-size: 0.85rem;
+        }
+
+        .flow-name {
+            font-weight: 700;
+            color: var(--text-primary);
+            font-size: 0.95rem;
+        }
+
+        .flow-type {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .flow-steps {
+            display: flex;
+            align-items: stretch;
+            gap: 0.4rem;
+            flex-wrap: wrap;
+        }
+
+        .flow-step {
+            flex: 1;
+            min-width: 100px;
+            background: rgba(196, 167, 125, 0.06);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 0.6rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .flow-step-num {
+            font-size: 0.65rem;
+            color: var(--primary);
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .flow-step-name {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin: 0.2rem 0;
+        }
+
+        .flow-step-desc {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        .flow-arrow {
+            display: flex;
+            align-items: center;
+            color: var(--primary);
+            font-size: 0.8rem;
+        }
+
+        /* ===== 用户体验旅程图 ===== */
+        .journey-wrap {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            padding: 1.25rem 1rem 1rem;
+            margin: 1rem 0;
+            overflow: hidden;
+        }
+
+        .journey-stages {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 0.4rem;
+            position: relative;
+        }
+
+        .journey-stage {
+            text-align: center;
+            position: relative;
+            padding: 0 0.2rem;
+        }
+
+        .journey-stage-num {
+            display: inline-block;
+            font-size: 0.6rem;
+            font-weight: 700;
+            color: #fff;
+            background: var(--vr-coral);
+            padding: 1px 8px;
+            border-radius: 8px;
+            letter-spacing: 1px;
+            margin-bottom: 0.35rem;
+        }
+
+        .journey-stage-name {
+            font-size: 0.82rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.15rem;
+        }
+
+        .journey-stage-desc {
+            font-size: 0.66rem;
+            color: var(--text-muted);
+            line-height: 1.45;
+            min-height: 2.2rem;
+        }
+
+        /* 情绪曲线区域 */
+        .journey-curve {
+            position: relative;
+            height: 70px;
+            margin: 0.4rem 0 0.3rem;
+            padding: 0 0.2rem;
+        }
+
+        .journey-curve svg {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        .journey-emotion-label {
+            position: absolute;
+            top: 2px;
+            left: 0.2rem;
+            font-size: 0.6rem;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        .journey-emotion-label.bottom {
+            top: auto;
+            bottom: 2px;
+        }
+
+        /* 行为 / 触点 / 痛点 / 机会 四行 */
+        .journey-rows {
+            display: grid;
+            grid-template-columns: 64px repeat(5, 1fr);
+            gap: 0.3rem;
+            margin-top: 0.6rem;
+            align-items: stretch;
+        }
+
+        .journey-row-label {
+            font-size: 0.68rem;
+            font-weight: 700;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 0.4rem;
+            text-align: right;
+            line-height: 1.3;
+        }
+
+        .journey-row-label i {
+            color: var(--primary);
+            margin-right: 0.25rem;
+            font-size: 0.7rem;
+        }
+
+        .journey-cell {
+            font-size: 0.66rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+            padding: 0.35rem 0.4rem;
+            border-radius: 6px;
+            background: rgba(196, 167, 125, 0.04);
+            border: 1px solid rgba(196, 167, 125, 0.12);
+        }
+
+        .journey-cell.pain {
+            background: rgba(217, 119, 87, 0.06);
+            border-color: rgba(217, 119, 87, 0.2);
+            color: #b85a3e;
+        }
+
+        .journey-cell.opp {
+            background: rgba(125, 184, 153, 0.08);
+            border-color: rgba(125, 184, 153, 0.25);
+            color: #3a5c4a;
+            font-weight: 500;
+        }
+
+        @media (max-width: 767px) {
+            .journey-stages {
+                grid-template-columns: 1fr;
+                gap: 0.5rem;
+            }
+
+            .journey-stage {
+                display: grid;
+                grid-template-columns: auto 1fr;
+                gap: 0.5rem;
+                text-align: left;
+                align-items: center;
+                padding-bottom: 0.4rem;
+                border-bottom: 1px dashed var(--border-color);
+            }
+
+            .journey-stage-num {
+                margin-bottom: 0;
+            }
+
+            .journey-stage-desc {
+                min-height: auto;
+            }
+
+            .journey-curve {
+                display: none;
+            }
+
+            .journey-rows {
+                grid-template-columns: 60px 1fr;
+                gap: 0.3rem;
+            }
+
+            .journey-cell {
+                grid-column: 2;
+            }
+        }
+
+        /* 画像详情卡片 */
+        .persona-detail {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1rem 1.1rem;
+            margin: 0.8rem 0;
+            border-left: 3px solid var(--primary);
+        }
+
+        .persona-detail-head {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .persona-detail-name {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .persona-detail-body {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+
+        /* 右栏：目录 */
+        .toc-col {
+            border-left: 1px solid var(--border-color);
+            background: rgba(255, 255, 255, 0.3);
+            padding: 1.5rem 1.25rem;
+            overflow-y: auto;
+        }
+
+        .toc-label {
+            font-size: 0.7rem;
+            letter-spacing: 2px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+
+        .toc-list {
+            list-style: none;
+        }
+
+        .toc-list li {
+            margin-bottom: 0.5rem;
+        }
+
+        .toc-list a {
+            display: block;
+            font-size: 0.82rem;
+            color: var(--text-secondary);
+            padding: 0.3rem 0.6rem;
+            border-radius: 6px;
+            transition: all 0.25s;
+            line-height: 1.5;
+            border-left: 2px solid transparent;
+        }
+
+        .toc-list a:hover {
+            color: var(--primary);
+            background: rgba(196, 167, 125, 0.08);
+            border-left-color: var(--primary);
+        }
+
+        .toc-list a.active {
+            color: var(--primary);
+            font-weight: 600;
+            background: rgba(196, 167, 125, 0.12);
+            border-left-color: var(--primary);
+        }
+
+        /* ===== VR 项目专属两栏布局：左文章 + 右目录 ===== */
+        .project-layout-2col {
+            grid-template-columns: 1fr 240px;
+        }
+
+        /* 跳转链接样式 */
+        .article-cta-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            padding: 0.85rem 1.4rem;
+            background: var(--gradient-main);
+            color: #fff;
+            border-radius: 12px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.25s;
+            box-shadow: 0 4px 16px rgba(196, 167, 125, 0.3);
+            margin-top: 0.5rem;
+        }
+
+        .article-cta-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(196, 167, 125, 0.45);
+        }
+
+        .article-cta-link i {
+            font-size: 0.9rem;
+        }
+
+        /* ===== 移动端适配 ===== */
+        @media (max-width: 1024px) {
+            .project-layout-2col {
+                grid-template-columns: 1fr;
+                height: auto;
+            }
+
+            .toc-col {
+                display: none;
+            }
+
+            .article-col {
+                padding: 1.5rem 1.25rem;
+            }
+
+            .pest-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .article-title {
+                font-size: 1.5rem;
+            }
+
+            .article-col {
+                padding: 1.25rem 1rem;
+            }
+
+            .article-h2 {
+                font-size: 1.2rem;
+            }
+
+            .flow-steps {
+                flex-direction: column;
+            }
+
+            .flow-arrow {
+                transform: rotate(90deg);
+                justify-content: center;
+                padding: 0.2rem 0;
+            }
+        }
+
+        /* 滚动条 */
+        .prototype-col::-webkit-scrollbar,
+        .toc-col::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .prototype-col::-webkit-scrollbar-track,
+        .toc-col::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .prototype-col::-webkit-scrollbar-thumb,
+        .toc-col::-webkit-scrollbar-thumb {
+            background: var(--border-color);
+            border-radius: 2px;
+        }
+
+        .gradient-text {
+            background: var(--gradient-text);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* ===== 故事板样式 ===== */
+        .storyboard-wrap {
+            margin: 1rem 0;
+            border-radius: 14px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            background: var(--card-bg);
+        }
+
+        .storyboard-img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* ===== 流程图样式 ===== */
+        .flowchart-wrap {
+            margin: 1rem 0;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            padding: 1.25rem;
+            overflow-x: auto;
+        }
+
+        .flowchart-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.8rem;
+            min-width: 600px;
+        }
+
+        .flowchart-node {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.3rem;
+            padding: 0.8rem 1.2rem;
+            border-radius: 12px;
+            min-width: 120px;
+            text-align: center;
+            transition: all 0.25s;
+        }
+
+        .flowchart-node:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-soft);
+        }
+
+        .flowchart-node-icon {
+            font-size: 1.2rem;
+            color: #fff;
+        }
+
+        .flowchart-node-label {
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: #fff;
+            margin-top: 0.2rem;
+        }
+
+        .flowchart-node.start {
+            background: linear-gradient(135deg, #7db899, #5c9a7c);
+        }
+
+        .flowchart-node.end {
+            background: linear-gradient(135deg, #d97757, #b85a3e);
+        }
+
+        .flowchart-node.decision {
+            background: linear-gradient(135deg, #c4a77d, #a68c5e);
+            min-width: 140px;
+        }
+
+        .flowchart-node.process {
+            background: linear-gradient(135deg, #6b7280, #4b5563);
+        }
+
+        .flowchart-arrow {
+            width: 2px;
+            height: 30px;
+            background: var(--border-color);
+            position: relative;
+        }
+
+        .flowchart-arrow::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: -4px;
+            width: 0;
+            height: 0;
+            border-left: 6px solid transparent;
+            border-right: 6px solid transparent;
+            border-top: 8px solid var(--border-color);
+        }
+
+        .flowchart-branches {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            width: 100%;
+        }
+
+        .flowchart-branch {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        .flowchart-converge {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.8rem;
+            width: 100%;
+        }
+
+        /* ===== 视觉规范样式 ===== */
+        .visual-spec-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .visual-spec-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1rem;
+        }
+
+        .visual-spec-header {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.75rem;
+            padding-bottom: 0.4rem;
+            border-bottom: 1px dashed var(--border-color);
+        }
+
+        .visual-spec-colors {
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+        }
+
+        .color-item {
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+        }
+
+        .color-dot {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            border: 2px solid rgba(0,0,0,0.08);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .color-info {
+            display: flex;
+            flex-direction: column;
+            gap: 0.1rem;
+        }
+
+        .color-name {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .color-code {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            font-family: 'Consolas', monospace;
+        }
+
+        /* ===== 设计原则样式 ===== */
+        .design-principles {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 0.9rem;
+            margin: 1rem 0;
+        }
+
+        .principle-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1rem;
+            transition: all 0.3s;
+            border-left: 3px solid var(--primary);
+        }
+
+        .principle-card:hover {
+            border-color: var(--primary);
+            box-shadow: var(--shadow-soft);
+            transform: translateY(-2px);
+        }
+
+        .principle-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            background: var(--vr-coral-soft);
+            color: var(--vr-coral);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .principle-title {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.3rem;
+        }
+
+        .principle-desc {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* 移动端流程图适配 */
+        @media (max-width: 767px) {
+            .flowchart-branches {
+                grid-template-columns: 1fr;
+            }
+
+            .flowchart-container {
+                min-width: auto;
+            }
+
+            .visual-spec-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .design-principles {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 顶部导航 -->
+    <nav>
+        <div class="nav-inner">
+            <div class="nav-logo">
+                <i class="fas fa-feather"></i>
+                <span>XD · 作品集</span>
+            </div>
+            <div class="nav-projects" id="navProjects">
+                <a href="project-faq-bot.html" class="nav-project-link">FAQ智能体项目</a>
+                <a href="project-water-soil.html" class="nav-project-link">TOB网站项目</a>
+                <a href="project-eat-what.html" class="nav-project-link">小程序项目</a>
+                <a href="project-blog.html" class="nav-project-link">个人博客项目</a>
+                <a href="project-vr-space.html" class="nav-project-link active">UX项目</a>
+            </div>
+            <div class="nav-actions">
+                <span class="nav-divider"></span>
+                <a href="index.html" class="nav-home-link">
+                    <i class="fas fa-home"></i>
+                    <span>返回首页</span>
+                </a>
+                <button class="nav-menu-btn" id="navMenuBtn" type="button" aria-label="项目菜单">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 两栏布局：文章 + 目录 -->
+    <div class="project-layout project-layout-2col">
+
+        <!-- 中栏：文章区 -->
+        <main class="article-col" id="article-col">
+
+            <header class="article-header">
+                <span class="article-tag">交互设计 · VR疗愈 · 课程项目</span>
+                <h1 class="article-title">过虑空间 · VR焦虑情绪疗养空间</h1>
+                <p class="article-slogan">怕过虑，来过滤！</p>
+                <p class="article-subtitle">面向焦虑大学生的 VR 情绪疗养空间，融合场景模拟、情绪宣泄、正念冥想、AI 陪伴与元宇宙社区</p>
+                <div class="article-meta">
+                    <span><i class="fas fa-calendar"></i> 2022.12</span>
+                    <span><i class="fas fa-user-tie"></i> 课程组长·交互设计师</span>
+                    <span><i class="fas fa-vr-cardboard"></i> VR · SPSS · 用户研究</span>
+                </div>
+            </header>
+
+            <!-- 核心数据 -->
+            <div class="article-stats">
+                <div class="stat-card">
+                    <div class="stat-value">144</div>
+                    <div class="stat-label">有效问卷份数</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">0.867</div>
+                    <div class="stat-label">Cronbach's α 系数</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">57.93%</div>
+                    <div class="stat-label">累计解释变异量</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">3类</div>
+                    <div class="stat-label">用户画像聚类</div>
+                </div>
+            </div>
+
+            <!-- 1. 项目背景 -->
+            <section class="article-section" id="sec-1">
+                <h2 class="article-h2">一、项目背景</h2>
+                <p class="article-p">
+                    近年来，大学生群体心理焦虑问题日益突出。学业压力、人际交往、就业前景、自我认同等多重因素叠加，使焦虑情绪在校园中广泛蔓延。然而传统的心理咨询资源稀缺、 stigma（病耻感）高、预约门槛高，许多学生无法获得及时的情绪疏导。
+                </p>
+                <p class="article-p">
+                    <strong>"过虑空间"</strong>由此而来——"过虑"指过度思虑、过度担忧，"过滤"则代表将负面情绪净化、转化。项目以 VR 沉浸式技术为载体，为焦虑大学生提供一个低门槛、强隐私、可重复使用的情绪疗愈空间。
+                </p>
+                <div class="article-highlight">
+                    <strong>产品定位：</strong>面向焦虑大学生的 VR 情绪疗养空间。<br>
+                    <strong>核心标语：</strong>怕过虑，来过滤！
+                </div>
+                <p class="article-p">
+                    作为UX设计师，我主导了从用户研究、竞品分析、用户画像建模到功能架构与任务场景设计的完整流程，并将定量研究（问卷 + SPSS 分析）与定性设计（场景化交互）深度结合。
+                </p>
+            </section>
+
+            <!-- 2. 领域调研 -->
+            <section class="article-section" id="sec-2">
+                <h2 class="article-h2">二、领域调研（PEST 分析）</h2>
+                <p class="article-p">
+                    为厘清项目所处的宏观环境与发展机会，从政治、经济、社会、技术四个维度进行 PEST 分析：
+                </p>
+
+                <div class="pest-grid">
+                    <div class="pest-card">
+                        <div class="pest-card-head"><i class="fas fa-landmark"></i> P · 政治（Political）</div>
+                        <div class="pest-card-body">
+                            国家高度重视心理健康，出台《"健康中国2030"规划纲要》《关于加强心理健康服务的指导意见》等政策，鼓励高校完善心理服务体系，为 VR 心理干预产品提供政策红利与公益落地空间。
+                        </div>
+                    </div>
+                    <div class="pest-card">
+                        <div class="pest-card-head"><i class="fas fa-chart-line"></i> E · 经济（Economic）</div>
+                        <div class="pest-card-body">
+                            中国心理健康市场规模约 <strong style="color: var(--vr-coral);">3000 亿元</strong>，年增长率持续走高。大学生群体消费意愿与数字化接受度高，VR 设备成本逐年下降，为产品规模化普及奠定经济基础。
+                        </div>
+                    </div>
+                    <div class="pest-card">
+                        <div class="pest-card-head"><i class="fas fa-users"></i> S · 社会（Social）</div>
+                        <div class="pest-card-body">
+                            调研显示 <strong style="color: var(--vr-coral);">91%</strong> 的受访者存在不同程度的心理问题，大学生焦虑、抑郁检出率持续上升，社会对情绪健康的关注度与接受度显著提升，"疗愈经济"成为新趋势。
+                        </div>
+                    </div>
+                    <div class="pest-card">
+                        <div class="pest-card-head"><i class="fas fa-microchip"></i> T · 技术（Technological）</div>
+                        <div class="pest-card-body">
+                            VR 暴露疗法在心理治疗领域已被广泛验证有效；AI 情绪识别与对话机器人技术成熟；元宇宙概念落地社区化场景。多技术融合为"沉浸式情绪疗愈 + 智能陪伴"提供可行性。
+                        </div>
+                    </div>
+                </div>
+
+                <div class="article-highlight">
+                    <strong>调研结论：</strong>政策支持 + 市场广阔 + 需求强烈 + 技术成熟，四力共振，VR 焦虑疗愈产品处于极佳的进入窗口期。差异化机会在于：现有产品多面向临床治疗，而面向"亚健康焦虑大学生"的轻量化、公益化、社区化产品仍是空白。
+                </div>
+            </section>
+
+            <!-- 3. 竞品分析 -->
+            <section class="article-section" id="sec-3">
+                <h2 class="article-h2">三、竞品分析</h2>
+                <p class="article-p">
+                    选取心理 VR 领域两款代表性产品进行对比分析，明确"过虑空间"的差异化定位：
+                </p>
+
+                <table class="article-table">
+                    <thead>
+                        <tr>
+                            <th>对比维度</th>
+                            <th>好心情 VR 疗愈系统</th>
+                            <th>阳光心健 VR 心理训练系统</th>
+                            <th>过虑空间（本项目）</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>目标用户</td>
+                            <td>机构内用户（心理科/睡眠/企业EAP），支持自助使用</td>
+                            <td>学校/社区/企业内用户，支持自助训练</td>
+                            <td>焦虑大学生（亚健康人群）</td>
+                        </tr>
+                        <tr>
+                            <td>使用方式</td>
+                            <td>VR 自助疗愈 + VR 咨询诊疗，自助与专业并行</td>
+                            <td>VR 自助放松/脱敏训练，自助为主，可辅以咨询师</td>
+                            <td>纯自助式，无需专业人员介入</td>
+                        </tr>
+                        <tr>
+                            <td>核心功能</td>
+                            <td>冥想疗愈、减压游戏（拳击/切水果）、意象对话、绘画疗愈、睡眠改善</td>
+                            <td>放松训练、脱敏训练（恐高/密闭等）、生理反馈调节、心理评估</td>
+                            <td>场景模拟 + 宣泄 + 冥想 + AI 陪伴 + 社区</td>
+                        </tr>
+                        <tr>
+                            <td>场景设计</td>
+                            <td>自然疗愈场景（荷塘/海滩/竹林），偏静谧</td>
+                            <td>自然放松 + 恐惧脱敏，场景专业但风格统一</td>
+                            <td>年轻化场景（汇报/面试/社交），贴合大学生日常</td>
+                        </tr>
+                        <tr>
+                            <td>情绪社区</td>
+                            <td>无</td>
+                            <td>无</td>
+                            <td>元宇宙情绪社区</td>
+                        </tr>
+                        <tr>
+                            <td>AI 能力</td>
+                            <td>AI 数字人陪聊（70+ 角色）</td>
+                            <td>无 AI 陪伴</td>
+                            <td>AI 情绪识别 + 个性化推荐</td>
+                        </tr>
+                        <tr>
+                            <td>商业模式</td>
+                            <td>To B 硬件 + 软件销售，机构采购部署</td>
+                            <td>To B 设备销售，分专业版 / 标准版</td>
+                            <td>校企联合公益，向学生开放</td>
+                        </tr>
+                        <tr>
+                            <td>视觉风格</td>
+                            <td>医疗蓝 + 自然绿，专业沉稳</td>
+                            <td>科技蓝透明，功能导向</td>
+                            <td>低饱和橙红 + 黑紫，年轻治愈</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="article-highlight">
+                    <strong>差异化策略：</strong>竞品虽已支持自助使用，但本质仍是"机构采购 → 用户被动使用"的 B2B2C 模式，场景与交互围绕"疗愈/训练"设计，偏专业工具属性。"过虑空间"切入"大学生主动寻求自助"的空白场景：社交化社区降低使用心理门槛，场景设计贴合日常焦虑触发点（汇报/面试/社交），公益免费消除经济门槛，年轻化视觉打破心理产品的工具沉重感。
+                </div>
+            </section>
+
+            <!-- 4. 用户研究 -->
+            <section class="article-section" id="sec-4">
+                <h2 class="article-h2">四、用户研究</h2>
+                <p class="article-p">
+                    采用"定性访谈 + 定量问卷"混合研究方法，先通过深度访谈挖掘焦虑大学生的真实痛点与情绪需求，再通过大样本问卷验证假设并建模聚类。
+                </p>
+
+                <h3 class="article-h3">4.1 深度访谈（定性）</h3>
+                <p class="article-p">
+                    针对目标用户进行 1 对 1 深度访谈，每位时长约 60 分钟，聚焦焦虑触发场景、现有应对方式、对 VR 疗愈的接受度三个主题。访谈揭示出三类典型诉求：
+                </p>
+                <ul class="article-list">
+                    <li><strong>场景化恐惧</strong>：汇报、面试、社交等具体场景反复触发焦虑，希望"能在安全的地方先演练"。</li>
+                    <li><strong>情绪积压</strong>：课业压力长期累积，缺乏宣泄出口，希望"有个地方能痛快释放"。</li>
+                    <li><strong>陪伴缺失</strong>：不愿对身边人倾诉，但渴望"有人听我说、不评判我"。</li>
+                </ul>
+
+                <h3 class="article-h3">4.2 问卷调查（定量）</h3>
+                <p class="article-p">
+                    基于访谈结论设计问卷，线上线下联合发放，共发放问卷209份，剔除无效问卷后总计回收 <strong>144 份有效问卷</strong>。问卷涵盖焦虑表现、应对方式、VR 接受度、功能期待等维度。
+                </p>
+
+                <h3 class="article-h3">4.3 SPSS 因子分析</h3>
+                <p class="article-p">
+                    为从众多题项中提取核心结构，使用 SPSS 进行因子分析，关键指标如下：
+                </p>
+                <div class="article-code">【信度检验】
+Cronbach's Alpha 系数 = 0.867    （&gt; 0.8，信度良好）
+
+【效度检验】
+KMO 值 = 0.846                   （&gt; 0.8，适合做因子分析）
+Bartlett 球形检验 p &lt; 0.001      （显著，变量间有相关性）
+
+【因子提取：主成分分析法 + 最大方差旋转】
+共提取 3 个公共因子
+累计解释变异量 = 57.934%          （&gt; 50%，解释力可接受）</div>
+
+                <table class="article-table">
+                    <thead>
+                        <tr>
+                            <th>公共因子</th>
+                            <th>因子包含变量</th>
+                            <th>旋转后因子载荷</th>
+                            <th>因子命名</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td rowspan="4">因子1<br>场景模拟</td>
+                            <td>学业焦虑场景模拟</td>
+                            <td>0.787</td>
+                            <td rowspan="4">场景模拟</td>
+                        </tr>
+                        <tr>
+                            <td>社交焦虑场景模拟</td>
+                            <td>0.786</td>
+                        </tr>
+                        <tr>
+                            <td>就业焦虑场景模拟（职场人际交往情形）</td>
+                            <td>0.774</td>
+                        </tr>
+                        <tr>
+                            <td>就业焦虑场景模拟（面试情境）</td>
+                            <td>0.719</td>
+                        </tr>
+                        <tr>
+                            <td rowspan="3">因子2<br>正念冥想</td>
+                            <td>周期性的正念冥想训练</td>
+                            <td>0.843</td>
+                            <td rowspan="3">正念冥想</td>
+                        </tr>
+                        <tr>
+                            <td>正念冥想引导</td>
+                            <td>0.802</td>
+                        </tr>
+                        <tr>
+                            <td>运动解压</td>
+                            <td>0.670</td>
+                        </tr>
+                        <tr>
+                            <td rowspan="2">因子3<br>解压放松</td>
+                            <td>暴力解压</td>
+                            <td>0.823</td>
+                            <td rowspan="2">解压放松</td>
+                        </tr>
+                        <tr>
+                            <td>按摩放松</td>
+                            <td>0.734</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3 class="article-h3">4.4 K-means 聚类分析</h3>
+                <p class="article-p">
+                    以 3 个因子得分为变量，使用 K-means 聚类将 144 名受访者分为 3 类，最终形成 3 类用户画像（详见第五章）。聚类结果与访谈发现的 3 类诉求高度吻合，验证了定性结论的可靠性。
+                </p>
+                <div class="article-highlight">
+                    <strong>方法论价值：</strong>定性访谈负责"发现"，定量分析负责"验证 + 分群"。因子分析把零散题项收敛为 3 个核心维度，聚类分析把人群划分为 3 类画像，二者结合使后续功能设计有据可依，避免"拍脑袋"设计。
+                </div>
+            </section>
+
+            <!-- 5. 用户画像 -->
+            <section class="article-section" id="sec-5">
+                <h2 class="article-h2">五、用户画像</h2>
+                <p class="article-p">
+                    基于 K-means 聚类结果，结合访谈素材，构建 3 类用户画像：
+                </p>
+
+                <div class="persona-detail">
+                    <div class="persona-detail-head">
+                        <div class="flow-avatar" style="background: linear-gradient(135deg, #d97757, #c4a77d);">王</div>
+                        <div>
+                            <div class="persona-detail-name">画像一：小王 · 学业焦虑型</div>
+                            <div style="font-size: 0.75rem; color: var(--text-muted);">大三男生，成绩中上，重视他人评价</div>
+                        </div>
+                    </div>
+                    <div class="persona-detail-body">
+                        <strong>焦虑诱因：</strong>课堂汇报、答辩、组会发言等"被评价"场景，每次准备时反复设想失败画面，临场心跳加速、大脑空白。<br>
+                        <strong>核心需求：</strong>能在低风险的 VR 环境中反复演练高焦虑场景，逐步脱敏并建立心理预期；演练后希望获得专业反馈与同辈共鸣。<br>
+                        <strong>推荐路径：</strong>汇报场景模拟 → AI 专家答疑 → 元宇宙情绪社区。
+                    </div>
+                </div>
+
+                <div class="persona-detail">
+                    <div class="persona-detail-head">
+                        <div class="flow-avatar" style="background: linear-gradient(135deg, #c4a77d, #8b7355);">林</div>
+                        <div>
+                            <div class="persona-detail-name">画像二：小林 · 课业压力型</div>
+                            <div style="font-size: 0.75rem; color: var(--text-muted);">大二女生，理工科，课业繁重</div>
+                        </div>
+                    </div>
+                    <div class="persona-detail-body">
+                        <strong>焦虑诱因：</strong>ddl 堆积、考试周高压，情绪长期积压无从释放，偶尔爆发性情绪失控，事后又陷入自责。<br>
+                        <strong>核心需求：</strong>需要快速、安全、即时的情绪宣泄出口，释放后能恢复平静回归学习，并在社区中找到同频伙伴。<br>
+                        <strong>推荐路径：</strong>暴力解压 → 运动解压 → 元宇宙情绪社区。
+                    </div>
+                </div>
+
+                <div class="persona-detail">
+                    <div class="persona-detail-head">
+                        <div class="flow-avatar" style="background: linear-gradient(135deg, #8b7355, #5c4a3a);">李</div>
+                        <div>
+                            <div class="persona-detail-name">画像三：小李 · 社交焦虑型</div>
+                            <div style="font-size: 0.75rem; color: var(--text-muted);">研一男生，新生入学适应困难</div>
+                        </div>
+                    </div>
+                    <div class="persona-detail-body">
+                        <strong>焦虑诱因：</strong>人群密集场景（食堂、教室、聚会）引发强烈不适，担心被注视与评价，倾向回避社交。<br>
+                        <strong>核心需求：</strong>渐进式脱敏训练重建社交信心，配合正念冥想调节心态，并需要持续的非评判性 AI 陪伴。<br>
+                        <strong>推荐路径：</strong>人群场景模拟 → 正念冥想 → AI 心理陪伴。
+                    </div>
+                </div>
+            </section>
+
+            <!-- 6. 产品功能设计 -->
+            <section class="article-section" id="sec-6">
+                <h2 class="article-h2">六、产品功能设计</h2>
+                <p class="article-p">
+                    围绕 3 类画像的核心需求，设计 5 大功能模块，形成"模拟—宣泄—调节—陪伴—共鸣"的完整疗愈链路：
+                </p>
+
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fas fa-vr-cardboard"></i></div>
+                        <div class="feature-name">场景模拟</div>
+                        <div class="feature-desc">在 VR 中还原高焦虑场景，支持反复演练与渐进脱敏，建立心理预期。</div>
+                        <div class="feature-tags">
+                            <span class="feature-tag">汇报模拟</span>
+                            <span class="feature-tag">面试模拟</span>
+                            <span class="feature-tag">人群场景</span>
+                        </div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fas fa-fire"></i></div>
+                        <div class="feature-name">情绪宣泄</div>
+                        <div class="feature-desc">提供多样化即时宣泄方式，快速释放积压负面情绪，恢复平静。</div>
+                        <div class="feature-tags">
+                            <span class="feature-tag">暴力解压</span>
+                            <span class="feature-tag">运动解压</span>
+                            <span class="feature-tag">音乐解压</span>
+                        </div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fas fa-spa"></i></div>
+                        <div class="feature-name">正念冥想</div>
+                        <div class="feature-desc">引导式心态训练，帮助用户觉察情绪、调整呼吸、建立长期心理韧性。</div>
+                        <div class="feature-tags">
+                            <span class="feature-tag">心态训练</span>
+                            <span class="feature-tag">呼吸引导</span>
+                        </div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fas fa-robot"></i></div>
+                        <div class="feature-name">AI 陪伴与心理咨询</div>
+                        <div class="feature-desc">7×24 小时非评判性 AI 陪伴，结合专业心理咨询资源，提供倾诉与答疑。</div>
+                        <div class="feature-tags">
+                            <span class="feature-tag">AI 对话</span>
+                            <span class="feature-tag">专家答疑</span>
+                            <span class="feature-tag">咨询转介</span>
+                        </div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon"><i class="fas fa-globe"></i></div>
+                        <div class="feature-name">元宇宙情绪社区</div>
+                        <div class="feature-desc">虚拟化身匿名社区，同辈共鸣与情绪互助，降低病耻感，建立归属感。</div>
+                        <div class="feature-tags">
+                            <span class="feature-tag">虚拟化身</span>
+                            <span class="feature-tag">同辈互助</span>
+                            <span class="feature-tag">情绪树洞</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="article-highlight">
+                    <strong>设计逻辑：</strong>5 大模块并非简单并列，而是对应不同画像的差异化路径——场景型焦虑走"模拟+答疑+社区"，积压型压力走"宣泄+社区"，社交型焦虑走"模拟+冥想+陪伴"。功能架构服务于人群分层。
+                </div>
+            </section>
+
+            <!-- 7. 任务场景设计 -->
+            <section class="article-section" id="sec-7">
+                <h2 class="article-h2">七、任务场景设计</h2>
+                <p class="article-p">
+                    以小王、小林两位典型用户为例，设计端到端的使用流程，验证功能模块在真实场景中的串联效果：
+                </p>
+
+                <div class="flow-card">
+                    <div class="flow-head">
+                        <div class="flow-avatar" style="background: linear-gradient(135deg, #d97757, #c4a77d);">王</div>
+                        <div>
+                            <div class="flow-name">小王 · 学业焦虑</div>
+                            <div class="flow-type">汇报前焦虑 → 演练脱敏 → 获得反馈 → 同辈共鸣</div>
+                        </div>
+                    </div>
+                    <div class="flow-steps">
+                        <div class="flow-step">
+                            <div class="flow-step-num">STEP 1</div>
+                            <div class="flow-step-name">汇报模拟</div>
+                            <div class="flow-step-desc">在 VR 中还原答辩现场，反复演练，系统记录表现并给予评分</div>
+                        </div>
+                        <div class="flow-arrow"><i class="fas fa-chevron-right"></i></div>
+                        <div class="flow-step">
+                            <div class="flow-step-num">STEP 2</div>
+                            <div class="flow-step-name">专家答疑</div>
+                            <div class="flow-step-desc">AI 专家针对演练中的卡顿点给出改进建议，缓解认知不确定</div>
+                        </div>
+                        <div class="flow-arrow"><i class="fas fa-chevron-right"></i></div>
+                        <div class="flow-step">
+                            <div class="flow-step-num">STEP 3</div>
+                            <div class="flow-step-name">元宇宙社区</div>
+                            <div class="flow-step-desc">在匿名社区分享演练心得，发现同辈也有类似焦虑，获得共鸣</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flow-card">
+                    <div class="flow-head">
+                        <div class="flow-avatar" style="background: linear-gradient(135deg, #c4a77d, #8b7355);">林</div>
+                        <div>
+                            <div class="flow-name">小林 · 课业压力</div>
+                            <div class="flow-type">情绪积压 → 即时宣泄 → 二次调节 → 社区释放</div>
+                        </div>
+                    </div>
+                    <div class="flow-steps">
+                        <div class="flow-step">
+                            <div class="flow-step-num">STEP 1</div>
+                            <div class="flow-step-name">暴力解压</div>
+                            <div class="flow-step-desc">在 VR 安全场景中击打、破坏虚拟物品，快速释放爆发性情绪</div>
+                        </div>
+                        <div class="flow-arrow"><i class="fas fa-chevron-right"></i></div>
+                        <div class="flow-step">
+                            <div class="flow-step-num">STEP 2</div>
+                            <div class="flow-step-name">运动解压</div>
+                            <div class="flow-step-desc">通过 VR 运动游戏二次消耗体能，让情绪从激动过渡到平稳</div>
+                        </div>
+                        <div class="flow-arrow"><i class="fas fa-chevron-right"></i></div>
+                        <div class="flow-step">
+                            <div class="flow-step-num">STEP 3</div>
+                            <div class="flow-step-name">元宇宙社区</div>
+                            <div class="flow-step-desc">在情绪树洞倾诉压力来源，获得同辈理解与鼓励，重建归属感</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="article-highlight">
+                    <strong>场景设计要点：</strong>两条路径均以"元宇宙社区"收尾——社区不仅是功能模块，更是情绪闭环的关键。VR 内的疗愈是"私人化"的，而社区提供"我并不孤单"的群体共鸣，二者互补能形成可持续的情绪疗愈。
+                </div>
+            </section>
+
+            <!-- 8. 用户体验旅程图 -->
+            <section class="article-section" id="sec-8">
+                <h2 class="article-h2">八、用户体验旅程图</h2>
+                <p class="article-p">
+                    基于三类用户画像与任务场景，绘制从"压力触发"到"VR 疗愈"再到"回归现实"的完整情绪旅程，定位每个阶段的用户行为、触点、痛点与设计机会：
+                </p>
+
+                <div class="journey-wrap">
+                    <!-- 阶段标题 -->
+                    <div class="journey-stages">
+                        <div class="journey-stage">
+                            <div class="journey-stage-num">STAGE 1</div>
+                            <div class="journey-stage-name">触发期</div>
+                            <div class="journey-stage-desc">压力事件发生，焦虑情绪累积</div>
+                        </div>
+                        <div class="journey-stage">
+                            <div class="journey-stage-num">STAGE 2</div>
+                            <div class="journey-stage-name">寻求期</div>
+                            <div class="journey-stage-desc">意识到需要排解，寻找出口</div>
+                        </div>
+                        <div class="journey-stage">
+                            <div class="journey-stage-num">STAGE 3</div>
+                            <div class="journey-stage-name">进入期</div>
+                            <div class="journey-stage-desc">进入 VR 空间，建立沉浸感</div>
+                        </div>
+                        <div class="journey-stage">
+                            <div class="journey-stage-num">STAGE 4</div>
+                            <div class="journey-stage-name">疗愈期</div>
+                            <div class="journey-stage-desc">使用功能模块调节情绪</div>
+                        </div>
+                        <div class="journey-stage">
+                            <div class="journey-stage-num">STAGE 5</div>
+                            <div class="journey-stage-name">退出期</div>
+                            <div class="journey-stage-desc">回归现实，巩固效果</div>
+                        </div>
+                    </div>
+
+                    <!-- 情绪曲线 -->
+                    <div class="journey-curve">
+                        <span class="journey-emotion-label">😊 愉悦</span>
+                        <span class="journey-emotion-label bottom">😟 焦虑</span>
+                        <svg viewBox="0 0 500 70" preserveAspectRatio="none">
+                            <defs>
+                                <linearGradient id="emotionGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                                    <stop offset="0%" stop-color="#d97757" stop-opacity="0.5"/>
+                                    <stop offset="50%" stop-color="#c4a77d" stop-opacity="0.6"/>
+                                    <stop offset="100%" stop-color="#7db899" stop-opacity="0.6"/>
+                                </linearGradient>
+                            </defs>
+                            <!-- 基线 -->
+                            <line x1="10" y1="35" x2="490" y2="35" stroke="rgba(196,167,125,0.15)" stroke-dasharray="3,3"/>
+                            <!-- 情绪曲线：从焦虑低位 → 寻求期最低 → 进入期回升 → 疗愈期峰值 → 退出期平稳 -->
+                            <path d="M 10,48 Q 80,56 150,60 T 250,32 T 350,12 T 450,20 L 490,22"
+                                  fill="none" stroke="url(#emotionGrad)" stroke-width="2.5" stroke-linecap="round"/>
+                            <!-- 关键点 -->
+                            <circle cx="50" cy="52" r="3.5" fill="#d97757"/>
+                            <circle cx="150" cy="60" r="3.5" fill="#d97757"/>
+                            <circle cx="250" cy="32" r="3.5" fill="#c4a77d"/>
+                            <circle cx="350" cy="12" r="3.5" fill="#7db899"/>
+                            <circle cx="450" cy="20" r="3.5" fill="#7db899"/>
+                        </svg>
+                    </div>
+
+                    <!-- 行为 / 触点 / 痛点 / 机会 -->
+                    <div class="journey-rows">
+                        <div class="journey-row-label"><i class="fas fa-walking"></i>行为</div>
+                        <div class="journey-cell">遭遇汇报/考试/社交压力，情绪开始紧绷</div>
+                        <div class="journey-cell">尝试自我消化或搜索排解方法，效果有限</div>
+                        <div class="journey-cell">戴上 VR 头显，选择对应疗愈场景</div>
+                        <div class="journey-cell">进行模拟演练 / 情绪宣泄 / 冥想呼吸</div>
+                        <div class="journey-cell">摘下头显，记录感受，进入社区分享</div>
+
+                        <div class="journey-row-label"><i class="fas fa-hand-pointer"></i>触点</div>
+                        <div class="journey-cell">现实场景（教室/宿舍）</div>
+                        <div class="journey-cell">搜索引擎 / 社交平台 / 心理科普</div>
+                        <div class="journey-cell">VR 启动引导 / 场景选择菜单</div>
+                        <div class="journey-cell">VR 疗愈场景 / AI 陪伴对话</div>
+                        <div class="journey-cell">退出反馈 / 元宇宙情绪社区</div>
+
+                        <div class="journey-row-label"><i class="fas fa-exclamation-circle"></i>痛点</div>
+                        <div class="journey-cell pain">压力无处释放，羞于向他人倾诉</div>
+                        <div class="journey-cell pain">信息碎片化，找不到适合的排解方式</div>
+                        <div class="journey-cell pain">首次使用 VR 可能产生眩晕与陌生感</div>
+                        <div class="journey-cell pain">疗愈效果难以量化，担心只是暂时麻痹</div>
+                        <div class="journey-cell pain">回归现实后情绪容易反弹，缺乏后续支撑</div>
+
+                        <div class="journey-row-label"><i class="fas fa-lightbulb"></i>机会</div>
+                        <div class="journey-cell opp">通过情绪识别主动推送疗愈入口</div>
+                        <div class="journey-cell opp">提供"焦虑类型自测"精准匹配方案</div>
+                        <div class="journey-cell opp">新手引导 + 渐进式沉浸降低门槛</div>
+                        <div class="journey-cell opp">AI 实时反馈 + 数据记录可视化进步</div>
+                        <div class="journey-cell opp">社区共鸣 + 定期回顾建立长期韧性</div>
+                    </div>
+                </div>
+
+                <div class="article-highlight">
+                    <strong>旅程图洞察：</strong>情绪曲线在"寻求期"触底——这正是用户最脆弱、也最容易被流失的节点。设计的核心不是让用户"找到我们"，而是让"进入 VR"这一步尽可能低门槛、即时可用，在情绪最低谷时接住用户。"退出期"的情绪曲线虽回升但未达高位，说明单次疗愈不足以根治，需要社区与回顾机制形成可持续的情绪管理闭环。
+                </div>
+            </section>
+
+            <!-- 9. 故事板 -->
+            <section class="article-section" id="sec-9">
+                <h2 class="article-h2">九、故事板</h2>
+                <p class="article-p">
+                    故事板以可视化方式呈现用户在"过虑空间"中的典型使用场景，将抽象的功能模块转化为具象的用户故事，帮助团队理解用户体验的完整叙事脉络。
+                </p>
+
+                <h3 class="article-h3">9.1 场景一：汇报焦虑的小林</h3>
+                <p class="article-p">
+                    小林是一名大三学生，即将迎来期末汇报，面对众多同学和老师的注视让她倍感焦虑。她通过"过虑空间"进行场景模拟演练，逐步建立信心。
+                </p>
+                <div class="storyboard-wrap">
+                    <img src="images/ux_gsb1.png" alt="故事板1：汇报焦虑场景" class="storyboard-img">
+                </div>
+                <div class="article-highlight">
+                    <strong>故事板叙事：</strong>从"焦虑触发→寻求帮助→VR沉浸→模拟演练→获得反馈→建立信心"，完整展现了场景模拟功能如何帮助用户克服汇报恐惧。
+                </div>
+
+                <h3 class="article-h3">9.2 场景二：课业压力的小王</h3>
+                <p class="article-p">
+                    小王是一名研一学生，面对繁重的课业压力和导师要求，情绪长期积压。他通过"过虑空间"进行情绪宣泄与正念调节，恢复内心平静。
+                </p>
+                <div class="storyboard-wrap">
+                    <img src="images/ux_gsb2.png" alt="故事板2：课业压力场景" class="storyboard-img">
+                </div>
+                <div class="article-highlight">
+                    <strong>故事板叙事：</strong>从"压力积压→情绪爆发→进入空间→暴力宣泄→运动调节→回归平静"，展现了情绪宣泄功能如何成为用户的"情绪出口"。
+                </div>
+            </section>
+
+            <!-- 10. 任务分析流程图 -->
+            <section class="article-section" id="sec-10">
+                <h2 class="article-h2">十、任务分析流程图</h2>
+                <p class="article-p">
+                    基于用户研究结论，将用户核心任务拆解为结构化流程，明确每个环节的输入、处理与输出，为交互设计提供清晰的逻辑框架。
+                </p>
+
+                <h3 class="article-h3">10.1 核心任务流程总览</h3>
+                <div class="flowchart-wrap">
+                    <div class="flowchart-container">
+                        <div class="flowchart-node start">
+                            <div class="flowchart-node-icon"><i class="fas fa-sign-in-alt"></i></div>
+                            <div class="flowchart-node-label">开始</div>
+                        </div>
+                        <div class="flowchart-arrow"></div>
+                        <div class="flowchart-node decision">
+                            <div class="flowchart-node-icon"><i class="fas fa-question-circle"></i></div>
+                            <div class="flowchart-node-label">焦虑类型</div>
+                        </div>
+                        <div class="flowchart-branches">
+                            <div class="flowchart-branch">
+                                <div class="flowchart-arrow"></div>
+                                <div class="flowchart-node process">
+                                    <div class="flowchart-node-icon"><i class="fas fa-users"></i></div>
+                                    <div class="flowchart-node-label">场景型焦虑</div>
+                                </div>
+                                <div class="flowchart-arrow"></div>
+                                <div class="flowchart-node process">
+                                    <div class="flowchart-node-icon"><i class="fas fa-vr-cardboard"></i></div>
+                                    <div class="flowchart-node-label">场景模拟演练</div>
+                                </div>
+                                <div class="flowchart-arrow"></div>
+                                <div class="flowchart-node process">
+                                    <div class="flowchart-node-icon"><i class="fas fa-robot"></i></div>
+                                    <div class="flowchart-node-label">AI专家反馈</div>
+                                </div>
+                            </div>
+                            <div class="flowchart-branch">
+                                <div class="flowchart-arrow"></div>
+                                <div class="flowchart-node process">
+                                    <div class="flowchart-node-icon"><i class="fas fa-bomb"></i></div>
+                                    <div class="flowchart-node-label">积压型压力</div>
+                                </div>
+                                <div class="flowchart-arrow"></div>
+                                <div class="flowchart-node process">
+                                    <div class="flowchart-node-icon"><i class="fas fa-fire"></i></div>
+                                    <div class="flowchart-node-label">情绪宣泄释放</div>
+                                </div>
+                                <div class="flowchart-arrow"></div>
+                                <div class="flowchart-node process">
+                                    <div class="flowchart-node-icon"><i class="fas fa-heartbeat"></i></div>
+                                    <div class="flowchart-node-label">二次调节平复</div>
+                                </div>
+                            </div>
+                            <div class="flowchart-branch">
+                                <div class="flowchart-arrow"></div>
+                                <div class="flowchart-node process">
+                                    <div class="flowchart-node-icon"><i class="fas fa-user"></i></div>
+                                    <div class="flowchart-node-label">社交型焦虑</div>
+                                </div>
+                                <div class="flowchart-arrow"></div>
+                                <div class="flowchart-node process">
+                                    <div class="flowchart-node-icon"><i class="fas fa-spa"></i></div>
+                                    <div class="flowchart-node-label">正念冥想训练</div>
+                                </div>
+                                <div class="flowchart-arrow"></div>
+                                <div class="flowchart-node process">
+                                    <div class="flowchart-node-icon"><i class="fas fa-comments"></i></div>
+                                    <div class="flowchart-node-label">AI陪伴对话</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flowchart-converge">
+                            <div class="flowchart-arrow"></div>
+                            <div class="flowchart-node process">
+                                <div class="flowchart-node-icon"><i class="fas fa-globe"></i></div>
+                                <div class="flowchart-node-label">元宇宙情绪社区</div>
+                            </div>
+                            <div class="flowchart-arrow"></div>
+                            <div class="flowchart-node end">
+                                <div class="flowchart-node-icon"><i class="fas fa-sign-out-alt"></i></div>
+                                <div class="flowchart-node-label">结束</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <h3 class="article-h3">10.2 任务流程设计要点</h3>
+                <ul class="article-list">
+                    <li><strong>分支决策：</strong>根据用户焦虑类型自动匹配最优疗愈路径，避免功能堆砌导致用户迷失。</li>
+                    <li><strong>渐进式脱敏：</strong>场景模拟采用"从易到难"的梯度设计，逐步提升用户心理承受阈值。</li>
+                    <li><strong>情绪闭环：</strong>所有路径最终汇聚于社区，形成"个人疗愈→群体共鸣"的完整闭环。</li>
+                    <li><strong>即时反馈：</strong>每个环节提供明确的进度指示与效果反馈，增强用户掌控感。</li>
+                </ul>
+            </section>
+
+            <!-- 11. 视觉设计板块 -->
+            <section class="article-section" id="sec-11">
+                <h2 class="article-h2">十一、视觉设计板块</h2>
+                <p class="article-p">
+                    视觉设计围绕"治愈感与沉浸感并存"的核心理念，构建低饱和橙红与黑紫的专属视觉系统，打破传统心理产品的沉重感，塑造年轻、温暖、专业的品牌形象。
+                </p>
+
+                <h3 class="article-h3">11.1 视觉规范</h3>
+                <div class="visual-spec-grid">
+                    <div class="visual-spec-card">
+                        <div class="visual-spec-header">主色调</div>
+                        <div class="visual-spec-colors">
+                            <div class="color-item">
+                                <div class="color-dot" style="background: #d97757;"></div>
+                                <div class="color-info">
+                                    <div class="color-name">珊瑚橙</div>
+                                    <div class="color-code">#d97757</div>
+                                </div>
+                            </div>
+                            <div class="color-item">
+                                <div class="color-dot" style="background: rgba(217, 119, 87, 0.12);"></div>
+                                <div class="color-info">
+                                    <div class="color-name">珊瑚橙（透明）</div>
+                                    <div class="color-code">rgba(217,119,87,0.12)</div>
+                                </div>
+                            </div>
+                            <div class="color-item">
+                                <div class="color-dot" style="background: #2a1f3d;"></div>
+                                <div class="color-info">
+                                    <div class="color-name">深紫黑</div>
+                                    <div class="color-code">#2a1f3d</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="visual-spec-card">
+                        <div class="visual-spec-header">辅助色</div>
+                        <div class="visual-spec-colors">
+                            <div class="color-item">
+                                <div class="color-dot" style="background: #c4a77d;"></div>
+                                <div class="color-info">
+                                    <div class="color-name">香槟金</div>
+                                    <div class="color-code">#c4a77d</div>
+                                </div>
+                            </div>
+                            <div class="color-item">
+                                <div class="color-dot" style="background: #7db899;"></div>
+                                <div class="color-info">
+                                    <div class="color-name">薄荷绿</div>
+                                    <div class="color-code">#7db899</div>
+                                </div>
+                            </div>
+                            <div class="color-item">
+                                <div class="color-dot" style="background: #8b7355;"></div>
+                                <div class="color-info">
+                                    <div class="color-name">深棕</div>
+                                    <div class="color-code">#8b7355</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <h3 class="article-h3">11.2 设计原则</h3>
+                <div class="design-principles">
+                    <div class="principle-card">
+                        <div class="principle-icon"><i class="fas fa-palette"></i></div>
+                        <div class="principle-title">低饱和配色</div>
+                        <div class="principle-desc">避免高饱和色彩带来的视觉刺激，采用低饱和度的橙红与紫色，营造舒适、放松的视觉氛围</div>
+                    </div>
+                    <div class="principle-card">
+                        <div class="principle-icon"><i class="fas fa-mobile-alt"></i></div>
+                        <div class="principle-title">渐变层次</div>
+                        <div class="principle-desc">通过色彩渐变与透明度变化，创造丰富的视觉层次，增强空间感与沉浸感</div>
+                    </div>
+                    <div class="principle-card">
+                        <div class="principle-icon"><i class="fas fa-feather"></i></div>
+                        <div class="principle-title">轻盈形态</div>
+                        <div class="principle-desc">使用圆角卡片、柔和阴影、轻盈图标，打破传统心理产品的沉重感与压迫感</div>
+                    </div>
+                    <div class="principle-card">
+                        <div class="principle-icon"><i class="fas fa-eye"></i></div>
+                        <div class="principle-title">视觉引导</div>
+                        <div class="principle-desc">通过色彩对比与视觉层级，清晰引导用户注意力，降低认知负荷</div>
+                    </div>
+                </div>
+
+                <h3 class="article-h3">11.3 高保真设计</h3>
+                <p class="article-p">
+                    高保真设计将视觉规范落地到具体界面，涵盖VR场景入口、功能选择面板、疗愈场景界面、社区交互等核心界面，形成完整的视觉语言系统。
+                </p>
+                <div class="article-highlight">
+                    <strong>视觉设计价值：</strong>不同于竞品的医疗冷色调与功能性中性色，"过虑空间"的低饱和橙红+黑紫配色系统，既保持了心理产品的专业感，又通过年轻化的视觉语言降低了用户使用门槛与病耻感，让"走进心理疗愈"变得更轻松、更温暖。
+                </div>
+            </section>
+
+            <!-- 12. 项目复盘与反思 -->
+            <section class="article-section" id="sec-12">
+                <h2 class="article-h2">十二、项目复盘与反思</h2>
+                <p class="article-p"><strong>做得好的地方：</strong></p>
+                <ul class="article-list">
+                    <li><strong>定量研究与定性设计深度结合：</strong>用访谈发现痛点，用 SPSS 因子分析收敛维度，用 K-means 聚类划分人群，使功能设计建立在可量化的人群结构之上，而非主观臆断。</li>
+                    <li><strong>差异化路径设计：</strong>3 类画像对应 3 条功能路径，避免"一锅端"式功能堆砌，提升了产品对差异化需求的精准度。</li>
+                    <li><strong>视觉与定位匹配：</strong>低饱和橙红 + 黑紫的视觉系统，既区别于竞品的医疗冷感，又契合年轻群体的治愈审美，强化了"过虑空间"的品牌识别。</li>
+                </ul>
+
+                <p class="article-p"><strong>不足与改进方向：</strong></p>
+                <ul class="article-list">
+                    <li>问卷样本 144 份虽满足因子分析基本要求，但若能扩大至 300+ 并做跨校对比，画像代表性会更稳健。</li>
+                    <li>因子累计解释变异量 57.934%，仍有约 42% 的变异未被覆盖，未来可补充题项挖掘更多潜在维度。</li>
+                    <li>任务场景目前以线性流程为主，后续可引入分支决策与情绪状态自适应推荐，提升个性化程度。</li>
+                    <li>VR 疗愈的长期效果需配合纵向追踪数据验证，建议接入使用频次与情绪量表的前后测对比。</li>
+                </ul>
+
+                <div class="article-highlight">
+                    <strong>核心方法论总结：</strong>"过虑空间"的价值不在于 VR 技术本身，而在于"定量研究 + 定性设计"的方法论闭环——用数据把模糊的"焦虑"拆解为可操作的人群结构与功能路径，再用品牌化视觉与场景化交互把研究结论转译为可感知的产品体验。这种"研究驱动设计"的思维方式，是本项目最可复用的资产。
+                </div>
+            </section>
+
+            <!-- 完整项目展示 -->
+            <section class="article-section" id="sec-slides">
+                <h2 class="article-h2">完整项目展示</h2>
+                <p class="article-p">以下为该项目的完整展示幻灯片，包含详细的视觉设计、功能流程、用户研究数据等。</p>
+                <a href="https://dcndeyf61pep.feishu.cn/slides/WBI6soHEhl7wfYd23SzcfSidn4d?from=from_copylink" target="_blank" rel="noopener" class="article-cta-link">
+                    <i class="fas fa-external-link-alt"></i>
+                    <span>查看完整项目展示 PPT</span>
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+            </section>
+
+        </main>
+
+        <!-- 右栏：目录导航 -->
+        <aside class="toc-col">
+            <div class="toc-label">CONTENTS · 目录</div>
+            <ul class="toc-list">
+                <li><a href="#sec-1" class="toc-link active">一、项目背景</a></li>
+                <li><a href="#sec-2" class="toc-link">二、领域调研（PEST）</a></li>
+                <li><a href="#sec-3" class="toc-link">三、竞品分析</a></li>
+                <li><a href="#sec-4" class="toc-link">四、用户研究</a></li>
+                <li><a href="#sec-5" class="toc-link">五、用户画像</a></li>
+                <li><a href="#sec-6" class="toc-link">六、产品功能设计</a></li>
+                <li><a href="#sec-7" class="toc-link">七、任务场景设计</a></li>
+                <li><a href="#sec-8" class="toc-link">八、用户体验旅程图</a></li>
+                <li><a href="#sec-9" class="toc-link">九、故事板</a></li>
+                <li><a href="#sec-10" class="toc-link">十、任务分析流程图</a></li>
+                <li><a href="#sec-11" class="toc-link">十一、视觉设计板块</a></li>
+                <li><a href="#sec-12" class="toc-link">十二、项目复盘与反思</a></li>
+                <li><a href="#sec-slides" class="toc-link">完整项目展示</a></li>
+            </ul>
+        </aside>
+
+    </div>
+
+    <script>
+        // ===== 用户画像切换演示 =====
+        const personaBtns = document.querySelectorAll('.persona-btn');
+        const personaCards = document.querySelectorAll('.persona-card');
+
+        personaBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const target = btn.getAttribute('data-persona');
+
+                // 切换按钮激活态
+                personaBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                // 切换画像卡片显示
+                personaCards.forEach(card => card.classList.remove('show'));
+                const targetCard = document.getElementById('persona-' + target);
+                if (targetCard) targetCard.classList.add('show');
+            });
+        });
+
+        // ===== 目录高亮：滚动时自动激活当前章节 =====
+        const tocLinks = document.querySelectorAll('.toc-link');
+        const sections = [];
+
+        tocLinks.forEach(link => {
+            const id = link.getAttribute('href').substring(1);
+            const sec = document.getElementById(id);
+            if (sec) sections.push({ id, el: sec, link });
+        });
+
+        function updateToc() {
+            const scrollTop = document.getElementById('article-col').scrollTop;
+            let current = sections[0]?.id;
+
+            for (const sec of sections) {
+                if (sec.el.offsetTop - 100 <= scrollTop) {
+                    current = sec.id;
+                }
+            }
+
+            tocLinks.forEach(link => link.classList.remove('active'));
+            const activeLink = document.querySelector(`.toc-link[href="#${current}"]`);
+            if (activeLink) activeLink.classList.add('active');
+        }
+
+        document.getElementById('article-col').addEventListener('scroll', updateToc);
+
+        // ===== 平滑滚动 =====
+        tocLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const id = link.getAttribute('href').substring(1);
+                const target = document.getElementById(id);
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+
+        // ===== 移动端导航菜单切换 =====
+        const navMenuBtn = document.getElementById('navMenuBtn');
+        const navProjects = document.getElementById('navProjects');
+
+        navMenuBtn.addEventListener('click', () => {
+            navProjects.classList.toggle('show');
+            navMenuBtn.classList.toggle('open');
+            const isOpen = navProjects.classList.contains('show');
+            navMenuBtn.querySelector('i').className = isOpen ? 'fas fa-times' : 'fas fa-bars';
+        });
+
+        // 点击导航链接后关闭菜单
+        navProjects.querySelectorAll('.nav-project-link').forEach(link => {
+            link.addEventListener('click', () => {
+                navProjects.classList.remove('show');
+                navMenuBtn.classList.remove('open');
+                navMenuBtn.querySelector('i').className = 'fas fa-bars';
+            });
+        });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>银行信贷FAQ Bot - XD作品集</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" href="images/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="project-shared.css">
+    <style>
+        /* ===== FAQ Bot 专属三栏布局：左侧40%（仅PC端） ===== */
+        .project-layout {
+            grid-template-columns: 40% 1fr 220px;
+        }
+
+        /* ===== 移动端适配：覆盖专属布局 ===== */
+        @media (max-width: 1024px) {
+            .project-layout {
+                grid-template-columns: 1fr !important;
+            }
+            .prototype-col {
+                max-height: 70vh;
+                padding: 1rem;
+            }
+            .chat-demo-wrap {
+                height: 420px;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .chat-demo-wrap {
+                height: 360px;
+            }
+            .chat-demo-header {
+                font-size: 0.78rem;
+                padding: 0.7rem 0.9rem;
+            }
+            .chat-msg {
+                font-size: 0.82rem;
+                padding: 0.6rem 0.8rem;
+            }
+            .chat-demo-quick-btn {
+                font-size: 0.72rem;
+                padding: 0.3rem 0.6rem;
+            }
+        }
+
+        /* ===== FAQ Bot 对话演示样式 ===== */
+        .chat-demo-wrap {
+            background: #fff;
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            height: 560px;            /* 加大对话框高度 */
+            box-shadow: var(--shadow-soft);
+        }
+
+        .chat-demo-header {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.85rem 1.1rem;
+            background: var(--gradient-main);
+            color: #fff;
+            font-size: 0.88rem;
+            font-weight: 600;
+        }
+
+        .chat-demo-header i {
+            font-size: 1rem;
+        }
+
+        .chat-demo-header .status {
+            font-size: 0.7rem;
+            opacity: 0.85;
+            margin-left: auto;
+        }
+
+        .chat-demo-body {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1rem 1.1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.85rem;
+            background: rgba(196, 167, 125, 0.03);
+        }
+
+        .chat-demo-body::-webkit-scrollbar {
+            width: 3px;
+        }
+
+        .chat-demo-body::-webkit-scrollbar-thumb {
+            background: var(--border-color);
+            border-radius: 2px;
+        }
+
+        /* 消息气泡 */
+        .chat-msg {
+            max-width: 92%;
+            padding: 0.7rem 0.95rem;
+            border-radius: 12px;
+            font-size: 0.88rem;
+            line-height: 1.65;
+            position: relative;
+            word-break: break-word;
+        }
+
+        .chat-msg.user {
+            align-self: flex-end;
+            background: var(--gradient-main);
+            color: #fff;
+            border-bottom-right-radius: 4px;
+        }
+
+        .chat-msg.bot {
+            align-self: flex-start;
+            background: #fff;
+            color: var(--text-secondary);
+            border: 1px solid var(--border-color);
+            border-bottom-left-radius: 4px;
+        }
+
+        .chat-msg.bot .msg-label {
+            font-size: 0.65rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 0.3rem;
+        }
+
+        /* 快速提问按钮 */
+        .chat-demo-quick {
+            padding: 0.65rem 0.9rem;
+            border-top: 1px solid var(--border-color);
+            background: rgba(255, 255, 255, 0.8);
+        }
+
+        .chat-demo-quick-label {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            margin-bottom: 0.5rem;
+        }
+
+        .chat-demo-quick-btns {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+        }
+
+        .chat-demo-quick-btn {
+            padding: 0.4rem 0.8rem;
+            background: rgba(196, 167, 125, 0.08);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            font-size: 0.78rem;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.25s ease;
+        }
+
+        .chat-demo-quick-btn:hover {
+            background: rgba(196, 167, 125, 0.15);
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        /* 输入区 */
+        .chat-demo-input-wrap {
+            display: flex;
+            gap: 0.4rem;
+            padding: 0.65rem 0.9rem;
+            border-top: 1px solid var(--border-color);
+            background: #fff;
+        }
+
+        .chat-demo-input {
+            flex: 1;
+            padding: 0.55rem 0.9rem;
+            border: 1px solid var(--border-color);
+            border-radius: 18px;
+            font-size: 0.85rem;
+            color: var(--text-primary);
+            outline: none;
+            transition: border-color 0.25s;
+        }
+
+        .chat-demo-input:focus {
+            border-color: var(--primary);
+        }
+
+        .chat-demo-input::placeholder {
+            color: var(--text-muted);
+        }
+
+        .chat-demo-send {
+            padding: 0.5rem 0.95rem;
+            background: var(--gradient-main);
+            border: none;
+            border-radius: 14px;
+            color: #fff;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: opacity 0.25s;
+        }
+
+        .chat-demo-send:hover {
+            opacity: 0.9;
+        }
+
+        /* 打字中动画 */
+        .chat-typing {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            padding: 0.6rem 0.85rem;
+            background: #fff;
+            border: 1px solid var(--border-color);
+            border-radius: 12px 12px 4px 12px;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .chat-typing-dot {
+            width: 5px;
+            height: 5px;
+            background: var(--primary);
+            border-radius: 50%;
+            animation: typingDot 1.4s infinite ease-in-out;
+        }
+
+        .chat-typing-dot:nth-child(1) { animation-delay: 0s; }
+        .chat-typing-dot:nth-child(2) { animation-delay: 0.2s; }
+        .chat-typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes typingDot {
+            0%, 80%, 100% { transform: scale(0.6); opacity: 0.5; }
+            40% { transform: scale(1); opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 顶部导航 -->
+    <nav>
+        <div class="nav-inner">
+            <div class="nav-logo">
+                <i class="fas fa-feather"></i>
+                <span>XD · 作品集</span>
+            </div>
+            <div class="nav-projects" id="navProjects">
+                <a href="project-faq-bot.html" class="nav-project-link active">FAQ智能体项目</a>
+                <a href="project-water-soil.html" class="nav-project-link">TOB网站项目</a>
+                <a href="project-eat-what.html" class="nav-project-link">小程序项目</a>
+                <a href="project-blog.html" class="nav-project-link">个人博客项目</a>
+                <a href="project-vr-space.html" class="nav-project-link">UX项目</a>
+            </div>
+            <div class="nav-actions">
+                <span class="nav-divider"></span>
+                <a href="index.html" class="nav-home-link">
+                    <i class="fas fa-home"></i>
+                    <span>返回首页</span>
+                </a>
+                <button class="nav-menu-btn" id="navMenuBtn" type="button" aria-label="项目菜单">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 三栏布局 -->
+    <div class="project-layout">
+
+        <!-- 左栏：交互原型区 -->
+        <aside class="prototype-col" id="prototype-col">
+            <div class="prototype-title">客户经理工作台 · FAQ Bot</div>
+            <div class="prototype-label">PS:出于脱敏考虑，当前回答内容与实际政策内容有所出入。</div>
+           
+
+            <!-- 对话演示 -->
+            <div class="chat-demo-wrap">
+                <div class="chat-demo-header">
+                    <i class="fas fa-robot"></i>
+                    <span>信贷知识助手 · 客户经理版</span>
+                    <span class="status"><i class="fas fa-circle"></i> 演示</span>
+                </div>
+                <div class="chat-demo-body" id="chatBody">
+                    <div class="chat-msg bot">
+                        <div class="msg-label">信贷助手</div>
+                        您好！我是信贷知识助手，可帮您快速查询：当前各产品的利率与额度政策、申请所需资料清单、后台审批流程节点（系统/环节/审批人）、政策变更点等。请问您要查什么？
+                    </div>
+                </div>
+                <div class="chat-demo-quick">
+                    <div class="chat-demo-quick-label">客户经理高频查询：</div>
+                    <div class="chat-demo-quick-btns">
+                        <button class="chat-demo-quick-btn" data-msg="消费贷当前利率和额度">消费贷当前利率和额度</button>
+                        <button class="chat-demo-quick-btn" data-msg="抵押经营贷需要哪些资料">抵押经营贷需要哪些资料</button>
+                        <button class="chat-demo-quick-btn" data-msg="信用经营贷审批流程">信用经营贷审批流程</button>
+                        
+                    </div>
+                </div>
+                <div class="chat-demo-input-wrap">
+                    <input type="text" class="chat-demo-input" id="chatInput" placeholder="输入您要查询的问题...">
+                    <button class="chat-demo-send" id="chatSend"><i class="fas fa-paper-plane"></i></button>
+                </div>
+            </div>
+
+        </aside>
+
+        <!-- 中栏：文章区 -->
+        <main class="article-col" id="article-col">
+
+            <header class="article-header">
+                <span class="article-tag">AI Agent · RAG · 知识中台</span>
+                <h1 class="article-title">客户经理版信贷 FAQ Bot</h1>
+                <p class="article-subtitle">面向一线客户经理的智能知识助手，聚焦「产品政策查询 / 申请资料清单 / 后台审批流程」三大高频场景，四轮迭代优化使回答准确率提升至82%</p>
+                <div class="article-meta">
+                    <span><i class="fas fa-calendar"></i> 2026年</span>
+                    <span><i class="fas fa-user-tie"></i> 产品经理</span>
+                    <span><i class="fas fa-cogs"></i>  RAG · Prompt</span>
+                    <span><i class="fas fa-users"></i> 组内提效工具</span>
+                </div>
+            </header>
+
+            <!-- 核心数据 -->
+            <div class="article-stats">
+                <div class="stat-card">
+                    <div class="stat-value">+167%</div>
+                    <div class="stat-label">回答质量提升</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">-75%</div>
+                    <div class="stat-label">响应延迟降低</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">-29%</div>
+                    <div class="stat-label">Token消耗降低</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">3轮</div>
+                    <div class="stat-label">迭代优化</div>
+                </div>
+            </div>
+
+            <!-- 1. 项目背景 -->
+            <section class="article-section" id="sec-1">
+                <h2 class="article-h2">一、项目背景</h2>
+                <p class="article-p">
+                    银行零售信贷业务涵盖抵押经营贷、消费贷、信用经营贷等多条产品线，产品政策复杂、利率额度频繁更新。一线客户经理在面对客户咨询、做方案、做进件时，往往面临以下困扰：
+                </p>
+                <p class="article-p">
+                    <strong>1. 政策记不住：</strong>不同产品的当前利率、额度规则、进件条件经常调整，总行分行单独政策又易混淆，对客报价心里没底。<br>
+                    <strong>2. 资料清单散落：</strong>消费贷要哪些材料、抵押经营贷要哪些材料、信用经营贷要哪些材料，分散在多个文档/聊天记录里，且每次更新迭代仅做部分资料更新，新人上手容易找不齐资料、老员工也需反复确认资料是否为最新版本。<br>
+                    <strong>3. 进件流程不熟：</strong>一笔贷款从客户申请到放款，要经过哪些系统（如个贷系统、抵质押系统等）、哪些环节（面签、审批、抵押、出账）、哪些领导/同事审批，新客户经理做进件时心里没谱，单一业务问题往往需横向沟通多个节点同事才能闭环，跨部门沟通成本极高。<br>
+                    <strong>4. 产品经理沟通瓶颈：</strong>当前流程答疑过度依赖产品经理，而单名产品经理需对接上百名业务人员，服务严重过载，难以满足业务响应时效。
+                </p>
+                <p class="article-p">
+                    基于以上痛点，我总结了我的业务经验与行内政策，搭建了面向客户经理的 FAQ Bot，目标不是替代客户经理回答客户问题，而是成为客户经理的「口袋知识助手」——遇到政策、资料、流程问题时，极大降低了政策与流程的检索成本，变‘费时找答案’为‘秒级获答案’，辅助客户经理快速扫清知识盲区，回归服务本位。
+                </p>
+            </section>
+
+            <!-- 2. 核心指标 -->
+            <section class="article-section" id="sec-2">
+                <h2 class="article-h2">二、核心指标对比</h2>
+                <p class="article-p">经过三轮迭代优化，Bot 在质量、速度、成本三个维度均取得显著提升：</p>
+
+                <table class="article-table">
+                    <thead>
+                        <tr>
+                            <th>指标</th>
+                            <th>优化前（v1）</th>
+                            <th>优化后（v3）</th>
+                            <th>变化幅度</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>回答质量得分</td>
+                            <td>18 分</td>
+                            <td>48 分</td>
+                            <td><strong style="color: var(--primary);">+167% ↑</strong></td>
+                        </tr>
+                        <tr>
+                            <td>响应延迟（ms）</td>
+                            <td>15,031</td>
+                            <td>3,729</td>
+                            <td><strong style="color: var(--primary);">-75% ↓</strong></td>
+                        </tr>
+                        <tr>
+                            <td>Token 消耗</td>
+                            <td>1,562</td>
+                            <td>1,110</td>
+                            <td><strong style="color: var(--primary);">-29% ↓</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="article-highlight">
+                    <strong>数据解读：</strong>质量提升核心在于意图分层改造（路径A/B/C三路分流）使模型不再对知识类问题做无效追问；延迟下降核心在于知识库 TopK 由 5 改为 3，减少无关文档干扰，同时 Prompt 精简后单次推理轮次减少。
+                </div>
+            </section>
+
+            <!-- 3. 知识库设计 -->
+            <section class="article-section" id="sec-3">
+                <h2 class="article-h2">三、知识库设计</h2>
+
+                <h3 class="article-h3" id="sec-3-1">3.1 知识库三大类目（按客户经理查询场景组织）</h3>
+                <p class="article-p">
+                    不同于 ToC 场景的「用户问什么答什么」，ToB 客户经理的知识库要按「客户经理的工作场景」来组织，每个类目对应客户经理的一个具体动作：
+                </p>
+                <div class="article-code">信贷知识库（客户经理专用）
+├── 一、产品政策库
+│   ├── 抵押经营贷（额度公式、利率、期限、进件条件、续贷规则）
+│   ├── 消费贷（在职工薪准入、收入公式、利率版本）
+│   └── 信用经营贷（利率版本、线下政策）
+├── 二、申请资料库
+│   ├── 消费贷资料清单（客户资料：社保/流水）
+│   ├── 抵押经营贷资料清单（客户资料、行内签单资料、出账资料）
+│   └── 信用经营贷资料清单（客户资料：营业执照）
+└── 三、后台审批流程库
+    ├── 流程节点（个贷系统发起 → 客户经理面签 → 审批 → 合同 → 出账）
+    ├── 各节点对应系统（个贷系统 / 综合管理系统 / 零售风控平台）
+    ├── 各节点审批人（客户经理 / 团队长 / 审批员 / 零贷负责人）
+    └── 各节点常见退回原因 + 应对建议</div>
+
+                <h3 class="article-h3" id="sec-3-2">3.2 RAG 全链路架构</h3>
+                <p class="article-p">
+                    RAG（检索增强生成）分为离线阶段和在线阶段两个部分：
+                </p>
+                <div class="article-code">【离线阶段】
+原始政策文件 / 资料清单 / 流程SOP → 分块(Chunking) → 向量化(Embed) → 存入向量数据库
+
+【在线阶段】
+客户经理提问 → 问题向量化 → 相似度检索(TopK) → 重排序(Rerank) → LLM生成回答</div>
+
+                <h3 class="article-h3" id="sec-3-3">3.3 关键参数调优</h3>
+                <table class="article-table">
+                    <thead>
+                        <tr>
+                            <th>参数</th>
+                            <th>优化前（v1）</th>
+                            <th>优化后（v4）</th>
+                            <th>说明</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>TopK</td>
+                            <td>5</td>
+                            <td>3</td>
+                            <td>减少噪声召回，避免「政策A和政策B利率串答」</td>
+                        </tr>
+                        <tr>
+                            <td>相似度阈值</td>
+                            <td>未设置</td>
+                            <td>0.7（建议）</td>
+                            <td>高于0.7才召回，过滤无关片段</td>
+                        </tr>
+                        <tr>
+                            <td>分块大小</td>
+                            <td>默认</td>
+                            <td>500字</td>
+                            <td>保证一个完整的「政策/资料/流程节点」单元不被切断</td>
+                        </tr>
+                        <tr>
+                            <td>重叠比例</td>
+                            <td>默认</td>
+                            <td>20%</td>
+                            <td>防止跨章节的关键信息丢失</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- 4. 四轮迭代 -->
+            <section class="article-section" id="sec-4">
+                <h2 class="article-h2">四、策略飞轮：三轮优化推演</h2>
+                <p class="article-p">
+                    整个优化过程遵循"发现问题 → 定位根因 → 优化策略 → 量化验证 → 再发现新问题"的迭代飞轮模式。下面三轮迭代均围绕客户经理的真实工作场景展开。
+                </p>
+
+                <h3 class="article-h3" id="sec-4-1">第1轮：政策版本混淆 + 资料版本过期</h3>
+                <p class="article-p"><strong>发现的问题：</strong></p>
+                <ul style="color: var(--text-secondary); margin: 0.5rem 0 0.5rem 1.5rem;">
+                    <li>客户经理问「消费贷现在利率多少」，Bot 把 v1/v2 旧版利率当新版答，对客报价偏差</li>
+                    <li>手工测试20条，约15%（3条）的回答引用了知识库外数据或过期版本</li>
+                </ul>
+                <p class="article-p"><strong>优化策略：</strong></p>
+                <ul style="color: var(--text-secondary); margin: 0.5rem 0 0.5rem 1.5rem;">
+                    <li>新增「政策版本声明」规则：每条政策回答必须标注「政策生效日期+版本号」，优先返回最新生效日期政策</li>
+                    <li>知识库 TopK：5 → 3，减少跨产品利率串答</li>
+                </ul>
+
+                <h3 class="article-h3" id="sec-4-2">第2轮：资料清单缺项 / 流程节点串答</h3>
+                <p class="article-p"><strong>发现的问题：</strong>客户经理问「抵押经营贷要哪些资料」，Bot 把按揭贷款的资料清单也答进去了，或者有时只引用了部分资料未全部引用。退回率上升。</p>
+                <p class="article-p"><strong>优化策略：</strong>新增「产品强绑定」规则——资料清单、流程节点必须与产品一一对应，禁止跨产品串答；每个回答末尾附「资料清单来自《XX产品进件指引v2.3》」溯源标签。</p>
+                <div class="article-highlight">
+                    效果：客户经理针对性测试通过率从 6/10 提升至 9/10，资料清单缺项率从 18% 降至 4%。
+                </div>
+
+                <h3 class="article-h3" id="sec-4-3">第3轮：意图识别架构重建</h3>
+                <p class="article-p"><strong>发现的问题：</strong>评测集 100 条中约 32% 出现意图错判。例如「如何注销客户抵押」本是流程类问题，被当作产品咨询回复了抵押易业务流程。</p>
+                <p class="article-p"><strong>优化策略：三路意图分层（按客户经理工作动作分）</strong></p>
+                <table class="article-table">
+                    <thead>
+                        <tr>
+                            <th>路径</th>
+                            <th>触发场景</th>
+                            <th>处理逻辑</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>路径A · 政策查询</td>
+                            <td>「利率/额度/准入/期限」类问题</td>
+                            <td>直接给出当前最新生效政策 + 版本号 + 生效日期</td>
+                        </tr>
+                        <tr>
+                            <td>路径B · 资料 / 流程查询</td>
+                            <td>「要哪些材料/找谁批/走什么系统」</td>
+                            <td>按产品强绑定清单 / 流程节点回答，附节点负责人和系统</td>
+                        </tr>
+                        <tr>
+                            <td>路径C · 方案判断 / 边缘情况</td>
+                            <td>「能不能批/要不要上会/这单怎么办」</td>
+                            <td>通过追问引导客户经理补全关键变量后再判断，不直接给结论</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </section>
+
+            <!-- 5. Prompt版本迭代 -->
+            <section class="article-section" id="sec-5">
+                <h2 class="article-h2">五、Prompt 版本迭代</h2>
+                <table class="article-table">
+                    <thead>
+                        <tr>
+                            <th>版本</th>
+                            <th>核心改动</th>
+                            <th>评测分数</th>
+                            <th>延迟(ms)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>v1（基线）</td>
+                            <td>基础Prompt + 政策/资料/流程三大知识库接入</td>
+                            <td>18</td>
+                            <td>15,031</td>
+                        </tr>
+                        <tr>
+                            <td>v2</td>
+                            <td>政策版本声明 + TopK优化 + 资料版本溯源</td>
+                            <td>~26</td>
+                            <td>—</td>
+                        </tr>
+                        <tr>
+                            <td>v3</td>
+                            <td>产品强绑定规则：资料/流程禁止跨产品串答</td>
+                            <td>48</td>
+                            <td>3,729</td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- 6. 错误类型分析 -->
+            <section class="article-section" id="sec-6">
+                <h2 class="article-h2">六、错误类型分析</h2>
+                <p class="article-p">通过对评测集错题的归类分析，主要错误类型（按客户经理使用场景归类）：</p>
+                <table class="article-table">
+                    <thead>
+                        <tr>
+                            <th>错误类型</th>
+                            <th>占比</th>
+                            <th>典型表现</th>
+                            <th>优化方向</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>政策版本混淆</td>
+                            <td>~15%（v1）</td>
+                            <td>把 v1/v2 旧版利率当新版答，对客报价偏差</td>
+                            <td>政策版本声明 + 政策生效日期标注</td>
+                        </tr>
+                        <tr>
+                            <td>资料/流程跨产品串答</td>
+                            <td>~18%（v2前）</td>
+                            <td>抵押经营贷的资料清单混入消费贷条目</td>
+                            <td>产品强绑定 + 资料清单溯源</td>
+                        </tr>
+                        <tr>
+                            <td>意图错判</td>
+                            <td>~32%（v3前）</td>
+                            <td>流程类问题被当作产品咨询，强行追问</td>
+                            <td>三路意图分层（政策/资料流程/方案判断）</td>
+                        </tr>
+                        <tr>
+                            <td>模糊方案</td>
+                            <td>~10%（v3）</td>
+                            <td>面对「办A还是办B」答「都可以」</td>
+                            <td>跨产品方案比对模板 + 模糊表达禁用</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- 7. 项目复盘 -->
+            <section class="article-section" id="sec-7">
+                <h2 class="article-h2">七、项目复盘与反思</h2>
+                <p class="article-p"><strong>做得好的地方：</strong></p>
+                <ul style="color: var(--text-secondary); margin: 0.5rem 0 0.5rem 1.5rem;">
+                    <li>把 ToB 知识库按「客户经理工作动作」（政策查询/资料清单/流程节点）组织，而非「产品文档堆叠」</li>
+                    <li>建立了量化评测体系（100条测试集），每轮迭代有据可依</li>
+                    <li>采用迭代飞轮模式，逐步定位问题、逐步优化，避免一次性大改难以归因</li>
+                    <li>Prompt 优化从"规则堆砌"转向"架构分层"（三路意图），质量跃升明显</li>
+                </ul>
+                <p class="article-p"><strong>不足与改进方向：</strong></p>
+                <ul style="color: var(--text-secondary); margin: 0.5rem 0 0.5rem 1.5rem;">
+                    <li>政策更新机制未自动化，目前仍依赖人工更新知识库，v4 计划接入政策变更流自动触发更新</li>
+                    <li>TopK 从5改为3未配合相似度阈值做 A/B 对比，无法确认是否为最优组合</li>
+                    <li>评测集以单轮问答为主，缺少「客户经理连续问 5 轮做一单」的多轮场景</li>
+                    <li>尚未引入 Rerank 重排序，检索精度仍有提升空间</li>
+                    <li>v4 规划：政策自动同步 + 跨产品方案模板化 + 边缘 case 补充，目标 65 分</li>
+                </ul>
+
+                <div class="article-highlight">
+                    <strong>核心方法论总结：</strong>面向客户经理的 AI Agent 优化，关键不是「让 Bot 更聪明」，而是「让知识库按客户经理的工作动作来组织」——把政策、资料、流程拆成三个独立类目，每个类目下的问题都按「触发场景 → 回答模板 → 禁用表达」三件套来管。
+                </div>
+            </section>
+
+        </main>
+
+        <!-- 右栏：目录导航 -->
+        <aside class="toc-col">
+            <div class="toc-label">CONTENTS · 目录</div>
+            <ul class="toc-list">
+                <li><a href="#sec-1" class="toc-link active">一、项目背景</a></li>
+                <li><a href="#sec-2" class="toc-link">二、核心指标对比</a></li>
+                <li><a href="#sec-3" class="toc-link">三、知识库设计</a></li>
+                <li><a href="#sec-3-1" class="toc-h3 toc-link">3.1 三大类目（政策/资料/流程）</a></li>
+                <li><a href="#sec-3-2" class="toc-h3 toc-link">3.2 RAG 全链路架构</a></li>
+                <li><a href="#sec-3-3" class="toc-h3 toc-link">3.3 关键参数调优</a></li>
+                <li><a href="#sec-4" class="toc-link">四、策略飞轮：四轮优化</a></li>
+                <li><a href="#sec-4-1" class="toc-h3 toc-link">第1轮：政策版本混淆</a></li>
+                <li><a href="#sec-4-2" class="toc-h3 toc-link">第2轮：资料/流程串答</a></li>
+                <li><a href="#sec-4-3" class="toc-h3 toc-link">第3轮：意图分层</a></li>
+                <li><a href="#sec-5" class="toc-link">五、Prompt 版本迭代</a></li>
+                <li><a href="#sec-6" class="toc-link">六、错误类型分析</a></li>
+                <li><a href="#sec-7" class="toc-link">七、项目复盘与反思</a></li>
+            </ul>
+        </aside>
+
+    </div>
+
+    <script>
+        // 目录高亮：滚动时自动激活当前章节
+        const tocLinks = document.querySelectorAll('.toc-link');
+        const sections = [];
+
+        tocLinks.forEach(link => {
+            const id = link.getAttribute('href').substring(1);
+            const sec = document.getElementById(id);
+            if (sec) sections.push({ id, el: sec, link });
+        });
+
+        function updateToc() {
+            const scrollTop = document.getElementById('article-col').scrollTop;
+            let current = sections[0]?.id;
+
+            for (const sec of sections) {
+                if (sec.el.offsetTop - 100 <= scrollTop) {
+                    current = sec.id;
+                }
+            }
+
+            tocLinks.forEach(link => link.classList.remove('active'));
+            const activeLink = document.querySelector(`.toc-link[href="#${current}"]`);
+            if (activeLink) activeLink.classList.add('active');
+        }
+
+        document.getElementById('article-col').addEventListener('scroll', updateToc);
+
+        // 平滑滚动
+        tocLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const id = link.getAttribute('href').substring(1);
+                const target = document.getElementById(id);
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+
+        // ===== 移动端导航菜单切换（安全判断，移动端隐藏时跳过） =====
+        const navMenuBtn = document.getElementById('navMenuBtn');
+        const navProjects = document.getElementById('navProjects');
+
+        if (navMenuBtn && navProjects) {
+            navMenuBtn.addEventListener('click', () => {
+                navProjects.classList.toggle('show');
+                navMenuBtn.classList.toggle('open');
+                const isOpen = navProjects.classList.contains('show');
+                navMenuBtn.querySelector('i').className = isOpen ? 'fas fa-times' : 'fas fa-bars';
+            });
+
+            // 点击导航链接后关闭菜单
+            navProjects.querySelectorAll('.nav-project-link').forEach(link => {
+                link.addEventListener('click', () => {
+                    navProjects.classList.remove('show');
+                    navMenuBtn.classList.remove('open');
+                    navMenuBtn.querySelector('i').className = 'fas fa-bars';
+                });
+            });
+        }
+
+        // ===== FAQ Bot 对话演示逻辑 =====
+        const chatBody = document.getElementById('chatBody');
+        const chatInput = document.getElementById('chatInput');
+        const chatSend = document.getElementById('chatSend');
+        const quickBtns = document.querySelectorAll('.chat-demo-quick-btn');
+
+        // 模拟回答数据（基于客户经理实际工作场景）
+        const demoAnswers = {
+            // ============ 一、产品政策类 ============
+            '消费贷当前利率和额度': '【消费贷·当前政策 v3.2 · 2025-Q2 生效】<br>· 额度：年收入 × 1（即月收入 × 12），单笔最高 50 万<br>· 利率：年化 3.85% 起，按客户资质加点<br>· 期限：1～5 年，先息后本 / 等额本息均可<br>· 准入：在职 + 社保/公积金连续缴满 12 个月<br><br>📌 知识库来源：《消费贷产品政策 v3.2 / 2025-04-01 生效》',
+            '抵押经营贷当前政策': '【抵押经营贷·当前政策 v2.4 · 2025-Q2 生效】<br>· 额度：评估价 × 7 成，最高 1000 万<br>· 利率：LPR + 30BP 起（≈3.95% 起）<br>· 期限：1～10 年，可循环授信<br>· 准入：营业执照满 1 年 + 经营流水 + 房产证<br><br>📌 知识库来源：《抵押经营贷产品政策 v2.4 / 2025-03-15 生效》',
+            '信用经营贷当前政策': '【信用经营贷·当前政策 v1.6 · 2025-Q2 生效】<br>· 额度：50 万以内优先推荐，最高 100 万<br>· 利率：年化 4.35% 起<br>· 期限：1～3 年<br>· 准入：营业执照满 2 年 + 近 12 个月对公流水 + 法人/股东征信良好<br><br>📌 知识库来源：《信用经营贷产品政策 v1.6 / 2025-05-10 生效》',
+            '利率多少': '当前各产品年化利率（2025-Q2）：<br>· 消费贷：3.85% 起<br>· 信用经营贷：4.35% 起<br>· 抵押经营贷：LPR+30BP 起（≈3.95% 起）<br><br>最终利率按客户征信、收入、负债率综合加点。建议先拉客户征信和人行报告，再做报价。',
+            '消费贷能贷多少': '【消费贷 v3.2】额度 = 年收入 × 1。<br>例：客户月收入 1.5 万 → 年收入 18 万 → 初步估算额度 16～18 万（仅供参考，以银行实际审批为准）。<br>单笔上限 50 万，超过 50 万建议走抵押经营贷。',
+
+            // ============ 二、申请资料类 ============
+            '抵押经营贷需要哪些资料': '【抵押经营贷·资料清单 v2.3】<br>📋 客户本人：身份证、户口本、婚姻证明、征信报告<br>📋 经营主体：营业执照正副本、公章、对公账户信息、近 12 个月对公流水<br>📋 用途证明：购销合同 / 装修合同 / 用途承诺书<br>📋 抵押物：房产证、评估报告（如已有）<br>📋 财务：近 1 年纳税申报表 / 财务报表（小微企业可简化）<br><br>📌 来源：《抵押经营贷进件指引 v2.3》',
+            '消费贷需要哪些资料': '【消费贷·资料清单 v3.1】<br>📋 基础：身份证、户口本、婚姻证明、征信报告<br>📋 收入：近 6 个月工资流水 / 个人流水<br>📋 在职：在职证明 / 劳动合同 / 工牌<br>📋 资质：社保缴存证明 或 公积金缴存证明（任一）<br>📋 用途：装修合同 / 教育合同 / 大额消费凭证（如有）<br><br>📌 来源：《消费贷进件指引 v3.1》',
+            '信用经营贷需要哪些资料': '【信用经营贷·资料清单 v1.5】<br>📋 法人/股东：身份证、征信报告、婚姻证明<br>📋 经营主体：营业执照、公章、对公账户、近 12 个月对公流水<br>📋 用途：购销合同 / 经营用途承诺书<br>📋 资产佐证：房产证 / 车产 / 其他资产证明（加分项）<br><br>📌 来源：《信用经营贷进件指引 v1.5》',
+            '申请条件': '按产品分：<br>· 消费贷：在职 + 社保/公积金满 12 个月 + 征信良好<br>· 抵押经营贷：营业执照满 1 年 + 房产抵押 + 流水覆盖月供 2 倍<br>· 信用经营贷：营业执照满 2 年 + 流水稳定 + 法人征信良好',
+
+            // ============ 三、流程节点类 ============
+            '信用经营贷审批流程': '【信用经营贷·审批全流程】<br>1️⃣ 客户经理在【个贷系统】发起进件（30 分钟内）<br>2️⃣ 团队长初审（个贷系统·1 个工作日内）<br>3️⃣ 【零售风控平台】自动跑分 + 规则校验（实时）<br>4️⃣ 审贷官复核（个贷系统·2 个工作日内）<br>5️⃣ ≤ 50 万：审贷官终审；> 50 万：上审贷会（每周三）<br>6️⃣ 分行副行长签批（≥ 100 万必走，< 100 万抽查）<br>7️⃣ 放款（【信贷核心系统】自动放款，T+1 到账）<br><br>⚠️ 常见退回原因：流水不足 / 征信有逾期 / 用途凭证缺失',
+            '抵押经营贷审批流程': '【抵押经营贷·审批全流程】<br>1️⃣ 客户经理【个贷系统】发起进件<br>2️⃣ 团队长初审 → 分配评估机构<br>3️⃣ 第三方评估出评估报告（3～5 个工作日）<br>4️⃣ 【抵质押系统】录入房产信息 + 办理抵押预告<br>5️⃣ 【零售风控平台】跑分 + 审贷官复核<br>6️⃣ 必上审贷会（金额均 > 50 万）<br>7️⃣ 分行副行长签批<br>8️⃣ 抵押登记办妥 → 【信贷核心系统】放款<br><br>⚠️ 关键节点：评估和抵押登记是耗时大头，建议提前与客户沟通预期。',
+            '消费贷审批流程': '【消费贷·审批全流程】<br>1️⃣ 客户经理【个贷系统】发起进件<br>2️⃣ 团队长初审（当日）<br>3️⃣ 【零售风控平台】自动跑分<br>4️⃣ 审贷官终审（≤ 30 万线上审，> 30 万人工审）<br>5️⃣ 放款（【信贷核心系统】T+1 到账）<br><br>✅ 消费贷全流程最快 1 个工作日，慢的 3 个工作日。',
+            '审贷会谁批': '审贷会审批人构成：<br>· 主持人：分行副行长（零售/对公分管行长）<br>· 固定成员：审贷官、风险经理、合规经理<br>· 列席：客户经理（汇报）+ 团队长<br><br>触发条件：金额 > 50 万 或 风险等级为 C/D 类必上会。<br>频率：每周三下午，特殊情况可申请加场。',
+            '抵质押怎么注销': '【抵质押注销流程】<br>1️⃣ 客户经理在【抵质押系统】发起注销申请<br>2️⃣ 客户结清证明（【信贷核心系统】自动出具）<br>3️⃣ 团队长审核（1 个工作日）<br>4️⃣ 风险经理复核（1 个工作日）<br>5️⃣ 客户/客户经理到不动产登记中心办理注销登记<br>6️⃣ 注销证明回传【抵质押系统】归档<br><br>⏱ 全流程约 5～7 个工作日，客户最关心的是「什么时候能拿回房本」。',
+
+            // ============ 四、政策变更 / 跨产品比对 ============
+            '最新政策变更点': '【近 30 天政策变更摘要】<br>· 2025-05-10：信用经营贷利率从 4.55% 下调至 4.35% 起（响应小微扶持）<br>· 2025-04-01：消费贷额度公式放宽，由「年收入×0.8」改为「年收入×1」<br>· 2025-03-15：抵押经营贷评估价成数由 6.5 成提高至 7 成<br>· 2025-03-01：所有产品要求人行征信 + 百行征信双查<br><br>📌 完整变更日志见知识库《政策变更流 v2025.05》',
+            '月入1.5万': '客户月入 1.5 万，建议先看几个变量再定方案：<br>· 是否有房？有 → 抵押经营贷（评估价 7 成，利率 3.95% 起）<br>· 是否在职缴社保/公积金？缴满 12 个月 → 消费贷（18 万额度，3.85% 起）<br>· 是企业主 / 个体户？→ 信用经营贷（< 50 万优先，4.35% 起）<br><br>客户画像明确后我再帮你比对方案。',
+            '社保公积金能贷多少': '【消费贷路径】<br>客户有社保/公积金连续缴满 12 个月 → 走消费贷<br>额度 = 年收入 × 1<br>例：月入 1.5 万 → 估算 18 万左右<br><br>需要客户补充：6 个月工资流水 + 在职证明',
+            '企业主能办什么贷款': '【企业主路径，按金额分】<br>· 资金需求 < 50 万 → 信用经营贷（4.35% 起，纯信用）<br>· 资金需求 50～500 万 + 有房 → 抵押经营贷（3.95% 起）<br>· 资金需求 > 500 万 → 抵押经营贷 + 组合授信<br><br>先问客户：营业执照年限、是否有房产、资金用途和金额？',
+            '买房首付不够能贷款吗': '合规口径：首付资金必须为自有资金，不可通过消费贷/经营贷筹集。<br>建议：<br>· 让客户拉征信，看负债率是否还有空间<br>· 如有房，可考虑「抵押经营贷」做经营用途，但放款后不能回流到首付<br>· 引导客户走合法途径：自有资金 + 亲友借款 + 卖方宽限期',
+            '我想贷款': '请补充客户关键画像，我才能定方案：<br>1️⃣ 客户身份：在职工薪 / 个体户 / 企业主？<br>2️⃣ 资金用途：装修 / 教育 / 经营周转 / 其他？<br>3️⃣ 资金需求：金额 + 期望期限？<br>4️⃣ 客户资产：是否有房、车？<br>5️⃣ 当前资质：社保/公积金是否在缴？营业执照年限？<br><br>信息齐了我直接出方案对比表。',
+            '怎么办抵押经营贷': '【办单路径 8 步】<br>1️⃣ 客户画像确认（自有房 + 营业执照满 1 年）<br>2️⃣ 拉征信 + 流水<br>3️⃣ 【个贷系统】发起进件，团队长初审<br>4️⃣ 客户经理协助客户准备资料（见资料清单）<br>5️⃣ 第三方评估出报告<br>6️⃣ 抵押登记办理（与客户经理约时间陪同）<br>7️⃣ 审贷会 + 副行长签批<br>8️⃣ 放款到对公账户<br><br>⏱ 周期：顺利 15 个工作日，复杂 30 个工作日。',
+
+            // ============ 五、兜底 ============
+            '兜底': '这个问题我暂时没有现成答案。建议：<br>1️⃣ 换个问法描述清楚（产品 + 资料/流程/政策关键词）<br>2️⃣ 试试点上面 4 个高频查询按钮<br>3️⃣ 实在找不到 → 直接问对应产品经理xx'
+        };
+
+        // 兜底匹配：当用户问的问题不在 demoAnswers 时，关键词命中再分配
+        function smartMatch(text) {
+            if (demoAnswers[text]) return demoAnswers[text];
+            // 政策类兜底
+            if (/利率|额度|期限|政策|当前/.test(text)) return demoAnswers['利率多少'];
+            if (/资料|材料|清单|要什么/.test(text)) return demoAnswers['抵押经营贷需要哪些资料'];
+            if (/流程|审批|系统|节点|谁批|怎么走|几步/.test(text)) return demoAnswers['信用经营贷审批流程'];
+            if (/变更|更新|新政策|最近/.test(text)) return demoAnswers['最新政策变更点'];
+            // 兜底
+            return demoAnswers['兜底'];
+        }
+
+        function addMsg(content, isUser) {
+            const msg = document.createElement('div');
+            msg.className = `chat-msg ${isUser ? 'user' : 'bot'}`;
+            if (!isUser) {
+                msg.innerHTML = `<div class="msg-label">信贷助手</div>${content}`;
+            } else {
+                msg.textContent = content;
+            }
+            chatBody.appendChild(msg);
+            chatBody.scrollTop = chatBody.scrollHeight;
+        }
+
+        function showTyping() {
+            const typing = document.createElement('div');
+            typing.className = 'chat-typing';
+            typing.innerHTML = '<span class="chat-typing-dot"></span><span class="chat-typing-dot"></span><span class="chat-typing-dot"></span>';
+            typing.id = 'typingIndicator';
+            chatBody.appendChild(typing);
+            chatBody.scrollTop = chatBody.scrollHeight;
+        }
+
+        function hideTyping() {
+            const typing = document.getElementById('typingIndicator');
+            if (typing) typing.remove();
+        }
+
+        function sendMsg(text) {
+            if (!text.trim()) return;
+            addMsg(text, true);
+            chatInput.value = '';
+
+            showTyping();
+            const delay = 800 + Math.random() * 700;
+
+            setTimeout(() => {
+                hideTyping();
+                const answer = smartMatch(text);
+                addMsg(answer, false);
+            }, delay);
+        }
+
+        chatSend.addEventListener('click', () => sendMsg(chatInput.value));
+        chatInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') sendMsg(chatInput.value);
+        });
+
+        quickBtns.forEach(btn => {
+            btn.addEventListener('click', () => sendMsg(btn.getAttribute('data-msg')));
+        });
+    </script>
+
+</body>
+</html>

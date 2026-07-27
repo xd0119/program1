@@ -1,0 +1,1426 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>高速公路工程水土保持全过程管控系统 - XD作品集</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" href="images/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="project-shared.css">
+    <style>
+        /* ===== 水土保持系统专属三栏布局：左侧50% ===== */
+        .project-layout {
+            grid-template-columns: 40% 1fr 220px;
+        }
+
+        /* ===== 角色切换演示样式 ===== */
+        .role-demo-wrap {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            gap: 0.75rem;
+        }
+
+        .role-header {
+            background: var(--gradient-main);
+            border-radius: 14px;
+            padding: 0.85rem 1.1rem;
+            color: #fff;
+        }
+
+        .role-header-title {
+            font-size: 0.92rem;
+            font-weight: 700;
+            margin-bottom: 0.35rem;
+        }
+
+        .role-header-desc {
+            font-size: 0.75rem;
+            opacity: 0.9;
+            line-height: 1.5;
+        }
+
+        /* 角色标签切换 */
+        .role-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.35rem;
+            padding: 0.5rem 0;
+        }
+
+        .role-tab {
+            padding: 0.35rem 0.75rem;
+            font-size: 0.72rem;
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+            background: rgba(255, 255, 255, 0.6);
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.25s ease;
+            white-space: nowrap;
+        }
+
+        .role-tab:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+            background: rgba(196, 167, 125, 0.08);
+        }
+
+        .role-tab.active {
+            background: var(--gradient-main);
+            border-color: var(--primary);
+            color: #fff;
+            font-weight: 600;
+            box-shadow: 0 4px 12px rgba(196, 167, 125, 0.3);
+        }
+
+        /* 当前角色信息卡片 */
+        .role-info-card {
+            background: rgba(255, 255, 255, 0.85);
+            border-radius: 14px;
+            border: 1px solid var(--border-color);
+            padding: 0.9rem;
+            box-shadow: var(--shadow-soft);
+        }
+
+        .role-info-header {
+            display: flex;
+            align-items: center;
+            gap: 0.55rem;
+            margin-bottom: 0.6rem;
+        }
+
+        .role-info-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            background: var(--gradient-main);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 1rem;
+        }
+
+        .role-info-name {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .role-info-desc {
+            font-size: 0.76rem;
+            color: var(--text-muted);
+        }
+
+        .role-info-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.3rem;
+            margin-top: 0.5rem;
+        }
+
+        .role-info-tag {
+            font-size: 0.66rem;
+            padding: 2px 8px;
+            border-radius: 8px;
+            background: rgba(196, 167, 125, 0.14);
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        /* 系统界面预览区 */
+        .role-screen {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 14px;
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            box-shadow: var(--shadow-soft);
+            min-height: 320px;
+        }
+
+        .role-screen-header {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.55rem 0.8rem;
+            background: #f8f6f1;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 0.74rem;
+            color: var(--text-muted);
+        }
+
+        .role-screen-header .screen-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #e8dcc4;
+        }
+
+        .role-screen-header .screen-dot.red { background: #e57373; }
+        .role-screen-header .screen-dot.yellow { background: #ffb74d; }
+        .role-screen-header .screen-dot.green { background: #81c784; }
+
+        .role-screen-body {
+            flex: 1;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .role-screen-body img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: block;
+            background: #f5f3ed;
+        }
+
+        /* 加载动画 */
+        .proto-loading {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 320px;
+            gap: 14px;
+        }
+
+        .proto-loading-spinner {
+            width: 36px;
+            height: 36px;
+            border: 3px solid rgba(196, 167, 125, 0.2);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: ws-spin 0.9s linear infinite;
+        }
+
+        @keyframes ws-spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .proto-loading-text {
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .proto-loading-text::after {
+            content: '...';
+            display: inline-block;
+            animation: ws-dots 1.4s steps(4, end) infinite;
+        }
+
+        @keyframes ws-dots {
+            0%, 20%   { content: ''; }
+            40%       { content: '.'; }
+            60%       { content: '..'; }
+            80%, 100% { content: '...'; }
+        }
+
+        /* 角色屏内的加载 */
+        .role-loading {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: #faf8f3;
+            gap: 10px;
+            z-index: 5;
+        }
+
+        .role-loading-spinner {
+            width: 28px;
+            height: 28px;
+            border: 3px solid rgba(196, 167, 125, 0.2);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: ws-spin 0.9s linear infinite;
+        }
+
+        .role-loading-text {
+            font-size: 0.72rem;
+            color: var(--text-muted);
+        }
+
+        /* 图片原型 */
+        .proto-image {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+
+        .role-screen-body .no-image {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            background: #faf8f3;
+        }
+
+        .role-screen-body .no-image i {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            opacity: 0.4;
+        }
+
+        .role-screen-body .no-image span {
+            font-size: 0.78rem;
+        }
+
+        /* 角色功能说明 */
+        .role-features {
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 12px;
+            border: 1px dashed var(--border-color);
+            padding: 0.75rem;
+        }
+
+        .role-features-label {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            letter-spacing: 1px;
+            margin-bottom: 0.4rem;
+        }
+
+        .role-features-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.35rem;
+        }
+
+        .role-feature-item {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            font-size: 0.74rem;
+            color: var(--text-secondary);
+            padding: 0.25rem 0.55rem;
+            background: rgba(196, 167, 125, 0.06);
+            border-radius: 8px;
+        }
+
+        .role-feature-item i {
+            font-size: 0.65rem;
+            color: var(--primary);
+        }
+
+        /* ===== 交互式系统原型模拟器 ===== */
+        .proto-simulator {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            min-height: 0;
+            background: #fff;
+            border-radius: 14px;
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+            box-shadow: var(--shadow-soft);
+        }
+
+        .proto-topbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.5rem 0.8rem;
+            background: linear-gradient(90deg, #f8f6f1 0%, #fff 100%);
+            border-bottom: 1px solid var(--border-color);
+            font-size: 0.75rem;
+        }
+
+        .proto-brand {
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .proto-brand i {
+            color: var(--primary);
+        }
+
+        .proto-role-badge {
+            padding: 0.2rem 0.6rem;
+            background: var(--gradient-main);
+            color: #fff;
+            border-radius: 10px;
+            font-size: 0.68rem;
+            font-weight: 600;
+        }
+
+        /* 功能子菜单 */
+        .proto-menu {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.3rem;
+            padding: 0.55rem 0.7rem;
+            background: #faf8f3;
+            border-bottom: 1px solid var(--border-color);
+            max-height: 90px;
+            overflow-y: auto;
+        }
+
+        .proto-menu::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .proto-menu::-webkit-scrollbar-thumb {
+            background: var(--border-color);
+            border-radius: 2px;
+        }
+
+        .proto-menu-item {
+            padding: 0.3rem 0.65rem;
+            font-size: 0.7rem;
+            border-radius: 8px;
+            border: 1px solid transparent;
+            background: rgba(255, 255, 255, 0.9);
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+            user-select: none;
+        }
+
+        .proto-menu-item:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+            background: rgba(196, 167, 125, 0.06);
+        }
+
+        .proto-menu-item.active {
+            background: var(--gradient-main);
+            color: #fff;
+            border-color: var(--primary);
+            font-weight: 600;
+            box-shadow: 0 2px 8px rgba(196, 167, 125, 0.25);
+        }
+
+        /* 截图预览区 */
+        .proto-screen {
+            flex: 1;
+            min-height: 0;
+            background: #f5f3ed;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .proto-screen img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: block;
+        }
+
+        .proto-screen-placeholder {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            gap: 0.5rem;
+        }
+
+        .proto-screen-placeholder i {
+            font-size: 2rem;
+            opacity: 0.3;
+        }
+
+        /* 图片计数器 */
+        .proto-counter {
+            position: absolute;
+            bottom: 0.5rem;
+            right: 0.6rem;
+            background: rgba(0, 0, 0, 0.55);
+            color: #fff;
+            padding: 0.15rem 0.5rem;
+            border-radius: 8px;
+            font-size: 0.65rem;
+            pointer-events: none;
+        }
+
+        /* 中间：文章区 */
+        .article-col {
+            padding: 2.5rem 3rem;
+            overflow-y: auto;
+            max-width: 100%;
+        }
+
+        .article-col::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .article-col::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .article-col::-webkit-scrollbar-thumb {
+            background: var(--border-color);
+            border-radius: 3px;
+        }
+
+        .article-header {
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px dashed var(--border-color);
+        }
+
+        .article-tag {
+            display: inline-block;
+            padding: 4px 12px;
+            background: rgba(196, 167, 125, 0.12);
+            color: var(--primary);
+            border-radius: 10px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+        }
+
+        .article-title {
+            font-size: 2rem;
+            font-weight: 700;
+            line-height: 1.3;
+            margin-bottom: 0.75rem;
+            background: var(--gradient-text);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .article-subtitle {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        .article-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .article-meta span {
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+        }
+
+        .article-meta i {
+            color: var(--primary);
+        }
+
+        .article-section {
+            margin-bottom: 2rem;
+        }
+
+        .article-h2 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            padding-left: 0.8rem;
+            border-left: 4px solid var(--primary);
+            scroll-margin-top: 80px;
+        }
+
+        .article-h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin: 1.25rem 0 0.6rem;
+            scroll-margin-top: 80px;
+        }
+
+        .article-p {
+            color: var(--text-secondary);
+            margin-bottom: 0.8rem;
+            line-height: 1.85;
+        }
+
+        .article-ul {
+            color: var(--text-secondary);
+            margin: 0.5rem 0 0.8rem 1.5rem;
+            line-height: 1.9;
+        }
+
+        .article-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+            font-size: 0.9rem;
+        }
+
+        .article-table th,
+        .article-table td {
+            border: 1px solid var(--border-color);
+            padding: 0.7rem 1rem;
+            text-align: left;
+        }
+
+        .article-table th {
+            background: rgba(196, 167, 125, 0.1);
+            font-weight: 600;
+            color: var(--text-primary);
+            white-space: nowrap;
+        }
+
+        .article-table tr:nth-child(even) td {
+            background: rgba(196, 167, 125, 0.04);
+        }
+
+        .article-code {
+            background: #2d2d2d;
+            color: #e8dcc4;
+            padding: 1rem 1.25rem;
+            border-radius: 10px;
+            font-family: 'Consolas', monospace;
+            font-size: 0.85rem;
+            line-height: 1.7;
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+
+        .article-highlight {
+            background: rgba(196, 167, 125, 0.1);
+            border-left: 3px solid var(--primary);
+            padding: 0.8rem 1.2rem;
+            border-radius: 0 10px 10px 0;
+            margin: 1rem 0;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .article-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 1rem;
+            margin: 1.25rem 0;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.7);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 1.6rem;
+            font-weight: 700;
+            background: var(--gradient-text);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.2;
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-top: 0.3rem;
+        }
+
+        /* 模块卡片网格 */
+        .module-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .module-card {
+            background: rgba(255, 255, 255, 0.7);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1rem 1.1rem;
+            transition: all 0.25s;
+        }
+
+        .module-card:hover {
+            border-color: var(--primary);
+            box-shadow: var(--shadow-soft);
+            transform: translateY(-2px);
+        }
+
+        .module-card-head {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .module-card-text {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        /* 权限矩阵单元格 */
+        .perm-yes { color: var(--primary); font-weight: 600; }
+        .perm-no { color: var(--text-muted); opacity: 0.5; }
+
+        /* 右栏：目录 */
+        .toc-col {
+            border-left: 1px solid var(--border-color);
+            background: rgba(255, 255, 255, 0.3);
+            padding: 1.5rem 1.25rem;
+            overflow-y: auto;
+        }
+
+        .toc-label {
+            font-size: 0.7rem;
+            letter-spacing: 2px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+
+        .toc-list {
+            list-style: none;
+        }
+
+        .toc-list li {
+            margin-bottom: 0.5rem;
+        }
+
+        .toc-list a {
+            display: block;
+            font-size: 0.82rem;
+            color: var(--text-secondary);
+            padding: 0.3rem 0.6rem;
+            border-radius: 6px;
+            transition: all 0.25s;
+            line-height: 1.5;
+            border-left: 2px solid transparent;
+        }
+
+        .toc-list a:hover {
+            color: var(--primary);
+            background: rgba(196, 167, 125, 0.08);
+            border-left-color: var(--primary);
+        }
+
+        .toc-list a.active {
+            color: var(--primary);
+            font-weight: 600;
+            background: rgba(196, 167, 125, 0.12);
+            border-left-color: var(--primary);
+        }
+
+        .toc-list .toc-h3 {
+            padding-left: 1.6rem;
+            font-size: 0.78rem;
+            color: var(--text-muted);
+        }
+
+        /* ===== 移动端原型适配 ===== */
+        @media (max-width: 1024px) {
+            .project-layout {
+                grid-template-columns: 1fr !important;
+            }
+            .proto-simulator {
+                min-height: 420px;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .role-tabs {
+                flex-wrap: nowrap;
+                overflow-x: auto;
+                padding-bottom: 0.3rem;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            .role-tabs::-webkit-scrollbar {
+                display: none;
+            }
+
+            .role-tab {
+                flex-shrink: 0;
+            }
+
+            .proto-menu {
+                max-height: 76px;
+                padding: 0.45rem 0.55rem;
+            }
+
+            .proto-menu-item {
+                font-size: 0.65rem;
+                padding: 0.25rem 0.5rem;
+            }
+
+            .proto-topbar {
+                padding: 0.4rem 0.6rem;
+                font-size: 0.7rem;
+            }
+
+            .proto-simulator {
+                min-height: 360px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 顶部导航 -->
+    <nav>
+        <div class="nav-inner">
+            <div class="nav-logo">
+                <i class="fas fa-feather"></i>
+                <span>XD · 作品集</span>
+            </div>
+            <div class="nav-projects" id="navProjects">
+                <a href="project-faq-bot.html" class="nav-project-link">FAQ智能体项目</a>
+                <a href="project-water-soil.html" class="nav-project-link active">TOB网站项目</a>
+                <a href="project-eat-what.html" class="nav-project-link">小程序项目</a>
+                <a href="project-blog.html" class="nav-project-link">个人博客项目</a>
+                <a href="project-vr-space.html" class="nav-project-link">UX项目</a>
+            </div>
+            <div class="nav-actions">
+                <span class="nav-divider"></span>
+                <a href="index.html" class="nav-home-link">
+                    <i class="fas fa-home"></i>
+                    <span>返回首页</span>
+                </a>
+                <button class="nav-menu-btn" id="navMenuBtn" type="button" aria-label="项目菜单">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 三栏布局 -->
+    <div class="project-layout">
+
+        <!-- 左栏：系统原型图片展示 -->
+        <aside class="prototype-col" id="prototype-col">
+            <div class="prototype-label">INTERACTIVE PROTOTYPE</div>
+            <div class="prototype-title">系统展板展示</div>
+
+            <!-- 加载动画 -->
+            <div class="proto-loading" id="protoLoading">
+                <div class="proto-loading-spinner"></div>
+                <div class="proto-loading-text">展板正在飞速加载</div>
+            </div>
+
+            <!-- 加载完成后显示图片 -->
+            <img class="proto-image" id="protoImage" src="images/sbzb.jpg" alt="系统原型展示" style="display: none;">
+        </aside>
+
+        <!-- 中栏：文章区 -->
+        <main class="article-col" id="article-col">
+
+            <header class="article-header">
+                <span class="article-tag">B 端系统 · 全流程管控</span>
+                <h1 class="article-title">高速公路工程水土保持全过程管控系统</h1>
+                <p class="article-subtitle">校企合作项目，从 0 到 1 主导产品方案与前端落地，审批效率提升 70%，数据错误率由 12% 降至 1%</p>
+                <div class="article-meta">
+                    <span><i class="fas fa-calendar"></i> 2023.07 - 2024.04</span>
+                    <span><i class="fas fa-user-tie"></i>  项目组长 / 产品经理 </span>
+                    <span><i class="fas fa-handshake"></i> 广东省交通规划设计研究院</span>
+                    <span><i class="fas fa-cogs"></i> Vue2 · ElementUI · Springboot · MySQL · ECharts</span>
+                </div>
+            </header>
+
+            <!-- 核心数据 -->
+            <div class="article-stats">
+                <div class="stat-card">
+                    <div class="stat-value">+70%</div>
+                    <div class="stat-label">审批效率提升</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">12%→1%</div>
+                    <div class="stat-label">数据错误率下降</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">3-5天→数小时</div>
+                    <div class="stat-label">审批时长压缩</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">12+</div>
+                    <div class="stat-label">迭代优化功能点</div>
+                </div>
+            </div>
+
+            <!-- 1. 项目背景 -->
+            <section class="article-section" id="sec-1">
+                <h2 class="article-h2">一、项目背景</h2>
+                <p class="article-p">
+                    高速公路工程穿越山地丘陵等水土流失敏感区域，依据《水土保持法》须在工程全周期开展水土保持管控。传统模式下，建设、施工、监理、监测、验收等多方主体协同依赖线下手工记录与纸质流转，存在明显痛点：
+                </p>
+                <p class="article-p">
+                    <strong>1. 审批耗时长：</strong>水土项目材料需经多单位多岗位审批流转，线下多单位平均流转 3-5 天，影响项目进度。<br>
+                    <strong>2. 数据混乱：</strong>施工台账、监测数据、验收资料分散在各参与方 Excel 与纸质件中，版本不一、易丢失且管理混乱，数据错误率高达 12%。<br>
+                    <strong>3. 信息不对齐：</strong>各主体掌握的工程状态不同步，预警信息滞后，常在问题发生后才被发现。
+                </p>
+                <div class="article-highlight">
+                    <strong>项目目标：</strong>建设覆盖"方案—设计—施工—验收"全过程的水保管控系统，实现数据集中化、审批线上化、预警实时化，从源头降低水土流失风险与合规风险。
+                </div>
+            </section>
+
+            <!-- 2. 核心职责 -->
+            <section class="article-section" id="sec-2">
+                <h2 class="article-h2">二、核心职责</h2>
+                <p class="article-p">作为项目组长兼产品、前端，统筹项目全生命周期，承担以下五项核心职责：</p>
+
+                <h3 class="article-h3" id="sec-2-1">2.1 需求调研</h3>
+                <p class="article-p">
+                    深度参与企业员工访谈，覆盖建设、施工、监理、监测等多角色岗位，从一线真实工作流中提炼出<strong>审批慢、数据乱、信息不对齐</strong>三大核心痛点，并输出需求清单与业务流程图。
+                </p>
+
+                <h3 class="article-h3" id="sec-2-2">2.2 产品方案设计</h3>
+                <p class="article-p">
+                    设计系统整体功能架构，明确六大功能模块与数据流向；输出完整 PRD 文档，并使用 Figma 完成高保真原型，作为研发与评审基线。
+                </p>
+
+                <div class="architecture-diagram">
+                    <svg viewBox="0 0 880 600" width="100%" height="auto" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <marker id="arrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto">
+                                <path d="M1 1 L7 4 L1 7 Z" fill="#c4a77d"/>
+                            </marker>
+                            <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+                                <feDropShadow dx="0" dy="3" stdDeviation="4" flood-opacity="0.12"/>
+                            </filter>
+                        </defs>
+
+                        <rect x="20" y="20" width="840" height="560" rx="16" fill="#f5f3ed" stroke="#e0d8c8" stroke-width="1"/>
+
+                        <text x="440" y="50" text-anchor="middle" font-size="18" font-weight="700" fill="#333333">
+                            高速公路工程水土保持全过程管控系统
+                        </text>
+                        <text x="440" y="72" text-anchor="middle" font-size="12" fill="#999999">
+                            系统架构图
+                        </text>
+
+                        <rect x="350" y="90" width="180" height="80" rx="12" fill="#c4a77d" stroke="#c4a77d" stroke-width="2" filter="url(#shadow)"/>
+                        <text x="440" y="125" text-anchor="middle" font-size="16" font-weight="700" fill="#ffffff">
+                            中心数据库
+                        </text>
+                        <text x="440" y="150" text-anchor="middle" font-size="11" fill="#ffffff" opacity="0.9">
+                            方案 · 设计 · 施工 · 验收
+                        </text>
+
+                        <rect x="60" y="190" width="760" height="280" rx="14" fill="#ffffff" stroke="#e0d8c8" stroke-width="2" filter="url(#shadow)"/>
+                        <text x="440" y="220" text-anchor="middle" font-size="15" font-weight="700" fill="#333333">
+                            项目管理模块
+                        </text>
+
+                        <rect x="80" y="250" width="130" height="50" rx="10" fill="#f5f3ed" stroke="#e0d8c8" stroke-width="1"/>
+                        <text x="145" y="272" text-anchor="middle" font-size="12" font-weight="600" fill="#333333">工程设计</text>
+                        <text x="145" y="290" text-anchor="middle" font-size="9" fill="#999999">设计单位编辑</text>
+                        
+                        <rect x="230" y="250" width="130" height="50" rx="10" fill="#f5f3ed" stroke="#e0d8c8" stroke-width="1"/>
+                        <text x="295" y="272" text-anchor="middle" font-size="12" font-weight="600" fill="#333333">工程施工</text>
+                        <text x="295" y="290" text-anchor="middle" font-size="9" fill="#999999">施工单位编辑</text>
+                        
+                        <rect x="380" y="250" width="130" height="50" rx="10" fill="#f5f3ed" stroke="#e0d8c8" stroke-width="1"/>
+                        <text x="445" y="272" text-anchor="middle" font-size="12" font-weight="600" fill="#333333">工程管理</text>
+                        <text x="445" y="290" text-anchor="middle" font-size="9" fill="#999999">建设/监理审核</text>
+                        
+                        <rect x="530" y="250" width="130" height="50" rx="10" fill="#f5f3ed" stroke="#e0d8c8" stroke-width="1"/>
+                        <text x="595" y="272" text-anchor="middle" font-size="12" font-weight="600" fill="#333333">工程验收</text>
+                        <text x="595" y="290" text-anchor="middle" font-size="9" fill="#999999">验收单位审批</text>
+                        
+                        <rect x="680" y="250" width="120" height="50" rx="10" fill="#f5f3ed" stroke="#e0d8c8" stroke-width="1"/>
+                        <text x="740" y="272" text-anchor="middle" font-size="12" font-weight="600" fill="#333333">实时预警</text>
+                        <text x="740" y="290" text-anchor="middle" font-size="9" fill="#999999">监测单位管理</text>
+
+                        <rect x="80" y="320" width="70" height="40" rx="6" fill="#ffffff" stroke="#e0d8c8" stroke-width="1"/>
+                        <text x="115" y="342" text-anchor="middle" font-size="10" font-weight="600" fill="#333333">建设单位</text>
+                        
+                        <rect x="170" y="320" width="70" height="40" rx="6" fill="#ffffff" stroke="#e0d8c8" stroke-width="1"/>
+                        <text x="205" y="342" text-anchor="middle" font-size="10" font-weight="600" fill="#333333">编制单位</text>
+                        
+                        <rect x="260" y="320" width="70" height="40" rx="6" fill="#ffffff" stroke="#e0d8c8" stroke-width="1"/>
+                        <text x="295" y="342" text-anchor="middle" font-size="10" font-weight="600" fill="#333333">设计单位</text>
+                        
+                        <rect x="350" y="320" width="70" height="40" rx="6" fill="#ffffff" stroke="#e0d8c8" stroke-width="1"/>
+                        <text x="385" y="342" text-anchor="middle" font-size="10" font-weight="600" fill="#333333">施工单位</text>
+                        
+                        <rect x="440" y="320" width="70" height="40" rx="6" fill="#ffffff" stroke="#e0d8c8" stroke-width="1"/>
+                        <text x="475" y="342" text-anchor="middle" font-size="10" font-weight="600" fill="#333333">监理单位</text>
+                        
+                        <rect x="530" y="320" width="70" height="40" rx="6" fill="#ffffff" stroke="#e0d8c8" stroke-width="1"/>
+                        <text x="565" y="342" text-anchor="middle" font-size="10" font-weight="600" fill="#333333">监测单位</text>
+                        
+                        <rect x="620" y="320" width="70" height="40" rx="6" fill="#ffffff" stroke="#e0d8c8" stroke-width="1"/>
+                        <text x="655" y="342" text-anchor="middle" font-size="10" font-weight="600" fill="#333333">验收单位</text>
+
+                        <rect x="80" y="380" width="640" height="50" rx="8" fill="#f5f3ed" stroke="#e0d8c8" stroke-width="1"/>
+                        <text x="400" y="402" text-anchor="middle" font-size="11" font-weight="600" fill="#333333">
+                            各角色根据权限查看/编辑对应功能模块
+                        </text>
+
+                        <path d="M350 135 L440 190" stroke="#c4a77d" stroke-width="2" stroke-dasharray="5,3" fill="none" marker-end="url(#arrow)"/>
+
+                        <rect x="60" y="490" width="360" height="70" rx="12" fill="#ffffff" stroke="#e0d8c8" stroke-width="2" filter="url(#shadow)"/>
+                        <text x="240" y="520" text-anchor="middle" font-size="14" font-weight="700" fill="#333333">员工管理模块</text>
+                        <text x="240" y="542" text-anchor="middle" font-size="10" fill="#999999">用户账号 · 组织架构 · 角色分配</text>
+
+                        <rect x="460" y="490" width="360" height="70" rx="12" fill="#ffffff" stroke="#e0d8c8" stroke-width="2" filter="url(#shadow)"/>
+                        <text x="640" y="520" text-anchor="middle" font-size="14" font-weight="700" fill="#333333">项目管理模块</text>
+                        <text x="640" y="542" text-anchor="middle" font-size="10" fill="#999999">项目配置 · 权限管理 · 添加成员</text>
+
+                        <rect x="380" y="430" width="120" height="50" rx="10" fill="#5c4f3d" stroke="#d4b888" stroke-width="2" filter="url(#shadow)"/>
+                        <text x="440" y="452" text-anchor="middle" font-size="13" font-weight="700" fill="#d4b888">系统管理员</text>
+                        <text x="440" y="472" text-anchor="middle" font-size="9" fill="#ffffff" opacity="0.8">系统配置 · 日志审计</text>
+
+                        <path d="M440 480 L240 490" stroke="#d4b888" stroke-width="2" stroke-dasharray="5,3" fill="none" marker-end="url(#arrow)"/>
+                        <path d="M440 480 L640 490" stroke="#d4b888" stroke-width="2" stroke-dasharray="5,3" fill="none" marker-end="url(#arrow)"/>
+
+                    </svg>
+                </div>
+
+                <h3 class="article-h3" id="sec-2-3">2.3 前端开发</h3>
+                <p class="article-p">
+                    基于 Vue2 + ElementUI 负责核心前端实现，主要包括：
+                </p>
+                <ul class="article-ul">
+                    <li>搭建基于角色的<strong>动态路由</strong>，实现八类用户差异化菜单与页面权限；</li>
+                    <li>配置 <strong>ECharts</strong> 可视化预警图表，实时展示施工指标与阈值对比；</li>
+                    <li>协调后端接口联动，主导前后端联调与数据契约定义。</li>
+                </ul>
+
+                <h3 class="article-h3" id="sec-2-4">2.4 测试优化</h3>
+                <p class="article-p">
+                    组织 2 轮 Beta 测试，收集 20+ 名员工真实反馈，迭代优化 12+ 功能点，涵盖表单交互、预警规则、权限边界等关键场景。
+                </p>
+
+                <h3 class="article-h3" id="sec-2-5">2.5 项目管理</h3>
+                <p class="article-p">
+                    统筹项目全生命周期管理，牵头对接企业部署上线；输出标准化使用手册，并负责员工赋能培训，保障系统顺利落地使用。
+                </p>
+            </section>
+
+            <!-- 3. 系统功能模块 -->
+            <section class="article-section" id="sec-3">
+                <h2 class="article-h2">三、系统功能模块</h2>
+                <p class="article-p">
+                    系统围绕"数据—预警—协同"三条主线，划分为六大功能模块，覆盖水土保持从方案到验收的完整闭环（可点击左栏模块导航查看各模块说明与界面截图）。
+                </p>
+
+                <div class="module-grid">
+                    <div class="module-card">
+                        <div class="module-card-head"><i class="fas fa-database"></i> 中心数据库管控</div>
+                        <div class="module-card-text">统一纳管水土保持方案、工程设计、工程施工及专项验收数据，构建全流程数据底座。</div>
+                    </div>
+                    <div class="module-card">
+                        <div class="module-card-head"><i class="fas fa-bell"></i> 实时预警系统</div>
+                        <div class="module-card-text">施工数据与控制中心指标实时对比，超出目标值自动预警并推送至责任主体。</div>
+                    </div>
+                    <div class="module-card">
+                        <div class="module-card-head"><i class="fas fa-cloud-upload-alt"></i> 文件上传模块</div>
+                        <div class="module-card-text">支持本地暂存与提交，路由后置守卫拦截未保存离开，防止数据丢失。</div>
+                    </div>
+                    <div class="module-card">
+                        <div class="module-card-head"><i class="fas fa-route"></i> 动态路由权限</div>
+                        <div class="module-card-text">八类用户（建设/施工/监理/监测/验收等）按角色动态加载路由与页面权限。</div>
+                    </div>
+                    <div class="module-card">
+                        <div class="module-card-head"><i class="fas fa-chart-line"></i> 数据可视化</div>
+                        <div class="module-card-text">基于 ECharts 实时预警图表、趋势曲线与指标看板，多维呈现管控状态。</div>
+                    </div>
+                    <div class="module-card">
+                        <div class="module-card-head"><i class="fas fa-mobile-alt"></i> 响应式适配</div>
+                        <div class="module-card-text">PC 端与小程序端双端兼容，支持施工现场移动巡查数据实时回传。</div>
+                    </div>
+                </div>
+
+                <h3 class="article-h3" id="sec-3-1">3.1 中心数据库管控</h3>
+                <p class="article-p">
+                    以中心数据库为底座，串联水土保持方案、工程设计、工程施工、专项验收四大阶段，实现各阶段数据可追溯、可对比，打破参与方之间的信息壁垒。
+                </p>
+
+                <h3 class="article-h3" id="sec-3-2">3.2 实时预警系统</h3>
+                <p class="article-p">
+                    系统将现场施工数据（如扰动面积、弃渣量、防护措施进度）与控制中心设定的目标阈值实时比对，一旦超出阈值即自动触发预警，按责任归属推送至对应岗位，将"事后补救"转为"事前干预"。
+                </p>
+
+                <h3 class="article-h3" id="sec-3-3">3.3 文件上传模块</h3>
+                <p class="article-p">
+                    针对施工现场网络不稳定场景，文件上传支持<strong>本地暂存</strong>，待网络恢复后一键提交。同时引入<strong>路由后置守卫</strong>，在用户未保存即试图离开时进行拦截确认，避免录入数据丢失。
+                </p>
+
+                <h3 class="article-h3" id="sec-3-4">3.4 动态路由权限</h3>
+                <p class="article-p">
+                    基于用户角色动态生成路由表，登录后根据后端返回的权限标识<strong>addRoutes</strong>动态挂载可访问页面，菜单与页面双重校验，详见第五章权限矩阵。
+                </p>
+
+                <h3 class="article-h3" id="sec-3-5">3.5 数据可视化</h3>
+                <p class="article-p">
+                    采用 ECharts 构建实时预警看板，包括阈值对比柱状图、趋势折线图、风险分布地图等，帮助管理者一屏掌握全局水保管控状态。
+                </p>
+
+                <h3 class="article-h3" id="sec-3-6">3.6 响应式适配</h3>
+                <p class="article-p">
+                    系统兼容 PC 端与小程序端，施工现场巡查人员可通过小程序实时上传照片与数据，回传中心数据库，实现"现场—中心"数据闭环。
+                </p>
+            </section>
+
+            <!-- 4. 技术选型与实现 -->
+            <section class="article-section" id="sec-4">
+                <h2 class="article-h2">四、技术选型与实现</h2>
+                <p class="article-p">
+                    基于校企合作 B 端场景对稳定性与开发效率的双重要求，技术栈选型如下：
+                </p>
+                <table class="article-table">
+                    <thead>
+                        <tr>
+                            <th>层级</th>
+                            <th>技术</th>
+                            <th>选型理由</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>前端框架</td>
+                            <td>Vue2</td>
+                            <td>生态成熟、上手快，适合团队协作与中小型 B 端系统</td>
+                        </tr>
+                        <tr>
+                            <td>UI 组件库</td>
+                            <td>ElementUI</td>
+                            <td>表单/表格/弹窗组件完备，契合数据密集型后台</td>
+                        </tr>
+                        <tr>
+                            <td>后端框架</td>
+                            <td>Springboot</td>
+                            <td>快速构建 RESTful 接口，便于前后端分离联调</td>
+                        </tr>
+                        <tr>
+                            <td>数据存储</td>
+                            <td>MySQL</td>
+                            <td>关系型存储保障业务数据一致性与事务可靠性</td>
+                        </tr>
+                        <tr>
+                            <td>数据可视化</td>
+                            <td>ECharts</td>
+                            <td>灵活的图表配置，满足实时预警与多维度看板需求</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </section>
+
+            <!-- 5. 动态路由权限设计 -->
+            <section class="article-section" id="sec-5">
+                <h2 class="article-h2">五、动态路由权限设计</h2>
+                <p class="article-p">
+                    系统面向八类用户角色，按业务职责划分功能权限。登录后后端返回角色权限标识，前端据此动态生成路由与菜单，实现各类角色专属访问控制。
+                </p>
+                <table class="article-table">
+                    <thead>
+                        <tr>
+                            <th>用户类型</th>
+                            <th>中心数据库</th>
+                            <th>实时预警</th>
+                            <th>文件上传</th>
+                            <th>工程施工</th>
+                            <th>水保验收</th>
+                            <th>系统管理</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>建设单位</td>
+                            <td class="perm-yes">查看</td>
+                            <td class="perm-yes">查看</td>
+                            <td class="perm-yes">编辑</td>
+                            <td class="perm-yes">审批</td>
+                            <td class="perm-yes">发起</td>
+                            <td class="perm-no">—</td>
+                        </tr>
+                        <tr>
+                            <td>编制单位</td>
+                            <td class="perm-yes">查看</td>
+                            <td class="perm-yes">查看</td>
+                            <td class="perm-yes">编辑</td>
+                            <td class="perm-yes">审批</td>
+                            <td class="perm-yes">发起</td>
+                            <td class="perm-no">—</td>
+                        </tr>
+                                                <tr>
+                            <td>设计单位</td>
+                            <td class="perm-yes">查看</td>
+                            <td class="perm-yes">查看</td>
+                            <td class="perm-yes">编辑</td>
+                            <td class="perm-yes">编辑</td>
+                            <td class="perm-no">—</td>
+                            <td class="perm-no">—</td>
+                        </tr>
+                        <tr>
+                            <td>施工单位</td>
+                            <td class="perm-yes">查看</td>
+                            <td class="perm-yes">查看</td>
+                            <td class="perm-yes">编辑</td>
+                            <td class="perm-yes">编辑</td>
+                            <td class="perm-no">—</td>
+                            <td class="perm-no">—</td>
+                        </tr>
+                        <tr>
+                            <td>监理单位</td>
+                            <td class="perm-yes">查看</td>
+                            <td class="perm-yes">查看</td>
+                            <td class="perm-yes">审核</td>
+                            <td class="perm-yes">审核</td>
+                            <td class="perm-yes">参与</td>
+                            <td class="perm-no">—</td>
+                        </tr>
+                        <tr>
+                            <td>监测单位</td>
+                            <td class="perm-yes">查看</td>
+                            <td class="perm-yes">编辑</td>
+                            <td class="perm-yes">上传</td>
+                            <td class="perm-yes">查看</td>
+                            <td class="perm-yes">参与</td>
+                            <td class="perm-no">—</td>
+                        </tr>
+
+                        <tr>
+                            <td>验收单位</td>
+                            <td class="perm-yes">查看</td>
+                            <td class="perm-yes">查看</td>
+                            <td class="perm-no">—</td>
+                            <td class="perm-yes">查看</td>
+                            <td class="perm-yes">审批</td>
+                            <td class="perm-no">—</td>
+                        </tr>
+                        <tr>
+                            <td>系统管理员</td>
+                            <td class="perm-yes">查看</td>
+                            <td class="perm-yes">查看</td>
+                            <td class="perm-no">—</td>
+                            <td class="perm-yes">查看</td>
+                            <td class="perm-yes">监管</td>
+                            <td class="perm-yes">管理</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="article-highlight">
+                    <strong>设计要点：</strong>权限粒度细化到"查看 / 编辑 / 审核 / 审批 / 管理"五个层级，菜单与接口双重校验，避免越权访问；监测单位作为预警数据的主要录入方，被赋予预警模块的编辑权限。
+                </div>
+            </section>
+
+            <!-- 6. 项目成果 -->
+            <section class="article-section" id="sec-6">
+                <h2 class="article-h2">六、项目成果</h2>
+                <p class="article-p">系统上线后，在水保审批效率与数据质量两个核心维度取得显著成效：</p>
+
+                <table class="article-table">
+                    <thead>
+                        <tr>
+                            <th>指标</th>
+                            <th>系统上线前</th>
+                            <th>系统上线后</th>
+                            <th>变化幅度</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>单次审批时长</td>
+                            <td>3-5 天</td>
+                            <td>数小时</td>
+                            <td><strong style="color: var(--primary);">效率 +70% ↑</strong></td>
+                        </tr>
+                        <tr>
+                            <td>数据错误率</td>
+                            <td>12%</td>
+                            <td>1%</td>
+                            <td><strong style="color: var(--primary);">-92% ↓</strong></td>
+                        </tr>
+                        <tr>
+                            <td>信息同步方式</td>
+                            <td>线下纸质流转</td>
+                            <td>中心库实时共享</td>
+                            <td><strong style="color: var(--primary);">信息对齐 ↑</strong></td>
+                        </tr>
+                        <tr>
+                            <td>预警时机</td>
+                            <td>事后发现</td>
+                            <td>事前实时预警</td>
+                            <td><strong style="color: var(--primary);">风险前置 ↑</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="article-stats">
+                    <div class="stat-card">
+                        <div class="stat-value">+70%</div>
+                        <div class="stat-label">审批效率提升</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">1%</div>
+                        <div class="stat-label">数据错误率</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">2 轮</div>
+                        <div class="stat-label">Beta 测试</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">20+</div>
+                        <div class="stat-label">员工反馈样本</div>
+                    </div>
+                </div>
+
+                <div class="article-highlight">
+                    <strong>成果解读：</strong>审批效率提升 70% 主要得益于流程线上化与多角色并行审批；数据错误率从 12% 降至 1% 则归功于中心数据库统一纳管、表单校验与预警规则的事前拦截。
+                </div>
+            </section>
+
+            <!-- 7. 项目复盘与反思 -->
+            <section class="article-section" id="sec-7">
+                <h2 class="article-h2">七、项目复盘与反思</h2>
+                <p class="article-p"><strong>做得好的地方：</strong></p>
+                <ul class="article-ul">
+                    <li>从需求调研切入，先厘清"审批慢、数据乱、信息不对齐"三大痛点，再反推功能架构，避免功能堆砌；</li>
+                    <li>动态路由权限设计前瞻，八类角色权限矩阵一次性规划，后续新增角色无需重构；</li>
+                    <li>2 轮 Beta 测试 + 20+ 员工反馈形成闭环，12+ 功能点迭代有据可依；</li>
+                    <li>兼顾 PC 端与小程序端，贴合施工现场真实使用场景。</li>
+                </ul>
+                <p class="article-p"><strong>不足与改进方向：</strong></p>
+                <ul class="article-ul">
+                    <li>预警规则以静态阈值为主，未引入基于历史数据的动态阈值，存在误报可能；</li>
+                    <li>文件上传的断点续传能力较弱，弱网大文件场景体验仍有优化空间；</li>
+                    <li>权限矩阵未做细粒度字段级控制，部分敏感字段依赖前端隐藏，安全性可进一步加固；</li>
+                    <li>数据可视化看板缺少自定义配置能力，后续可开放给管理者自定义指标组合。</li>
+                </ul>
+
+                <div class="article-highlight">
+                    <strong>核心方法论总结：</strong>B 端系统的价值不在于功能多少，而在于是否真正打通业务闭环。本项目的关键在于"以痛点定架构、以权限保协同、以预警防风险"——先把多方协同的权责理清，再用动态路由与中心数据库把协同落地，最后用实时预警把风险前移。
+                </div>
+            </section>
+
+        </main>
+
+        <!-- 右栏：目录导航 -->
+        <aside class="toc-col">
+            <div class="toc-label">CONTENTS · 目录</div>
+            <ul class="toc-list">
+                <li><a href="#sec-1" class="toc-link active">一、项目背景</a></li>
+                <li><a href="#sec-2" class="toc-link">二、核心职责</a></li>
+                <li><a href="#sec-2-1" class="toc-h3 toc-link">2.1 需求调研</a></li>
+                <li><a href="#sec-2-2" class="toc-h3 toc-link">2.2 产品方案设计</a></li>
+                <li><a href="#sec-2-3" class="toc-h3 toc-link">2.3 前端开发</a></li>
+                <li><a href="#sec-2-4" class="toc-h3 toc-link">2.4 测试优化</a></li>
+                <li><a href="#sec-2-5" class="toc-h3 toc-link">2.5 项目管理</a></li>
+                <li><a href="#sec-3" class="toc-link">三、系统功能模块</a></li>
+                <li><a href="#sec-3-1" class="toc-h3 toc-link">3.1 中心数据库管控</a></li>
+                <li><a href="#sec-3-2" class="toc-h3 toc-link">3.2 实时预警系统</a></li>
+                <li><a href="#sec-3-3" class="toc-h3 toc-link">3.3 文件上传模块</a></li>
+                <li><a href="#sec-3-4" class="toc-h3 toc-link">3.4 动态路由权限</a></li>
+                <li><a href="#sec-3-5" class="toc-h3 toc-link">3.5 数据可视化</a></li>
+                <li><a href="#sec-3-6" class="toc-h3 toc-link">3.6 响应式适配</a></li>
+                <li><a href="#sec-4" class="toc-link">四、技术选型与实现</a></li>
+                <li><a href="#sec-5" class="toc-link">五、动态路由权限设计</a></li>
+                <li><a href="#sec-6" class="toc-link">六、项目成果</a></li>
+                <li><a href="#sec-7" class="toc-link">七、项目复盘与反思</a></li>
+            </ul>
+        </aside>
+
+    </div>
+
+    <script>
+        // ===== 图片加载完成后显示 =====
+        const protoImage = document.getElementById('protoImage');
+        const protoLoading = document.getElementById('protoLoading');
+
+        if (protoImage && protoLoading) {
+            if (protoImage.complete) {
+                protoLoading.style.display = 'none';
+                protoImage.style.display = 'block';
+            } else {
+                protoImage.addEventListener('load', () => {
+                    protoLoading.style.display = 'none';
+                    protoImage.style.display = 'block';
+                });
+                protoImage.addEventListener('error', () => {
+                    protoLoading.querySelector('.proto-loading-text').textContent = '图片加载失败';
+                });
+            }
+        }
+
+        // ===== 右栏：目录高亮（滚动时自动激活当前章节） =====
+        const tocLinks = document.querySelectorAll('.toc-link');
+        const sections = [];
+
+        tocLinks.forEach(link => {
+            const id = link.getAttribute('href').substring(1);
+            const sec = document.getElementById(id);
+            if (sec) sections.push({ id, el: sec, link });
+        });
+
+        function updateToc() {
+            const scrollTop = document.getElementById('article-col').scrollTop;
+            let current = sections[0]?.id;
+
+            for (const sec of sections) {
+                if (sec.el.offsetTop - 100 <= scrollTop) {
+                    current = sec.id;
+                }
+            }
+
+            tocLinks.forEach(link => link.classList.remove('active'));
+            const activeLink = document.querySelector(`.toc-link[href="#${current}"]`);
+            if (activeLink) activeLink.classList.add('active');
+        }
+
+        document.getElementById('article-col').addEventListener('scroll', updateToc);
+
+        // 平滑滚动
+        tocLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const id = link.getAttribute('href').substring(1);
+                const target = document.getElementById(id);
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+
+        // ===== 移动端导航菜单切换 =====
+        const navMenuBtn = document.getElementById('navMenuBtn');
+        const navProjects = document.getElementById('navProjects');
+
+        navMenuBtn.addEventListener('click', () => {
+            navProjects.classList.toggle('show');
+            navMenuBtn.classList.toggle('open');
+            const isOpen = navProjects.classList.contains('show');
+            navMenuBtn.querySelector('i').className = isOpen ? 'fas fa-times' : 'fas fa-bars';
+        });
+
+        // 点击导航链接后关闭菜单
+        navProjects.querySelectorAll('.nav-project-link').forEach(link => {
+            link.addEventListener('click', () => {
+                navProjects.classList.remove('show');
+                navMenuBtn.classList.remove('open');
+                navMenuBtn.querySelector('i').className = 'fas fa-bars';
+            });
+        });
+    </script>
+
+</body>
+</html>

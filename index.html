@@ -812,6 +812,172 @@
             }
         }
 
+        /* ===== Hero: 小头像 + 四板块能力结构 ===== */
+        .hero-avatar-wrap {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.85rem;
+        }
+
+        .hero-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            overflow: hidden;
+            background: var(--gradient-main);
+            padding: 3px;
+            box-shadow: 0 8px 24px rgba(196, 167, 125, 0.3);
+            flex-shrink: 0;
+        }
+
+        .hero-avatar img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            background: #fff;
+        }
+
+        .hero-avatar-name {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .hero-avatar-title {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+
+        /* 四板块能力网格 */
+        .capability-section-title {
+            font-size: 0.65rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-top: 1rem;
+            margin-bottom: 0.1rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .capability-section-title::before,
+        .capability-section-title::after {
+            content: '';
+            display: inline-block;
+            width: 14px;
+            height: 1px;
+            background: var(--border-color);
+            vertical-align: middle;
+            margin: 0 8px;
+        }
+
+        .capability-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+            width: 100%;
+        }
+
+        .capability-card {
+            background: rgba(255, 255, 255, 0.7);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 0.65rem 0.7rem;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .capability-card:hover {
+            background: rgba(255, 255, 255, 0.95);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(196, 167, 125, 0.15);
+            border-color: var(--primary);
+        }
+
+        .capability-num {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.6rem;
+            font-size: 0.55rem;
+            font-weight: 700;
+            color: rgba(196, 167, 125, 0.3);
+            letter-spacing: 0.5px;
+        }
+
+        .capability-icon {
+            width: 26px;
+            height: 26px;
+            border-radius: 8px;
+            background: rgba(196, 167, 125, 0.15);
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.78rem;
+            margin-bottom: 0.35rem;
+        }
+
+        .capability-title {
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.25rem;
+            line-height: 1.3;
+        }
+
+        .capability-desc {
+            font-size: 0.68rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        @media (max-width: 767px) {
+            .hero-avatar {
+                width: 68px;
+                height: 68px;
+            }
+
+            .capability-section-title {
+                margin-top: 0.75rem;
+            }
+
+            .capability-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 0.45rem;
+                margin-top: 0.4rem;
+            }
+
+            .capability-card {
+                padding: 0.55rem 0.6rem;
+            }
+
+            .capability-num {
+                font-size: 0.5rem;
+            }
+
+            .capability-icon {
+                width: 24px;
+                height: 24px;
+                font-size: 0.72rem;
+                margin-bottom: 0.3rem;
+            }
+
+            .capability-title {
+                font-size: 0.72rem;
+                margin-bottom: 0.2rem;
+            }
+
+            .capability-desc {
+                font-size: 0.62rem;
+                line-height: 1.45;
+            }
+        }
+
         /* ===== 项目卡片（STAR 结构） ===== */
         .project-card {
             position: relative;
@@ -851,6 +1017,14 @@
 
         a:hover .project-title {
             color: var(--primary);
+        }
+
+        .project-date {
+            display: inline-block;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-left: 0.75rem;
+            font-weight: 400;
         }
 
         .star-grid {
@@ -909,6 +1083,200 @@
         .tag-chip:hover {
             background: var(--gradient-main);
             color: white;
+        }
+
+        /* ===== 更多：三列竖排折叠卡片 ===== */
+        .more-card-vertical {
+            display: flex;
+            flex-direction: column;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        .more-card-vertical .more-card-image-link {
+            display: block;
+            width: 100%;
+        }
+
+        .more-card-vertical .more-image-wrapper {
+            border-radius: 0;
+            height: 11rem;
+        }
+
+        .more-card-vertical .more-image-wrapper .project-image {
+            height: 11rem;
+            border-radius: 0;
+            border: none;
+            box-shadow: none;
+        }
+
+        .more-card-vertical .more-card-body {
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+        }
+
+        .more-card-vertical .more-overview {
+            flex: 1;
+        }
+
+        .more-toggle-wrap {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px dashed var(--border-color);
+            display: flex;
+            justify-content: center;
+        }
+
+        .more-toggle-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 7px 18px;
+            background: rgba(196, 167, 125, 0.1);
+            color: var(--primary);
+            border-radius: 16px;
+            font-size: 12.5px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            user-select: none;
+        }
+
+        .more-toggle-btn:hover {
+            background: var(--gradient-main);
+            color: white;
+        }
+
+        .more-toggle-btn i {
+            transition: transform 0.3s ease;
+        }
+
+        /* ===== 更多：详情 Modal ===== */
+        .more-modal-mask {
+            position: fixed;
+            inset: 0;
+            background: rgba(92, 74, 58, 0.45);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 1rem;
+        }
+
+        .more-modal-mask.show {
+            display: flex;
+            animation: fadeIn 0.2s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .more-modal {
+            background: #fff;
+            border-radius: 1.25rem;
+            max-width: 36rem;
+            width: 100%;
+            max-height: 80vh;
+            overflow-y: auto;
+            padding: 1.75rem 1.75rem 1.5rem;
+            box-shadow: 0 20px 60px rgba(92, 74, 58, 0.3);
+            position: relative;
+            animation: slideUp 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(24px) scale(0.97); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .more-modal-close {
+            position: absolute;
+            top: 0.85rem;
+            right: 0.85rem;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: rgba(196, 167, 125, 0.12);
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            font-size: 0.85rem;
+        }
+
+        .more-modal-close:hover {
+            background: var(--gradient-main);
+            color: #fff;
+            transform: rotate(90deg);
+        }
+
+        .more-modal-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.3rem;
+            padding-right: 2rem;
+        }
+
+        .more-modal-tag {
+            display: inline-block;
+            padding: 3px 10px;
+            background: rgba(196, 167, 125, 0.12);
+            color: var(--primary);
+            border-radius: 10px;
+            font-size: 11px;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .more-modal .star-grid {
+            margin-top: 0.5rem;
+        }
+
+        /* Modal 图片 */
+        .more-modal-image-wrap {
+            margin: -1.75rem -1.75rem 1.25rem;
+            height: 11rem;
+            overflow: hidden;
+            border-radius: 1.25rem 1.25rem 0 0;
+            background: linear-gradient(135deg, #fef9f3 0%, #fff9f0 100%);
+        }
+
+        .more-modal-image-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* Modal 外链 */
+        .more-modal-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 1.25rem;
+            padding: 0.6rem 1.4rem;
+            background: var(--gradient-main);
+            color: #fff !important;
+            border-radius: 1.5rem;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(196, 167, 125, 0.3);
+        }
+
+        .more-modal-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(196, 167, 125, 0.4);
         }
 
         /* ===== 主题切换面板 ===== */
@@ -1044,55 +1412,130 @@
             box-shadow: 0 10px 28px rgba(196, 167, 125, 0.5);
         }
 
-        /* ===== 类别快速跳转 ===== */
-        .category-cards {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 0.75rem;
-            margin-top: 2rem;
-        }
-
-        .category-card {
-            padding: 1rem 0.75rem;
-            text-align: center;
-            border-radius: 16px;
-            background: white;
-            border: 1px solid var(--border-color);
-            transition: all 0.3s ease;
-            cursor: pointer;
-            text-decoration: none;
-            display: block;
-        }
-
-        .category-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 12px 28px rgba(196, 167, 125, 0.2);
-            border-color: var(--primary);
-        }
-
-        .category-card-icon {
-            width: 40px;
-            height: 40px;
-            margin: 0 auto 0.5rem;
-            background: var(--gradient-main);
-            border-radius: 12px;
-            display: flex;
+        /* ===== 项目卡片快速查看按钮 ===== */
+        .quick-view-btn {
+            display: inline-flex;
             align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 16px;
+            gap: 0.4rem;
+            margin-top: 1rem;
+            padding: 0.5rem 1.25rem;
+            background: rgba(196, 167, 125, 0.1);
+            color: var(--primary);
+            border: 1px solid var(--border-color);
+            border-radius: 1.5rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
         }
 
-        .category-card-text {
-            font-size: 0.85rem;
-            font-weight: 500;
-            color: var(--text-primary);
+        .quick-view-btn:hover {
+            background: var(--gradient-main);
+            color: #fff !important;
+            border-color: transparent;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(196, 167, 125, 0.3);
+        }
+
+        .quick-view-btn i {
+            transition: transform 0.3s ease;
+        }
+
+        .quick-view-btn:hover i {
+            transform: translateX(3px);
+        }
+
+        /* ===== Hero CTA 大按钮 ===== */
+        .hero-cta-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            margin-top: 2rem;
+            padding: 0.85rem 2rem;
+            background: var(--gradient-main);
+            color: #fff !important;
+            border-radius: 2rem;
+            font-size: 0.95rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 8px 24px rgba(196, 167, 125, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-cta-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s;
+        }
+
+        .hero-cta-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 32px rgba(196, 167, 125, 0.4);
+        }
+
+        .hero-cta-btn:hover::before {
+            left: 100%;
+        }
+
+        .hero-cta-btn i {
+            transition: transform 0.3s ease;
+        }
+
+        .hero-cta-btn:hover i {
+            transform: translateX(4px);
+        }
+
+        /* 次级按钮：联系我 */
+        .hero-cta-btn-secondary {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            margin-top: 2rem;
+            margin-left: 0.75rem;
+            padding: 0.85rem 1.75rem;
+            background: rgba(255, 255, 255, 0.8);
+            color: var(--text-primary) !important;
+            border: 1px solid var(--border-color);
+            border-radius: 2rem;
+            font-size: 0.95rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .hero-cta-btn-secondary:hover {
+            background: #fff;
+            border-color: var(--primary);
+            color: var(--primary) !important;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 24px rgba(196, 167, 125, 0.2);
+        }
+
+        .hero-cta-btn-secondary i {
+            transition: transform 0.3s ease;
+        }
+
+        .hero-cta-btn-secondary:hover i {
+            transform: translateY(3px);
         }
 
         @media (max-width: 767px) {
-            .category-cards {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 0.6rem;
+            .hero-cta-btn,
+            .hero-cta-btn-secondary {
+                width: 100%;
+                justify-content: center;
+                margin-left: 0;
+            }
+
+            .hero-cta-btn-secondary {
+                margin-top: 0.75rem;
             }
         }
 
@@ -1406,10 +1849,9 @@
             </div>
             <div class="hidden md:flex space-x-8">
                 <a href="#intro" class="nav-item text-gray-600">介绍</a>
-                <a href="#web" class="nav-item text-gray-600">完整项目</a>
-                <a href="#jh" class="nav-item text-gray-600">交互设计</a>
-                <a href="#dh" class="nav-item text-gray-600">三维动画</a>
-                <a href="#yx" class="nav-item text-gray-600">游戏设计</a>
+                <a href="#core" class="nav-item text-gray-600">核心项目</a>
+                <a href="#design-tech" class="nav-item text-gray-600">设计与技术</a>
+                <a href="#more" class="nav-item text-gray-600">更多</a>
             </div>
             <button class="md:hidden text-gray-600" id="menu-btn">
                 <i class="fas fa-bars text-xl"></i>
@@ -1418,10 +1860,9 @@
         <div class="md:hidden hidden mt-4 pb-2" id="mobile-menu">
             <div class="flex flex-col space-y-2">
                 <a href="#intro" class="nav-item text-gray-600">介绍</a>
-                <a href="#web" class="nav-item text-gray-600">完整项目</a>
-                <a href="#jh" class="nav-item text-gray-600">交互设计</a>
-                <a href="#dh" class="nav-item text-gray-600">三维动画</a>
-                <a href="#yx" class="nav-item text-gray-600">游戏设计</a>
+                <a href="#core" class="nav-item text-gray-600">核心项目</a>
+                <a href="#design-tech" class="nav-item text-gray-600">设计与技术</a>
+                <a href="#more" class="nav-item text-gray-600">更多</a>
             </div>
         </div>
     </nav>
@@ -1455,54 +1896,61 @@
                         <p class="hero-label">PORTFOLIO · 作品集</p>
                         <h1 class="hero-title">
 
-                            <span class="accent">AI 设计工程师</span>
+                            <span class="accent">AI 产品设计师</span>
                         </h1>
 
                         <p class="hero-quote">
-                            从用户研究到交互设计，从前端开发到全栈实现，从三维动画到游戏逻辑，
-                            我喜欢站在「设计 × 技术」的交叉点上看世界。
-                            现在，我在学习让 AI 从工具变成创作伙伴，欢迎你见证我的成长。
+                            2年一线业务经验 + AI产品独立实践。在工作中发现业务痛点，独立搭建AI知识助手并推动落地使用；根据个人生活痛点使用AICoding从0到1开发并上线AI小程序；实习阶段主导落地数字化项目从需求分析到研发测试到部署迭代全流程。我的优势在于：具备AI全栈落地能力，能快速识别业务痛点并利用AI技术交付最小可行性产品，实现业务闭环。
                         </p>
                         <p class="hero-quote">右下角我设计了我个人的AI助手，如果你对我的作品或者对于我还希望有更多的了解，可以试试问问她~</p>
 
 
-                        <div class="category-cards">
-                            <a href="#web" class="category-card">
-                                <div class="category-card-icon"><i class="fas fa-globe"></i></div>
-                                <div class="category-card-text">完整项目</div>
-                            </a>
-                            <a href="#jh" class="category-card">
-                                <div class="category-card-icon"><i class="fas fa-mouse-pointer"></i></div>
-                                <div class="category-card-text">交互设计</div>
-                            </a>
-                            <a href="#dh" class="category-card">
-                                <div class="category-card-icon"><i class="fas fa-film"></i></div>
-                                <div class="category-card-text">三维动画</div>
-                            </a>
-                            <a href="#yx" class="category-card">
-                                <div class="category-card-icon"><i class="fas fa-gamepad"></i></div>
-                                <div class="category-card-text">游戏设计</div>
-                            </a>
-                        </div>
+                        <a href="#core" class="hero-cta-btn">
+                            <span>查看项目</span>
+                            <i class="fas fa-arrow-right"></i>
+                        </a>
+                        <a href="#contact" class="hero-cta-btn-secondary">
+                            <span>联系我</span>
+                            <i class="fas fa-paper-plane"></i>
+                        </a>
                     </div>
 
-                    <!-- 右侧图 -->
+                    <!-- 右侧：小头像 + 能力结构 -->
                     <div class="md:col-span-2 order-1 md:order-2 hero-image-side">
-                        <div class="hero-image-frame">
-                            <div class="image-loader">
-                                <div class="loading-324"></div>
+                        <div class="hero-avatar-wrap">
+                            <div class="hero-avatar">
+                                <img src="images/bg_compressed.jpg" alt="许晓丹">
                             </div>
-                            <img src="images/bg_compressed.jpg" alt="个人形象"
-                                style="opacity:0;transition:opacity 0.3s ease;"
-                                onload="this.style.opacity='1'; this.previousElementSibling.style.display='none'"
-                                onerror="this.previousElementSibling.style.display='none'; this.style.opacity='1'">
-                            <div class="hero-badge hero-badge-1">
-                                <div class="hero-badge-icon"><i class="fas fa-code"></i></div>
-                                <span class="hero-badge-text">金融信贷经验</span>
+                            <div style="text-align:center;">
+                                <div class="hero-avatar-name">许晓丹 · XD</div>
+                                <div class="hero-avatar-title">AI产品设计师 · 深圳</div>
                             </div>
-                            <div class="hero-badge hero-badge-2">
-                                <div class="hero-badge-icon"><i class="fas fa-robot"></i></div>
-                                <span class="hero-badge-text">AI转型中</span>
+                            <div class="capability-section-title">能力全景</div>
+                            <div class="capability-grid">
+                                <div class="capability-card">
+                                    <div class="capability-num">01</div>
+                                    <div class="capability-icon"><i class="fas fa-search"></i></div>
+                                    <div class="capability-title">业务问题拆解</div>
+                                    <div class="capability-desc">用跟访、访谈和流程拆解，把"效率低"还原成认知负载、数据标准、工具适配等根因。</div>
+                                </div>
+                                <div class="capability-card">
+                                    <div class="capability-num">02</div>
+                                    <div class="capability-icon"><i class="fas fa-brain"></i></div>
+                                    <div class="capability-title">AI 方案设计</div>
+                                    <div class="capability-desc">熟悉 Prompt、RAG、LLM 校验、私有化部署等方案的边界和取舍。</div>
+                                </div>
+                                <div class="capability-card">
+                                    <div class="capability-num">03</div>
+                                    <div class="capability-icon"><i class="fas fa-chart-line"></i></div>
+                                    <div class="capability-title">评估体系搭建</div>
+                                    <div class="capability-desc">构建标注集、评估集和低分样本回捞机制，用准确率、完整率、幻觉控制驱动迭代。</div>
+                                </div>
+                                <div class="capability-card">
+                                    <div class="capability-num">04</div>
+                                    <div class="capability-icon"><i class="fas fa-users"></i></div>
+                                    <div class="capability-title">跨团队交付</div>
+                                    <div class="capability-desc">协调业务、算法、研发等团队，把 0→1 方案推进到 MVP、招标或上线。</div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -1510,81 +1958,78 @@
             </div>
         </section>
 
-        <!-- ========== 完整项目 + 时间轴 ========== -->
-        <section id="web" class="scroll-reveal mb-12">
+        <!-- ========== 核心项目 + 时间轴 ========== -->
+        <section id="core" class="scroll-reveal mb-12">
             <div class="section-heading">
-                <p class="section-heading-label">01 / FULL PROJECTS</p>
-                <h2 class="section-heading-title gradient-text">完整项目</h2>
-                <p class="section-heading-desc">从真实需求出发，经历完整产品生命周期的实践案例</p>
+                <p class="section-heading-label">01 / CORE PROJECTS</p>
+                <h2 class="section-heading-title gradient-text">核心项目</h2>
+                <p class="section-heading-desc">产品从0到1的完整实践</p>
             </div>
 
-            <div class="timeline-section" id="timeline-web">
+            <div class="timeline-section" id="timeline-core">
 
-                <!-- 项目1：吃什么 -->
+                <!-- 项目1：银行信贷FAQ Agent（新增） -->
                 <article class="project-card hover-lift mb-8 relative">
                     <div class="timeline-line"></div>
                     <div class="timeline-dot"></div>
                     <div class="timeline-date">
                         <div class="timeline-date-year">2026</div>
-                        <div class="timeline-date-month">06</div>
+                        <div class="timeline-date-month">05</div>
                     </div>
 
                     <div class="grid md:grid-cols-2 gap-8 items-center">
                         <div class="order-2 md:order-1">
-                            <a href="https://dcndeyf61pep.feishu.cn/docx/X0uMdUqLJo6hCtxT1n1ci2FLnNg" target="_blank"
-                                class="block">
+                            <div class="block">
                                 <div class="project-header">
-                                    <span class="project-tag">AI 产品实践</span>
-                                    <h3 class="project-title">【吃什么】AI 小程序设计</h3>
+                                    <span class="project-tag">AI 产品实践（内部工具）</span>
+                                    <h3 class="project-title">银行信贷FAQ智能体</h3>
                                 </div>
 
                                 <div class="star-grid">
                                     <div class="star-label">S</div>
                                     <div class="star-content">
-                                        "今天吃什么"是日常生活中最高频的决策难题。作为经常在饭点纠结的人，我想把这个个人痛点变成一个真正可用的小产品，并用 AI 能力提升体验。
+                                        银行团队日常面临大量信贷政策重复问答——客户经理频繁询问产品要素、审批流程、材料要求等，信息分散在多个系统，获取效率低。传统FAQ文档更新滞后、检索困难。
                                     </div>
 
                                     <div class="star-label">T</div>
                                     <div class="star-content">
-                                        从 0 到 1 打造一款 AI 驱动的吃饭决策小程序，包含个性化餐厅推荐、朋友聚会转盘等功能，并支持快速迭代上线。
+                                        搭建一个能准确回答信贷业务问题的AI智能体，减少团队重复沟通成本，同时建立可持续迭代的评测机制。
                                     </div>
 
                                     <div class="star-label">A</div>
                                     <div class="star-content">
-                                        基于 Coze 平台通过 vibecoding 多轮迭代完成需求落地；接入高德 API
-                                        实现附近餐厅搜索作为数据库；设计转盘抽卡玩法覆盖朋友聚会场景；收集用户反馈后持续优化功能。
+                                        梳理行内信贷产品文档与业务流程，结构化处理后导入RAG知识库，沉淀100+条业务知识；基于100+条真实业务问题构建评测集，覆盖产品要素查询、流程指引、材料清单等场景；通过多轮实验测试定位典型问题类型（上下文断裂、信息遗漏、政策版本冲突），针对性优化Prompt。
                                     </div>
 
                                     <div class="star-label">R</div>
                                     <div class="star-content">
-                                        小程序上线后积累 10+ 真实用户；根据反馈迭代 4 次，新增本地收藏等功能；验证了 AI 从提效到共创的工作方式。
+                                        回答准确率从48%提升至82%（第1轮48%→优化Prompt+调整知识库结构→第2轮65%→补充边缘场景→第3轮82%），工具已在组内日常使用；形成了一套"评测集驱动迭代"的AI产品方法论，可迁移至其他业务场景。
                                     </div>
                                 </div>
 
                                 <div class="project-tags">
-                                    <span class="tag-chip">需求分析</span>
-                                    <span class="tag-chip">交互设计</span>
-                                    <span class="tag-chip">vibecoding</span>
+                                    <span class="tag-chip">RAG</span>
+                                    <span class="tag-chip">知识库</span>
+                                    <span class="tag-chip">评测集</span>
+                                    <span class="tag-chip">Prompt优化</span>
                                     <span class="tag-chip">Coze</span>
                                 </div>
-                            </a>
+                                <a href="project-faq-bot.html" class="quick-view-btn">
+                                    <span>快速查看</span>
+                                    <i class="fas fa-arrow-right"></i>
+                                </a>
+                            </div>
                         </div>
 
                         <div class="order-1 md:order-2">
-                            <a href="https://dcndeyf61pep.feishu.cn/docx/X0uMdUqLJo6hCtxT1n1ci2FLnNg" target="_blank"
-                                class="project-image-wrapper">
-                                <div class="image-loader">
-                                    <div class="loading-324"></div>
-                                </div>
-                                <img src="images/ai.jpg" alt="AI小程序" class="project-image"
-                                    onload="this.classList.add('loaded'); this.previousElementSibling.classList.add('hidden')"
-                                    onerror="this.classList.add('error'); this.previousElementSibling.classList.add('hidden')">
-                            </a>
+                            <div class="project-image-wrapper" style="background: linear-gradient(135deg, var(--secondary) 0%, var(--primary) 100%); display:flex; align-items:center; justify-content:center; min-height:12rem;">
+                                <i class="fas fa-robot" style="font-size:5rem; color:rgba(255,255,255,0.85);"></i>
+                            </div>
                         </div>
                     </div>
                 </article>
 
-                <!-- 项目2：高速公路 -->
+                <!-- 项目2：水保管控系统 -->
                 <article class="project-card hover-lift mb-8 relative">
                     <div class="timeline-line"></div>
                     <div class="timeline-dot"></div>
@@ -1595,21 +2040,19 @@
 
                     <div class="grid md:grid-cols-2 gap-8 items-center">
                         <div>
-                            <a href="https://dcndeyf61pep.feishu.cn/file/SJZCb92csoWYcgxwSYvcV8DQnHb" target="_blank"
-                                class="project-image-wrapper">
+                            <div class="project-image-wrapper">
                                 <div class="image-loader">
                                     <div class="loading-324"></div>
                                 </div>
                                 <img src="images/mscy_compressed.jpg" alt="水土保持管理系统" class="project-image"
                                     onload="this.classList.add('loaded'); this.previousElementSibling.classList.add('hidden')"
                                     onerror="this.classList.add('error'); this.previousElementSibling.classList.add('hidden')">
-                            </a>
+                            </div>
                         </div>
                         <div>
-                            <a href="https://dcndeyf61pep.feishu.cn/file/SJZCb92csoWYcgxwSYvcV8DQnHb" target="_blank"
-                                class="block">
+                            <div class="block">
                                 <div class="project-header">
-                                    <span class="project-tag">ToB 系统全生命周期跟进</span>
+                                    <span class="project-tag">ToB系统全生命周期</span>
                                     <h3 class="project-title">高速公路水土保持管理系统</h3>
                                 </div>
 
@@ -1621,18 +2064,17 @@
 
                                     <div class="star-label">T</div>
                                     <div class="star-content">
-                                        从需求调研到系统上线全流程负责，统筹产品、UI、前端、后端协作，交付一套可投产使用的 ToB 管理系统。
+                                        从需求调研到系统上线全流程负责，统筹产品、UI、前端、后端协作，交付一套可投产使用的ToB管理系统。
                                     </div>
 
                                     <div class="star-label">A</div>
                                     <div class="star-content">
-                                        深入调研 8 类角色办公流程，输出需求分析报告；设计系统功能架构与操作流程；基于 Vue + ElementUI 搭建前端框架，实现动态路由权限与
-                                        ECharts 数据可视化；统筹团队推进项目。
+                                        深入调研8类角色业务流程，通过访谈梳理审批慢、数据乱、信息不对齐三大核心痛点，输出需求分析报告；在Figma中输出系统功能架构、操作流程与原型，设计线上化审批流程、多角色权限体系与可视化看板；基于Vue2 + ElementUI搭建前端框架，独立开发ECharts数据可视化模块与动态路由权限体系；组织2轮Beta测试，收集20+名员工反馈，迭代优化12+功能点。
                                     </div>
 
                                     <div class="star-label">R</div>
                                     <div class="star-content">
-                                        系统已投产使用；完成 20+ 名员工培训与使用手册；累计迭代优化 12+ 功能点；打通前后端数据链路，提升工程数据管理效率与风险管控能力。
+                                        系统已投产使用；审批效率提升70%，风险预警响应效率提升40%。
                                     </div>
                                 </div>
 
@@ -1643,13 +2085,96 @@
                                     <span class="tag-chip">ECharts</span>
                                     <span class="tag-chip">Figma</span>
                                 </div>
-                            </a>
+                                <a href="project-water-soil.html" class="quick-view-btn">
+                                    <span>快速查看</span>
+                                    <i class="fas fa-arrow-right"></i>
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </article>
 
-                <!-- 项目3：我的被窝 -->
+                <!-- 项目3：吃什么AI小程序 -->
                 <article class="project-card hover-lift relative">
+                    <div class="timeline-line"></div>
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-date">
+                        <div class="timeline-date-year">2026</div>
+                        <div class="timeline-date-month">06</div>
+                    </div>
+
+                    <div class="grid md:grid-cols-2 gap-8 items-center">
+                        <div class="order-2 md:order-1">
+                            <div class="block">
+                                <div class="project-header">
+                                    <span class="project-tag">AI 产品实践</span>
+                                    <h3 class="project-title">【吃什么】AI 小程序</h3>
+                                </div>
+
+                                <div class="star-grid">
+                                    <div class="star-label">S</div>
+                                    <div class="star-content">
+                                        "今天吃什么"是日常生活中最高频的决策难题。作为经常在饭点纠结的人，想把这个个人痛点变成一个真正可用的小产品，并用AI能力提升体验。
+                                    </div>
+
+                                    <div class="star-label">T</div>
+                                    <div class="star-content">
+                                        从0到1打造一款AI驱动的吃饭决策小程序，包含个性化餐厅推荐、朋友聚会转盘等功能，并支持快速迭代上线。
+                                    </div>
+
+                                    <div class="star-label">A</div>
+                                    <div class="star-content">
+                                        通过用户访谈梳理核心需求，发现"不是不知道想吃什么，而是说不清想吃什么"的模糊意图痛点——用户说"不太饿，烧烤和轻食都行"，传统平台只能按单一品类搜索，无法处理跨品类的复合需求；设计语义意图匹配功能，用户用自然语言描述需求，系统理解语义意图后匹配相关品类；使用Trae进行AI辅助编程开发，基于Taro框架完成前端开发，接入高德API获取附近餐厅数据，核心数据调用逻辑自行编写，AI生成代码逐模块审查验证。
+                                    </div>
+
+                                    <div class="star-label">R</div>
+                                    <div class="star-content">
+                                        小程序已上线，持续收集用户反馈迭代优化；推荐满意度从65%提升至85%；验证了"AI从提效工具到产品共创伙伴"的工作方式。
+                                    </div>
+                                </div>
+
+                                <div class="project-tags">
+                                    <span class="tag-chip">需求分析</span>
+                                    <span class="tag-chip">交互设计</span>
+                                    <span class="tag-chip">Vibe Coding</span>
+                                    <span class="tag-chip">Taro</span>
+                                    <span class="tag-chip">高德API</span>
+                                </div>
+                                <a href="project-eat-what.html" class="quick-view-btn">
+                                    <span>快速查看</span>
+                                    <i class="fas fa-arrow-right"></i>
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="order-1 md:order-2">
+                            <div class="project-image-wrapper">
+                                <div class="image-loader">
+                                    <div class="loading-324"></div>
+                                </div>
+                                <img src="images/ai.jpg" alt="AI小程序" class="project-image"
+                                    onload="this.classList.add('loaded'); this.previousElementSibling.classList.add('hidden')"
+                                    onerror="this.classList.add('error'); this.previousElementSibling.classList.add('hidden')">
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+            </div>
+        </section>
+
+        <!-- ========== 设计与技术 + 时间轴 ========== -->
+        <section id="design-tech" class="scroll-reveal mb-12">
+            <div class="section-heading">
+                <p class="section-heading-label">02 / DESIGN × TECH</p>
+                <h2 class="section-heading-title gradient-text">设计与技术</h2>
+                <p class="section-heading-desc">从用户研究到全栈开发，设计×技术的交叉能力</p>
+            </div>
+
+            <div class="timeline-section">
+
+                <!-- 项目5：个人博客系统 -->
+                <article class="project-card hover-lift mb-8 relative">
                     <div class="timeline-line"></div>
                     <div class="timeline-dot"></div>
                     <div class="timeline-date">
@@ -1659,17 +2184,16 @@
 
                     <div class="grid md:grid-cols-2 gap-8 items-center">
                         <div class="order-2 md:order-1">
-                            <a href="https://dcndeyf61pep.feishu.cn/wiki/HL2owiQaWiOtrJk1aPbc8Wyrnkf?from=from_copylink"
-                                target="_blank" class="block">
+                            <div class="block">
                                 <div class="project-header">
-                                    <span class="project-tag">全栈前后台开发</span>
+                                    <span class="project-tag">全栈产品开发</span>
                                     <h3 class="project-title">我的被窝 · 个人博客系统</h3>
                                 </div>
 
                                 <div class="star-grid">
                                     <div class="star-label">S</div>
                                     <div class="star-content">
-                                        设计一个属于自己的内容阵地，记录思考、展示作品，也作为全栈开发能力的一次实战。
+                                        设计一个属于自己的内容阵地，同时作为全栈开发能力的一次完整实战——从数据库到前端全链路独立完成。
                                     </div>
 
                                     <div class="star-label">T</div>
@@ -1679,13 +2203,12 @@
 
                                     <div class="star-label">A</div>
                                     <div class="star-content">
-                                        使用 jQuery + Bootstrap + Art-Template 构建前台展示页面；MongoDB
-                                        做数据存储；实现文章增删改查、用户管理、分类标签、分页搜索等功能；完成前后台联调与部署。
+                                        使用jQuery + Bootstrap + Art-Template构建前台展示页面；MongoDB做数据存储，设计文章、用户、分类标签的数据模型；实现文章增删改查、用户管理、分类标签、分页搜索等功能；完成前后台联调与部署上线。
                                     </div>
 
                                     <div class="star-label">R</div>
                                     <div class="star-content">
-                                        第一个全栈部署上线的项目；建立了对 Web 全链路的系统理解；为后续更大规模项目打下扎实的前端与数据库基础。
+                                        第一个全栈部署上线的项目；建立了对Web全链路的系统理解，为后续更大规模项目打下基础。
                                     </div>
                                 </div>
 
@@ -1695,35 +2218,26 @@
                                     <span class="tag-chip">MongoDB</span>
                                     <span class="tag-chip">Art-Template</span>
                                 </div>
-                            </a>
+                                <a href="project-blog.html" class="quick-view-btn">
+                                    <span>快速查看</span>
+                                    <i class="fas fa-arrow-right"></i>
+                                </a>
+                            </div>
                         </div>
                         <div class="order-1 md:order-2">
-                            <a href="https://dcndeyf61pep.feishu.cn/file/YjTkbF1hcoeAnexBaPJcOQQ1nBc" target="_blank"
-                                class="project-image-wrapper">
+                            <div class="project-image-wrapper">
                                 <div class="image-loader">
                                     <div class="loading-324"></div>
                                 </div>
                                 <img src="images/wdbw.jpg" alt="我的被窝" class="project-image"
                                     onload="this.classList.add('loaded'); this.previousElementSibling.classList.add('hidden')"
                                     onerror="this.classList.add('error'); this.previousElementSibling.classList.add('hidden')">
-                            </a>
+                            </div>
                         </div>
                     </div>
                 </article>
 
-            </div>
-        </section>
-
-        <!-- ========== 交互设计 + 时间轴 ========== -->
-        <section id="jh" class="scroll-reveal mb-12">
-            <div class="section-heading">
-                <p class="section-heading-label">02 / UX DESIGN</p>
-                <h2 class="section-heading-title gradient-text">交互设计</h2>
-                <p class="section-heading-desc">从用户研究到原型交付的完整设计推导过程</p>
-            </div>
-
-            <div class="timeline-section">
-
+                <!-- 项目4：VR焦虑空间 -->
                 <article class="project-card hover-lift relative">
                     <div class="timeline-line"></div>
                     <div class="timeline-dot"></div>
@@ -1734,43 +2248,41 @@
 
                     <div class="grid md:grid-cols-2 gap-8 items-center">
                         <div>
-                            <a href="https://dcndeyf61pep.feishu.cn/slides/WBI6soHEhl7wfYd23SzcfSidn4d" target="_blank"
-                                class="project-image-wrapper">
+                            <div class="project-image-wrapper">
                                 <div class="image-loader">
                                     <div class="loading-324"></div>
                                 </div>
                                 <img src="images/jh_compressed.jpg" alt="过虑空间" class="project-image project-image-tall"
                                     onload="this.classList.add('loaded'); this.previousElementSibling.classList.add('hidden')"
                                     onerror="this.classList.add('error'); this.previousElementSibling.classList.add('hidden')">
-                            </a>
+                            </div>
                         </div>
                         <div>
-                            <a href="https://dcndeyf61pep.feishu.cn/slides/WBI6soHEhl7wfYd23SzcfSidn4d" target="_blank"
-                                class="block">
+                            <div class="block">
                                 <div class="project-header">
-                                    <span class="project-tag">完整 UX 流程</span>
-                                    <h3 class="project-title">过虑空间 · VR 焦虑疗养空间</h3>
+                                    <span class="project-tag">完整UX流程</span>
+                                    <h3 class="project-title">过虑空间 · VR焦虑疗养空间</h3>
                                 </div>
 
                                 <div class="star-grid">
                                     <div class="star-label">S</div>
                                     <div class="star-content">
-                                        大学生心理压力普遍存在，但传统心理咨询存在隐私顾虑与触达门槛。我们希望用 VR 项目提供一个更私密的情绪出口。
+                                        大学生心理压力普遍存在，但传统心理咨询存在隐私顾虑与触达门槛。希望用VR项目提供一个更私密的情绪出口。
                                     </div>
 
                                     <div class="star-label">T</div>
                                     <div class="star-content">
-                                        完成从用户研究、数据分析到信息架构、低保真与高保真原型的完整交互设计流程，并产出可落地的设计方案。
+                                        完成从用户研究、数据分析到信息架构、原型的完整交互设计流程，产出可落地的设计方案。
                                     </div>
 
                                     <div class="star-label">A</div>
                                     <div class="star-content">
-                                        完成竞品分析与用户旅程图；使用 SPSS 做因子聚类分析与二元 Logistic 回归，挖掘核心需求；输出信息架构、低保真与高保真原型，完成设计推导闭环。
+                                        通过问卷调研与深度访谈收集大学生压力源数据，使用SPSS进行因子聚类分析提取核心压力维度，用二元Logistic回归分析压力源与情绪释放需求的相关性；对比现有心理健康类产品的交互模式，定位差异化机会——从"对话疗愈"转向"空间沉浸"；绘制从"进入压力状态"到"VR空间疗愈"到"退出回归现实"的完整情绪旅程；设计VR空间内的导航结构与交互层级，输出低保真原型验证交互逻辑，迭代后产出高保真原型。
                                     </div>
 
                                     <div class="star-label">R</div>
                                     <div class="star-content">
-                                        完整呈现了从数据洞察到设计方案的推导过程；验证了定量研究与定性设计相结合的方法体系。
+                                        完成从定量数据洞察到交互设计方案的完整推导闭环；验证了定量研究与定性设计相结合的方法体系。
                                     </div>
                                 </div>
 
@@ -1781,275 +2293,119 @@
                                     <span class="tag-chip">因子聚类</span>
                                     <span class="tag-chip">回归分析</span>
                                 </div>
-                            </a>
+                                <a href="project-vr-space.html" class="quick-view-btn">
+                                    <span>快速查看</span>
+                                    <i class="fas fa-arrow-right"></i>
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </article>
             </div>
         </section>
 
-        <!-- ========== 三维动画 + 时间轴 ========== -->
-        <section id="dh" class="scroll-reveal mb-12">
+        <!-- ========== 更多（三列竖排折叠卡片） ========== -->
+        <section id="more" class="scroll-reveal mb-12">
             <div class="section-heading">
-                <p class="section-heading-label">03 / 3D ANIMATION</p>
-                <h2 class="section-heading-title gradient-text">三维动画</h2>
-                <p class="section-heading-desc">3D建模、绑骨骼、上动作、摇镜头的全流程设计</p>
+                <p class="section-heading-label">03 / MORE</p>
+                <h2 class="section-heading-title gradient-text">更多</h2>
+                <p class="section-heading-desc">三维动画与游戏的探索 · 技术与艺术更多探索</p>
             </div>
 
-            <div class="timeline-section">
+            <div class="grid md:grid-cols-3 gap-6 lg:gap-8">
 
-                <article class="project-card hover-lift relative">
-                    <div class="timeline-line"></div>
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-date">
-                        <div class="timeline-date-year">2022</div>
-                        <div class="timeline-date-month">12</div>
-                    </div>
-
-                    <div class="grid md:grid-cols-2 gap-8 items-center">
-                        <div class="order-2 md:order-1">
-                            <a href="https://www.bilibili.com/video/BV1Bo4y1x7hv/?vd_source=9b69073227bf41d63a3ca206543c5695#reply398270465"
-                                target="_blank" class="block">
-                                <div class="project-header">
-                                    <span class="project-tag">电影概念预告片</span>
-                                    <h3 class="project-title">蒸汽末日</h3>
-                                </div>
-
-                                <div class="star-grid">
-                                    <div class="star-label">S</div>
-                                    <div class="star-content">
-                                        环境问题越来越严峻，希望通过概念预告片的形式，唤起人们对环境保护的关注。
-                                    </div>
-
-                                    <div class="star-label">T</div>
-                                    <div class="star-content">
-                                        以朋克废墟风格打造一部电影场景概念预告片，从剧本到建模到镜头到渲染剪辑成片完成三维动画短片制作。
-                                    </div>
-
-                                    <div class="star-label">A</div>
-                                    <div class="star-content">
-                                        负责剧本编写，搭建世界观与叙事节奏；参与部分 3DMax 建模与材质贴图；完成视频剪辑、配乐与节奏把控，确保成片的情绪表达。
-                                    </div>
-
-                                    <div class="star-label">R</div>
-                                    <div class="star-content">
-                                        完成一部完整的三维概念预告片，探索了用视觉叙事传递社会议题的表达路径。
-                                    </div>
-                                </div>
-
-                                <div class="project-tags">
-                                    <span class="tag-chip">剧本编写</span>
-                                    <span class="tag-chip">3DMax</span>
-                                    <span class="tag-chip">PR视频剪辑</span>
-                                </div>
-                            </a>
+                <!-- 项目6：虚拟展馆漫游 -->
+                <article class="project-card hover-lift more-card more-card-vertical">
+                    <a href="https://www.bilibili.com/video/BV1gX4y1p7f1/?spm_id_from=333.1387.homepage.video_card.click"
+                        target="_blank" class="block more-card-image-link">
+                        <div class="project-image-wrapper more-image-wrapper">
+                            <div class="image-loader">
+                                <div class="loading-324"></div>
+                            </div>
+                            <img src="images/sqss_compressed.jpg" alt="虚拟展馆漫游" class="project-image"
+                                onload="this.classList.add('loaded'); this.previousElementSibling.classList.add('hidden')"
+                                onerror="this.classList.add('error'); this.previousElementSibling.classList.add('hidden')">
                         </div>
-                        <div class="order-1 md:order-2">
-                            <a href="https://www.bilibili.com/video/BV1Bo4y1x7hv/?vd_source=9b69073227bf41d63a3ca206543c5695#reply398270465"
-                                target="_blank" class="project-image-wrapper">
-                                <div class="image-loader">
-                                    <div class="loading-324"></div>
-                                </div>
-                                <img src="images/dh_compressed.jpg" alt="蒸汽末日" class="project-image project-image-tall"
-                                    onload="this.classList.add('loaded'); this.previousElementSibling.classList.add('hidden')"
-                                    onerror="this.classList.add('error'); this.previousElementSibling.classList.add('hidden')">
-                            </a>
+                    </a>
+                    <div class="more-card-body">
+                        <div class="project-header">
+                            <span class="project-tag">VR联机开发</span>
+                            <h3 class="project-title">虚拟展馆漫游</h3>
+                            <span class="project-date">2023-06</span>
                         </div>
-                    </div>
-                </article>
-            </div>
-        </section>
-
-        <!-- ========== 游戏设计 + 时间轴 ========== -->
-        <section id="yx" class="scroll-reveal">
-            <div class="section-heading">
-                <p class="section-heading-label">04 / GAME DESIGN</p>
-                <h2 class="section-heading-title gradient-text">游戏设计</h2>
-                <p class="section-heading-desc">Unity 引擎中的多人交互与 游戏策划</p>
-            </div>
-
-            <div class="timeline-section">
-
-                <!-- 游戏1：虚拟展馆 -->
-                <article class="project-card hover-lift mb-8 relative">
-                    <div class="timeline-line"></div>
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-date">
-                        <div class="timeline-date-year">2023</div>
-                        <div class="timeline-date-month">06</div>
-                    </div>
-
-                    <div class="grid md:grid-cols-2 gap-8 items-center">
-                        <div class="order-2 md:order-1">
-                            <a href="https://www.bilibili.com/video/BV1gX4y1p7f1/?spm_id_from=333.1387.homepage.video_card.click"
-                                target="_blank" class="block">
-                                <div class="project-header">
-                                    <span class="project-tag">VR 联机展馆</span>
-                                    <h3 class="project-title">虚拟展馆漫游</h3>
-                                </div>
-
-                                <div class="star-grid">
-                                    <div class="star-label">S</div>
-                                    <div class="star-content">
-                                        希望用数字展馆展示岭南画派陈金章先生的山青水色作品与广彩瓷作品，并支持多人同时在线参观与互动。
-                                    </div>
-
-                                    <div class="star-label">T</div>
-                                    <div class="star-content">
-                                        基于 Unity 打造一个可多人联机的虚拟展馆，实现第三人称漫游、作品介绍、NPC 交互与在线聊天功能。
-                                    </div>
-
-                                    <div class="star-label">A</div>
-                                    <div class="star-content">
-                                        搭建 Unity 场景与展馆布局；使用 Mirror 框架实现在线聊天；完成第三人称视角漫游、人物动画系统、作品展示动画与 NPC 交互逻辑。
-                                    </div>
-
-                                    <div class="star-label">R</div>
-                                    <div class="star-content">
-                                        完成一个可联机漫游的虚拟展馆原型，掌握了 Unity 多人联机系统开发能力。
-                                    </div>
-                                </div>
-
-                                <div class="project-tags">
-                                    <span class="tag-chip">Unity</span>
-                                    <span class="tag-chip">Mirror</span>
-                                    <span class="tag-chip">VR</span>
-                                    <span class="tag-chip">多用户联机</span>
-                                </div>
-                            </a>
+                        <p class="more-overview">基于Unity打造可多人联机的虚拟展馆，实现第三人称漫游、作品介绍、NPC交互与在线聊天功能。使用Mirror框架实现在线联机。</p>
+ 
+                        <div class="project-tags">
+                            <span class="tag-chip">Unity</span>
+                            <span class="tag-chip">Mirror</span>
+                            <span class="tag-chip">VR</span>
+                            <span class="tag-chip">多用户联机</span>
                         </div>
-                        <div class="order-1 md:order-2">
-                            <a href="https://www.bilibili.com/video/BV1gX4y1p7f1/?spm_id_from=333.1387.homepage.video_card.click"
-                                target="_blank" class="project-image-wrapper">
-                                <div class="image-loader">
-                                    <div class="loading-324"></div>
-                                </div>
-                                <img src="images/sqss_compressed.jpg" alt="虚拟展馆漫游" class="project-image"
-                                    onload="this.classList.add('loaded'); this.previousElementSibling.classList.add('hidden')"
-                                    onerror="this.classList.add('error'); this.previousElementSibling.classList.add('hidden')">
-                            </a>
+                        <div class="more-toggle-wrap">
+                            <span class="more-toggle-btn" onclick="openMoreModal('虚拟展馆漫游','VR联机开发','images/sqss_compressed.jpg','https://www.bilibili.com/video/BV1gX4y1p7f1/?spm_id_from=333.1387.homepage.video_card.click','希望用数字展馆展示岭南画派陈金章先生的山青水色作品与广彩瓷作品，并支持多人同时在线参观与互动。','基于 Unity 打造一个可多人联机的虚拟展馆，实现第三人称漫游、作品介绍、NPC 交互与在线聊天功能。','搭建 Unity 场景与展馆布局；使用 Mirror 框架实现在线聊天；完成第三人称视角漫游、人物动画系统、作品展示动画与 NPC 交互逻辑。','完成一个可联机漫游的虚拟展馆原型，掌握了 Unity 多人联机系统开发能力。')"><i class="fas fa-eye"></i> 查看详情</span>
                         </div>
                     </div>
                 </article>
 
-                <!-- 游戏2：山麓草木香 -->
-                <article class="project-card hover-lift mb-8 relative">
-                    <div class="timeline-line"></div>
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-date">
-                        <div class="timeline-date-year">2022</div>
-                        <div class="timeline-date-month">12</div>
-                    </div>
-
-                    <div class="grid md:grid-cols-2 gap-8 items-center">
-                        <div>
-                            <a href="https://www.bilibili.com/video/BV1LY41117jQ/?vd_source=9b69073227bf41d63a3ca206543c5695#reply145432201248"
-                                target="_blank" class="project-image-wrapper">
-                                <div class="image-loader">
-                                    <div class="loading-324"></div>
-                                </div>
-                                <img src="images/yx.jpg" alt="山麓草木香" class="project-image"
-                                    onload="this.classList.add('loaded'); this.previousElementSibling.classList.add('hidden')"
-                                    onerror="this.classList.add('error'); this.previousElementSibling.classList.add('hidden')">
-                            </a>
+                <!-- 项目7：蒸汽末日 -->
+                <article class="project-card hover-lift more-card more-card-vertical">
+                    <a href="https://www.bilibili.com/video/BV1Bo4y1x7hv/?vd_source=9b69073227bf41d63a3ca206543c5695#reply398270465"
+                        target="_blank" class="block more-card-image-link">
+                        <div class="project-image-wrapper more-image-wrapper">
+                            <div class="image-loader">
+                                <div class="loading-324"></div>
+                            </div>
+                            <img src="images/dh_compressed.jpg" alt="蒸汽末日" class="project-image"
+                                onload="this.classList.add('loaded'); this.previousElementSibling.classList.add('hidden')"
+                                onerror="this.classList.add('error'); this.previousElementSibling.classList.add('hidden')">
                         </div>
-                        <div>
-                            <a href="https://www.bilibili.com/video/BV1LY41117jQ/?vd_source=9b69073227bf41d63a3ca206543c5695#reply145432201248"
-                                target="_blank" class="block">
-                                <div class="project-header">
-                                    <span class="project-tag">三维游戏开发</span>
-                                    <h3 class="project-title">山麓草木香</h3>
-                                </div>
-
-                                <div class="star-grid">
-                                    <div class="star-label">S</div>
-                                    <div class="star-content">
-                                        现代中药受植物生长季节、环境、地域、价格、管制等因素影响，实地采摘与鉴别实践周期短、受自然条件限制大。
-                                    </div>
-
-                                    <div class="star-label">T</div>
-                                    <div class="star-content">
-                                        制作一款模拟采药师日常生活的游戏，用游戏化方式向更多人科普中药文化与采药知识。
-                                    </div>
-
-                                    <div class="star-label">A</div>
-                                    <div class="star-content">
-                                        设计并开发采药模拟系统，包括视野切换、地图导航与小地图、草药刷新机制、人物动画与工具切换、背包数据库管理，以及开场动画与音视频系统。
-                                    </div>
-
-                                    <div class="star-label">R</div>
-                                    <div class="star-content">
-                                        完成一款功能完整的采药模拟游戏，通过游戏化方式向大众科普了传统采药文化。
-                                    </div>
-                                </div>
-
-                                <div class="project-tags">
-                                    <span class="tag-chip">Unity</span>
-                                    <span class="tag-chip">C++</span>
-                                    <span class="tag-chip">地图导航</span>
-                                    <span class="tag-chip">背包系统</span>
-
-                                </div>
-                            </a>
+                    </a>
+                    <div class="more-card-body">
+                        <div class="project-header">
+                            <span class="project-tag">视觉叙事设计</span>
+                            <h3 class="project-title">蒸汽末日</h3>
+                            <span class="project-date">2022-12</span>
+                        </div>
+                        <p class="more-overview">独立完成一部朋克废墟风格的三维概念预告片——从剧本叙事→3D建模→镜头语言→剪辑节奏全流程，训练从概念构思到成片输出的视觉叙事能力。</p>
+                        <div class="project-tags">
+                            <span class="tag-chip">剧本编写</span>
+                            <span class="tag-chip">3DMax</span>
+                            <span class="tag-chip">PR视频剪辑</span>
+                        </div>
+                        <div class="more-toggle-wrap">
+                            <span class="more-toggle-btn" onclick="openMoreModal('蒸汽末日','视觉叙事设计','images/dh_compressed.jpg','https://www.bilibili.com/video/BV1Bo4y1x7hv/?vd_source=9b69073227bf41d63a3ca206543c5695#reply398270465','环境问题越来越严峻，希望通过概念预告片的形式，唤起人们对环境保护的关注。','以朋克废墟风格打造一部电影场景概念预告片，从剧本到建模到镜头到渲染剪辑成片完成三维动画短片制作。','负责剧本编写，搭建世界观与叙事节奏；参与部分 3DMax 建模与材质贴图；完成视频剪辑、配乐与节奏把控，确保成片的情绪表达。','完成一部完整的三维概念预告片，探索了用视觉叙事传递社会议题的表达路径。')"><i class="fas fa-eye"></i> 查看详情</span>
                         </div>
                     </div>
                 </article>
 
-                <!-- 游戏3：抗疫大作战（新增） -->
-                <article class="project-card hover-lift relative">
-                    <div class="timeline-line"></div>
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-date">
-                        <div class="timeline-date-year">2021</div>
-                        <div class="timeline-date-month">09</div>
-                    </div>
-
-                    <div class="grid md:grid-cols-2 gap-8 items-center">
-                        <div class="order-2 md:order-1">
-                            <a href="https://easylink.cc/owfi8o" target="_blank" class="block">
-                                <div class="project-header">
-                                    <span class="project-tag">RPG 游戏设计</span>
-                                    <h3 class="project-title">抗疫动物园</h3>
-                                </div>
-
-                                <div class="star-grid">
-                                    <div class="star-label">S</div>
-                                    <div class="star-content">
-                                        疫情时代，无数平凡人挺身而出守护城市。作为那个时期的亲历者，希望用游戏的方式记录那段不平凡的日子，传递抗疫精神。
-                                    </div>
-
-                                    <div class="star-label">T</div>
-                                    <div class="star-content">
-                                        制作一款以抗疫为主题的 RPG 视觉小说游戏，通过剧情叙事展现普通人的坚守与付出。
-                                    </div>
-
-                                    <div class="star-label">A</div>
-                                    <div class="star-content">
-                                        使用 The NVL Maker 引擎开发；编写多线剧情脚本；设计角色与场景；实现分支选项与结局系统；配乐与音效制作。
-                                    </div>
-
-                                    <div class="star-label">R</div>
-                                    <div class="star-content">
-                                        完成一款完整的抗疫主题视觉小说，用游戏形式留存了那段特殊时期的集体记忆。
-                                    </div>
-                                </div>
-
-                                <div class="project-tags">
-                                    <span class="tag-chip">The NVL Maker</span>
-                                    <span class="tag-chip">剧情设计</span>
-                                    <span class="tag-chip">RPG</span>
-                                </div>
-                            </a>
+                <!-- 项目8：采药模拟游戏 -->
+                <article class="project-card hover-lift more-card more-card-vertical">
+                    <a href="https://www.bilibili.com/video/BV1LY41117jQ/?vd_source=9b69073227bf41d63a3ca206543c5695#reply145432201248"
+                        target="_blank" class="block more-card-image-link">
+                        <div class="project-image-wrapper more-image-wrapper">
+                            <div class="image-loader">
+                                <div class="loading-324"></div>
+                            </div>
+                            <img src="images/yx.jpg" alt="山麓草木香" class="project-image"
+                                onload="this.classList.add('loaded'); this.previousElementSibling.classList.add('hidden')"
+                                onerror="this.classList.add('error'); this.previousElementSibling.classList.add('hidden')">
                         </div>
-                        <div class="order-1 md:order-2">
-                            <a href="https://easylink.cc/owfi8o" target="_blank" class="project-image-wrapper">
-                                <div class="image-loader">
-                                    <div class="loading-324"></div>
-                                </div>
-                                <img src="images/kydwy_compressed.jpg" alt="抗疫大作战" class="project-image"
-                                    onload="this.classList.add('loaded'); this.previousElementSibling.classList.add('hidden')"
-                                    onerror="this.classList.add('error'); this.previousElementSibling.classList.add('hidden')">
-                            </a>
+                    </a>
+                    <div class="more-card-body">
+                        <div class="project-header">
+                            <span class="project-tag">游戏系统设计</span>
+                            <h3 class="project-title">山麓草木香</h3>
+                            <span class="project-date">2022-12</span>
+                        </div>
+                        <p class="more-overview">制作一款模拟采药师日常生活的游戏，包含视野切换、地图导航、草药刷新机制、背包数据库管理等完整游戏系统。</p>
+                        <div class="project-tags">
+                            <span class="tag-chip">Unity</span>
+                            <span class="tag-chip">C#</span>
+                            <span class="tag-chip">地图导航</span>
+                            <span class="tag-chip">背包系统</span>
+                        </div>
+                        <div class="more-toggle-wrap">
+                            <span class="more-toggle-btn" onclick="openMoreModal('山麓草木香','游戏系统设计','images/yx.jpg','https://www.bilibili.com/video/BV1LY41117jQ/?vd_source=9b69073227bf41d63a3ca206543c5695#reply145432201248','现代中药受植物生长季节、环境、地域、价格、管制等因素影响，实地采摘与鉴别实践周期短、受自然条件限制大。','制作一款模拟采药师日常生活的游戏，用游戏化方式向更多人科普中药文化与采药知识。','设计并开发采药模拟系统，包括视野切换、地图导航与小地图、草药刷新机制、人物动画与工具切换、背包数据库管理，以及开场动画与音视频系统。','完成一款功能完整的采药模拟游戏，通过游戏化方式向大众科普了传统采药文化。')"><i class="fas fa-eye"></i> 查看详情</span>
                         </div>
                     </div>
                 </article>
@@ -2059,19 +2415,35 @@
 
     </div>
 
+    <!-- 更多：详情 Modal -->
+    <div class="more-modal-mask" id="more-modal-mask" onclick="closeMoreModal(event)">
+        <div class="more-modal" onclick="event.stopPropagation()">
+            <span class="more-modal-close" onclick="closeMoreModal()"><i class="fas fa-times"></i></span>
+            <div class="more-modal-image-wrap" id="more-modal-image-wrap"></div>
+            <div class="more-modal-body">
+                <span class="more-modal-tag" id="more-modal-tag"></span>
+                <h3 class="more-modal-title" id="more-modal-title"></h3>
+                <div class="star-grid" id="more-modal-content"></div>
+                <a class="more-modal-link" id="more-modal-link" target="_blank" rel="noopener">
+                    <i class="fas fa-external-link-alt"></i> 一起去看看吧
+                </a>
+            </div>
+        </div>
+    </div>
+
     <!-- 底部 -->
-    <footer class="glass-card rounded-none mt-8 px-6 md:px-8 py-10">
+    <footer id="contact" class="glass-card rounded-none mt-8 px-6 md:px-8 py-10">
         <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8">
             <div class="text-center md:text-left">
                 <h5 class="text-[#5c4a3a] font-semibold mb-4">关于我</h5>
                 <ul class="space-y-3">
-                    <li><a href="#" class="text-[#6b6b6b] hover:text-[#c4a77d] transition-colors flex items-center"><i
+                    <li><a href="#" class="text-[#6b6b6b] flex items-center"><i
                                 class="bi bi-book mr-2"></i> GDUT · 数字媒体技术 · 本科</a></li>
-                    <li><a href="#" class="text-[#6b6b6b] hover:text-[#c4a77d] transition-colors flex items-center"><i
+                    <li><a href="#" class="text-[#6b6b6b] flex items-center"><i
                                 class="bi bi-pin-map-fill mr-2"></i> 深圳 · AI设计工程师</a></li>
-                    <li><a href="#" class="text-[#6b6b6b] hover:text-[#c4a77d] transition-colors flex items-center"><i
+                    <li><a href="#" class="text-[#6b6b6b] flex items-center"><i
                                 class="bi bi-layers mr-2"></i> 前端 · 产品设计 · AIcoding</a></li>
-                    <li><a href="#" class="text-[#6b6b6b] hover:text-[#c4a77d] transition-colors flex items-center"><i
+                    <li><a href="#" class="text-[#6b6b6b] flex items-center"><i
                                 class="bi bi-envelope-open-fill mr-2"></i> xd316012029@163.com</a></li>
                 </ul>
             </div>
@@ -2131,7 +2503,7 @@
                         class="w-7 h-7 md:w-8 md:h-8 rounded-full object-contain flex-shrink-0">
                     <div
                         class="ml-3 bg-white px-3 py-2 rounded-xl rounded-tl-none shadow-sm max-w-[78%] md:max-w-[85%]">
-                        <p class="chat-text text-sm">你好！我是XD的小助理，这里可以了解XD更多基本情况和项目情况。😊你可以问我：水保项目里你具体负责了什么模块？</p>
+                        <p class="chat-text text-sm">你好！我是XD的AI小助理，了解XD的项目经历和AI实践经验。😊你可以问：吃什么小程序是基于什么项目背景提出的？</p>
                     </div>
                 </div>
             </div>
@@ -2150,6 +2522,37 @@
     </div>
 
     <script>
+        // ===== 更多：Modal 详情查看 =====
+        function openMoreModal(title, tag, image, url, s, t, a, r) {
+            const mask = document.getElementById('more-modal-mask');
+            document.getElementById('more-modal-tag').textContent = tag;
+            document.getElementById('more-modal-title').textContent = title;
+            document.getElementById('more-modal-image-wrap').innerHTML = `<img src="${image}" alt="${title}">`;
+            const link = document.getElementById('more-modal-link');
+            link.href = url;
+            document.getElementById('more-modal-content').innerHTML = `
+                <div class="star-label">S</div><div class="star-content">${s}</div>
+                <div class="star-label">T</div><div class="star-content">${t}</div>
+                <div class="star-label">A</div><div class="star-content">${a}</div>
+                <div class="star-label">R</div><div class="star-content">${r}</div>
+            `;
+            mask.classList.add('show');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeMoreModal(event) {
+            // 点击遮罩或关闭按钮都关闭；点击 modal 内部不关闭（已 stopPropagation）
+            if (event && event.target && event.target.closest('.more-modal')) return;
+            const mask = document.getElementById('more-modal-mask');
+            mask.classList.remove('show');
+            document.body.style.overflow = '';
+        }
+
+        // ESC 键关闭
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeMoreModal();
+        });
+
         const canvas = document.getElementById('particles-bg');
         const ctx = canvas.getContext('2d');
 
@@ -2431,10 +2834,7 @@
 
         chatSend.addEventListener('click', sendMessage);
 
-        const COZE_PAT = 'pat_e4AbMba50BBJh6Z7oQ1CzfRJiR0M36PJzbJFtUGoBjrH15G8s4JBAheF5jIJN8TU';
-        const COZE_BOT_ID = '7665565693240672265';
         const ZHIPU_API_KEY = '81fb7bcd51824f508d4b800754bc69f4.IjmcK2MuCE7DiD9A';
-        let cozeConversationId = '';
 
         /* ===== 智谱 System Prompt（核心知识库摘要） ===== */
         const ZHIPU_SYSTEM_PROMPT = `你是许晓丹（XD）的个人AI助手，负责回答关于XD的求职、项目经历、技能背景等问题。
@@ -2446,25 +2846,69 @@
 - 工作经历：广发银行深圳分行客户经理（2024.07-2026.07），负责4亿元零售信贷盘子管理
 - 核心竞争力：AI实战经验（Trae/Coze Vibe Coding）、技术+设计双重能力、快速学习能力、业务理解能力、8个完整项目经验
 
-【主要项目】
-1. 【吃什么】小程序（2026.05-2026.06）：Coze Vibe Coding从0到1开发，店铺转盘+活动抽抽，推荐满意度65%→85%
-2. 水保管控系统（2023.07-2024.04）：产品经理/项目组长，Vue2+ElementUI，审批效率提升70%，数据错误率12%→1%
-3. 我的被窝博客（2023.03-2023.06）：全栈开发，用到Express+MongoDB
-4. 过虑空间VR情绪疗养（2022.09-2023.01）：交互设计课程作业
-5. 游戏项目：虚拟展馆、山麓草木香游戏、抗疫大作战RPG
+【项目深度解析】
+
+=== 项目1：高速公路工程水土保持全过程管控系统（2023.07-2024.04） ===
+角色：产品经理/项目组长
+合作方：广东省交通规划设计研究院
+核心思路：
+- 痛点：审批慢（人工传递）、数据乱（Excel分散）、信息不对齐（多方版本不一致）
+- 架构：中心数据库 + 项目管理 + 员工管理 + 系统管理四大模块
+- 权限：8类角色（建设/编制/设计/施工/监理/监测/验收单位 + 系统管理员），系统管理员凌驾所有模块之上
+- 功能：工程设计（设计单位编辑）、工程施工（施工单位编辑）、工程管理（建设/监理审核）、工程验收（验收单位审批）、实时预警（监测单位管理）
+技术栈：Vue2 + ElementUI + Springboot + MySQL + ECharts
+成果：审批效率提升70%，数据错误率从12%降至1%
+
+=== 项目2：过虑空间 | VR情绪疗养空间（2022.09-2023.01） ===
+角色：UX设计师（主导全流程）
+核心思路：
+- 定位：面向焦虑大学生的VR情绪疗养空间，"怕过虑，来过滤"
+- PEST分析结论：政策支持+市场广阔（3000亿市场）+需求强烈（91%受访者有心理问题）+技术成熟
+- 竞品分析：好心情VR（机构内用户，自助+专业并行）、阳光心健VR（学校/社区，自助为主），本项目切入"亚健康大学生主动自助"空白场景
+- 用户研究：144份问卷+SPSS因子分析，提取3个公共因子（场景模拟、正念冥想、解压放松）
+- 核心功能：场景模拟（汇报/面试/社交焦虑演练）+ 情绪宣泄 + 正念冥想 + AI陪伴 + 元宇宙情绪社区
+- 视觉风格：低饱和橙红+黑紫，年轻治愈风格
+
+=== 项目3：【吃什么】AI小程序（2026.05-2026.06） ===
+角色：全栈开发者（Coze Vibe Coding）
+核心思路：
+- 痛点："今天吃什么"是高频决策难题，朋友聚会选择困难
+- 三大核心需求：快速推荐（3分钟内出结果）、个性化适配（场景/口味/历史偏好）、操作简便（零学习成本）
+- 用户画像：大学生（便宜近快，偏好转盘玩法）、都市白领（人均可控，依赖评分收藏）、情侣（氛围感，关注场景化）、家庭用户（老少咸宜，停车方便）
+- 功能：店铺转盘、种类选择（早午晚餐/减脂/夜宵/下午茶）、活动抽抽（50个内置活动）、收藏夹与评分系统、真实POI兜底（高德地图）
+技术亮点：基于高德地图POI，推荐附近真实存在的餐厅和活动场所
+成果：推荐满意度从65%提升至85%
+
+=== 项目4：我的被窝 | 个人博客（2023.03-2023.06） ===
+角色：全栈开发者
+技术栈：Express + art-template + MongoDB + jQuery
+功能：前台（文章列表/详情/评论/留言板/作品集）、后台（用户管理/文章管理/分页）、登录系统（MD5加密/角色权限）
+设计亮点：原创LOGO、莫兰迪黄配色(#d8caaf)、圆角毛玻璃风格
+
+=== 项目5：银行信贷FAQ智能体 （2026.05-2026.06）===
+角色：AI产品设计者
+核心思路：解决团队重复沟通成本，建立可持续迭代的评测机制
+方法：100+条知识库、50+条评测集驱动迭代
+成果：回答准确率从48%提升至82%，已在组内日常使用
 
 【技术栈】
-- 前端：Vue3
-- 后端：Node.js+Express、MongoDB
-- AI：Trae/Coze、RAG知识库、Prompt优化
-- 游戏：Unity3D+C#
-- 设计：Figma、PS、C4D、UE
+- 前端：HTML/CSS/JavaScript、Vue2、Vue3、uni-app
+- 后端：Node.js + Express
+- 数据库：MongoDB、MySQL
+- AI与智能体：Trae、Coze平台、RAG知识库搭建、Prompt优化、评测集设计
+- 游戏开发：Unity3D + C#、Mirror多用户联机
+- 三维与视觉：3DSMAX/C4D、UE4/UE5、PS、PR
+- 产品设计：Figma原型、需求分析、用户研究、PRD撰写、竞品分析
 
 【回答规则】
 - 直接回答，不要复述用户问题
 - 不要每次都做自我介绍
 - 项目回答格式：[项目名称]担任[角色]，负责[核心职责]，使用[技术栈]，实现[主要功能]，成果[具体数据]
-- 如果不确定的信息，直接说"这个问题建议联系本人电话咨询~"`;
+- 优先依据【项目详情资料】回答，资料中没有的信息再用已知知识回答
+- 如果不确定的信息，直接说"这个问题建议联系本人电话咨询~"
+- 语气亲切自然，像朋友聊天一样，不要太生硬
+- 回答简洁明了，不要长篇大论，除非用户明确要求详细解释
+- 不要编造信息，不确定就说不确定
 
         /* ===== 本地FAQ降级库（最终兜底） ===== */
         const LOCAL_FAQ = [
@@ -2486,11 +2930,15 @@
             },
             {
                 keywords: ['水保', '水土保持', '高速公路', '交通规划', '审批', '管控系统'],
-                answer: '【高速公路工程水土保持全过程管控系统】是我最有成就感的项目，2023.07-2024.04 广东省交通规划设计研究院校企合作。\n\n我担任产品经理/项目组长，负责：\n- 需求调研：深度访谈企业员工，梳理审批慢、数据乱、信息不对齐三大痛点\n- 产品方案设计：设计系统功能架构，输出PRD与高保真原型（Figma）\n- 前端开发：Vue2+ElementUI，搭建动态路由、echarts可视化预警\n- 项目管理：统筹全生命周期，对接企业部署上线，输出标准化使用手册\n\n技术栈：Vue2 + ElementUI + Springboot + MySQL + ECharts\n成果：审批效率提升70%，数据错误率从12%降至1%\n我主要负责模块：工程施工、工程管理、水保验收'
+                answer: '【高速公路工程水土保持全过程管控系统】是我最有成就感的项目，2023.07-2024.04 广东省交通规划设计研究院校企合作。\n\n我担任产品经理/项目组长，负责：\n- 需求调研：深度访谈企业员工，梳理审批慢（人工传递）、数据乱（Excel分散）、信息不对齐（多方版本不一致）三大痛点\n- 产品方案设计：设计系统功能架构——中心数据库+项目管理+员工管理+系统管理四大模块，8类角色权限矩阵\n- 前端开发：Vue2+ElementUI，搭建动态路由、ECharts可视化预警\n- 项目管理：统筹全生命周期，对接企业部署上线，输出标准化使用手册\n\n技术栈：Vue2 + ElementUI + Springboot + MySQL + ECharts\n成果：审批效率提升70%，数据错误率从12%降至1%\n功能模块：工程设计（设计单位编辑）、工程施工（施工单位编辑）、工程管理（建设/监理审核）、工程验收（验收单位审批）、实时预警（监测单位管理）'
             },
             {
                 keywords: ['吃什么', '小程序', '餐厅', '推荐', '转盘'],
                 answer: '【吃什么】小程序是我用Coze做Vibe Coding从0到1开发的，2026.05-2026.06。\n\n背景：朋友聚会时面临"吃什么"的选择困难\n\n功能：\n- 店铺转盘：随机选择附近餐厅，支持35种意图场景的智能搜索\n- 种类选择：早餐/午餐/晚餐/减脂餐/夜宵/下午茶\n- 活动抽抽：50个内置活动卡片，解决周末去哪玩\n- 收藏夹与评分系统：越用越懂用户偏好\n\n技术亮点：基于高德地图POI，推荐附近真实存在的餐厅和活动场所。推荐满意度从65%提升至85%。'
+            },
+            {
+                keywords: ['过虑空间', 'VR', '情绪疗养', '心理', '焦虑', '大学生'],
+                answer: '【过虑空间】是面向焦虑大学生的VR情绪疗养空间，2022.09-2023.01，我担任UX设计师主导全流程。\n\n核心思路：\n- 痛点：传统心理咨询资源稀缺、病耻感高、预约门槛高\n- 定位："怕过虑，来过滤"——低门槛、强隐私、可重复使用的情绪疗愈空间\n- 用户研究：144份问卷+SPSS因子分析，提取3个公共因子（场景模拟、正念冥想、解压放松）\n- 竞品分析：好心情VR（机构内，自助+专业）、阳光心健VR（学校/社区，自助为主），本项目切入"亚健康大学生主动自助"空白场景\n\n核心功能：\n- 场景模拟：汇报/面试/社交焦虑演练，在安全环境中提前适应\n- 情绪宣泄：虚拟环境释放压力\n- 正念冥想：沉浸式放松训练\n- AI陪伴：智能情绪识别与对话\n- 元宇宙情绪社区：同频用户互动交流\n\n视觉风格：低饱和橙红+黑紫，年轻治愈风格'
             },
             {
                 keywords: ['博客', '被窝', '个人网站'],
@@ -2542,82 +2990,80 @@
             return bestMatch && bestScore >= 1 ? bestMatch.answer : null;
         }
 
-        /* ===== 三层降级：Coze → 智谱 → 本地FAQ ===== */
-        async function callCoze(message) {
-            const payload = {
-                bot_id: COZE_BOT_ID,
-                user: 'visitor',
-                query: message,
-                stream: false
-            };
-            if (cozeConversationId) {
-                payload.conversation_id = cozeConversationId;
+        /* ===== 两层降级：智谱 → 本地FAQ ===== */
+
+        /* 提取HTML文件文本内容 */
+        async function extractProjectContent(filePath) {
+            try {
+                const response = await fetch(filePath);
+                const html = await response.text();
+                const temp = document.createElement('div');
+                temp.innerHTML = html;
+                
+                const sections = temp.querySelectorAll('.article-section');
+                let content = '';
+                sections.forEach((sec, idx) => {
+                    const h2 = sec.querySelector('h2');
+                    if (h2) {
+                        content += `\n\n【章节${idx + 1}】${h2.textContent.trim()}\n`;
+                    }
+                    const text = sec.textContent.trim();
+                    if (text && text.length > 20) {
+                        content += text.substring(0, 2000) + '\n';
+                    }
+                });
+                
+                return content;
+            } catch (e) {
+                return '';
             }
-            const response = await fetch('https://api.coze.cn/open_api/v2/chat', {
-                method: 'POST',
-                headers: {
-                    'Authorization': 'Bearer ' + COZE_PAT,
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(payload)
-            });
-            const data = await response.json();
-            if (data.code && data.code !== 0) {
-                return { success: false, error: data.msg || 'Coze错误', data };
-            }
-            if (data.conversation_id) {
-                cozeConversationId = data.conversation_id;
-            }
-            let answer = '';
-            if (data.messages && data.messages.length > 0) {
-                const answerMsg = data.messages.find(m => m.role === 'assistant' && m.type === 'answer');
-                if (answerMsg) answer = answerMsg.content;
-            }
-            if (!answer && data.data) {
-                answer = data.data.output || data.data.answer || '';
-            }
-            return { success: true, answer: answer || '这个问题建议联系本人电话咨询~' };
         }
 
-        /* 智谱知识库检索 */
-        async function retrieveZhipuKnowledge(query) {
-            const response = await fetch('https://open.bigmodel.cn/api/llm-application/open/knowledge/retrieve', {
-                method: 'POST',
-                headers: {
-                    'Authorization': 'Bearer ' + ZHIPU_API_KEY,
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    query: query,
-                    knowledge_ids: ['2079942180952223744'],
-                    top_k: 5,
-                    recall_method: 'mixed'
-                })
-            });
-            const data = await response.json();
-            if (data.code !== 200 || !data.data || data.data.length === 0) {
-                return null;
+        /* 智能匹配项目文件 */
+        async function getProjectContext(message) {
+            const projects = [
+                { keywords: ['水保', '水土保持', '高速公路', '交通规划', '审批'], file: 'project-water-soil.html' },
+                { keywords: ['过虑空间', 'VR', '情绪', '心理', '焦虑', '大学生'], file: 'project-vr-space.html' },
+                { keywords: ['吃什么', '小程序', '餐厅', '推荐', '转盘'], file: 'project-eat-what.html' },
+                { keywords: ['博客', '被窝', '个人网站'], file: 'project-blog.html' },
+                { keywords: ['FAQ', '智能体', '银行', '信贷', '问答'], file: 'project-faq-bot.html' }
+            ];
+
+            let matchedFile = '';
+            let maxScore = 0;
+            for (const p of projects) {
+                let score = 0;
+                for (const kw of p.keywords) {
+                    if (message.includes(kw)) score++;
+                }
+                if (score > maxScore) {
+                    maxScore = score;
+                    matchedFile = p.file;
+                }
             }
-            // 拼接检索到的知识库片段
-            const contexts = data.data.map((item, idx) =>
-                `[资料${idx + 1}]${item.metadata.doc_name ? `（来自《${item.metadata.doc_name}》）` : ''}\n${item.text}`
-            ).join('\n\n');
-            return contexts;
+
+            if (maxScore >= 1 && matchedFile) {
+                const content = await extractProjectContent(matchedFile);
+                if (content) {
+                    return `【项目详情资料】（来自${matchedFile}）\n${content}`;
+                }
+            }
+            return '';
         }
 
         async function callZhipu(message) {
-            // 先检索知识库
-            let knowledgeContext = '';
+            // 先获取项目页面上下文
+            let projectContext = '';
             try {
-                knowledgeContext = await retrieveZhipuKnowledge(message);
+                projectContext = await getProjectContext(message);
             } catch (e) {
-                // 检索失败则只用 system prompt 兜底
+                // 获取失败则跳过
             }
 
-            // 构建 system prompt：原始规则 + 检索到的知识库片段
+            // 构建 system prompt：原始规则 + 项目页面内容
             let systemContent = ZHIPU_SYSTEM_PROMPT;
-            if (knowledgeContext) {
-                systemContent += `\n\n【参考资料】\n以下是从知识库中检索到的相关资料，请优先依据这些资料回答用户问题。如果资料中没有相关信息，请根据你已知的信息回答，不要编造。\n\n${knowledgeContext}`;
+            if (projectContext) {
+                systemContent += `\n\n${projectContext}\n\n【回答规则】\n优先依据以上项目详情资料回答用户问题，如果资料中没有相关信息，请根据你已知的信息回答，不要编造。`;
             }
 
             const response = await fetch('https://open.bigmodel.cn/api/paas/v4/chat/completions', {
@@ -2652,43 +3098,101 @@
             addMessage('bot', '');
             const lastMessage = chatMessages.lastElementChild;
 
-            // 第1层：Coze
-            try {
-                const cozeResult = await callCoze(message);
-                if (cozeResult.success) {
-                    updateMessage(lastMessage, cozeResult.answer);
-                    return;
-                }
-                const errMsg = (cozeResult.error || '').toLowerCase();
-                const isQuotaError = errMsg.includes('余额') || errMsg.includes('额度') || errMsg.includes('resource') || errMsg.includes('quota');
-                if (!isQuotaError) {
-                    updateMessage(lastMessage, '抱歉，出错了：' + cozeResult.error);
-                    return;
-                }
-                // Coze额度不足，继续降级
-            } catch (e) {
-                // Coze网络失败，继续降级
-            }
-
-            // 第2层：智谱
+            // 第1层：智谱
             try {
                 const zhipuResult = await callZhipu(message);
                 if (zhipuResult.success) {
                     updateMessage(lastMessage, zhipuResult.answer + '\n\n---\n💡 来自智谱AI');
                     return;
                 }
-                // 智谱也失败，继续降级
+                // 智谱失败，继续降级
             } catch (e) {
                 // 智谱网络失败，继续降级
             }
 
-            // 第3层：本地FAQ
+            // 第2层：本地FAQ
             const localAnswer = getLocalAnswer(message);
             if (localAnswer) {
                 updateMessage(lastMessage, '【本地模式】' + localAnswer + '\n\n---\n💡 来自本地知识库');
             } else {
                 updateMessage(lastMessage, '这个问题建议联系本人电话咨询~\n\n您可以尝试询问以下问题（本地知识库可回答）：\n•介绍一下自己\n• 你做过哪些项目\n• 你的核心竞争力是什么\n• 你会什么技术\n• 最有成就感的项目\n');
             }
+        }
+
+        // ===== 轻量 Markdown 渲染（仅用于 AI 回复） =====
+        function renderMarkdown(text) {
+            // 1. 先转义 HTML，防 XSS
+            let html = text
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;');
+
+            // 2. 按 \n 分行处理（保留空行用于段落分隔）
+            const lines = html.split(/\n/);
+            const out = [];
+            let inList = false;
+
+            const inline = (s) => s
+                // 粗斜体 ***xxx***
+                .replace(/\*\*\*([^*]+)\*\*\*/g, '<strong><em>$1</em></strong>')
+                // 加粗 **xxx**
+                .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+                // 斜体 *xxx*
+                .replace(/(^|[^*])\*([^*]+)\*(?!\*)/g, '$1<em>$2</em>')
+                // 行内代码 `xxx`
+                .replace(/`([^`]+)`/g, '<code style="background:rgba(196,167,125,0.12);padding:1px 5px;border-radius:4px;font-size:0.85em;">$1</code>');
+
+            for (let i = 0; i < lines.length; i++) {
+                const line = lines[i];
+                const trimmed = line.trim();
+
+                // 空行
+                if (trimmed === '') {
+                    if (inList) { out.push('</ul>'); inList = false; }
+                    out.push('');
+                    continue;
+                }
+
+                // 标题 # ~ ###
+                const h = trimmed.match(/^(#{1,3})\s+(.*)$/);
+                if (h) {
+                    if (inList) { out.push('</ul>'); inList = false; }
+                    const level = h[1].length;
+                    const sizes = { 1: '1.05rem', 2: '1rem', 3: '0.95rem' };
+                    out.push(`<div style="font-weight:700;font-size:${sizes[level]};margin:0.5rem 0 0.35rem;color:var(--text-primary);">${inline(h[2])}</div>`);
+                    continue;
+                }
+
+                // 分隔线 --- 或 ***
+                if (/^(\-{3,}|\*{3,})$/.test(trimmed)) {
+                    if (inList) { out.push('</ul>'); inList = false; }
+                    out.push('<hr style="border:none;border-top:1px dashed var(--border-color);margin:0.6rem 0;">');
+                    continue;
+                }
+
+                // 无序列表 - xxx 或 * xxx（注意 * 后需空格，避免与斜体混淆）
+                const li = trimmed.match(/^[-*]\s+(.*)$/);
+                if (li) {
+                    if (!inList) { out.push('<ul style="margin:0.3rem 0;padding-left:1.2rem;list-style:disc;">'); inList = true; }
+                    out.push(`<li style="margin:0.15rem 0;">${inline(li[1])}</li>`);
+                    continue;
+                }
+
+                // 有序列表 1. xxx
+                const ol = trimmed.match(/^(\d+)\.\s+(.*)$/);
+                if (ol) {
+                    if (!inList) { out.push('<ul style="margin:0.3rem 0;padding-left:1.2rem;list-style:decimal;">'); inList = true; }
+                    out.push(`<li style="margin:0.15rem 0;">${inline(ol[2])}</li>`);
+                    continue;
+                }
+
+                // 普通段落
+                if (inList) { out.push('</ul>'); inList = false; }
+                out.push(`<p style="margin:0.25rem 0;line-height:1.65;">${inline(trimmed)}</p>`);
+            }
+            if (inList) out.push('</ul>');
+
+            return out.join('\n');
         }
 
         function addMessage(sender, content) {
@@ -2715,7 +3219,8 @@
                 }`;
 
             if (content) {
-                bubble.innerHTML = content.replace(/\n/g, '<br>');
+                // 用户消息原样显示，AI 回复渲染 Markdown
+                bubble.innerHTML = sender === 'bot' ? renderMarkdown(content) : content.replace(/\n/g, '<br>');
             } else {
                 bubble.innerHTML = '<div class="typing-indicator"><span></span><span></span><span></span></div>';
             }
@@ -2728,7 +3233,7 @@
 
         function updateMessage(element, content) {
             const bubble = element.querySelector('div:last-child');
-            bubble.innerHTML = content.replace(/\n/g, '<br>');
+            bubble.innerHTML = renderMarkdown(content);
             scrollToBottom();
         }
 

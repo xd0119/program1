@@ -1,0 +1,1118 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的被窝 · 个人博客系统 - XD作品集</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" href="images/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="project-shared.css">
+    <style>
+        :root {
+            --morandi-yellow: #d8caaf;        /* blog 特有色 */
+        }
+
+        a { color: inherit; text-decoration: none; }
+
+        /* ===== 前台/后台 Tab 切换 ===== */
+        .proto-tabs {
+            display: flex;
+            gap: 0.4rem;
+            background: rgba(196, 167, 125, 0.1);
+            border-radius: 10px;
+            padding: 4px;
+        }
+
+        .proto-tab {
+            flex: 1;
+            text-align: center;
+            padding: 0.5rem 0.75rem;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+            background: transparent;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.35rem;
+        }
+
+        .proto-tab.active {
+            background: #fff;
+            color: var(--primary);
+            box-shadow: 0 2px 8px rgba(196, 167, 125, 0.2);
+        }
+
+        .proto-panel {
+            display: none;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .proto-panel.active {
+            display: flex;
+        }
+
+        .proto-panel-label {
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            margin-top: 0.5rem;
+            margin-bottom: 0.25rem;
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+        }
+
+        .proto-module {
+            background: rgba(255, 255, 255, 0.75);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 0.7rem 0.85rem;
+            font-size: 0.85rem;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            cursor: pointer;
+            transition: all 0.25s;
+        }
+
+        .proto-module:hover {
+            background: rgba(196, 167, 125, 0.1);
+            transform: translateX(2px);
+            border-color: var(--primary);
+        }
+
+        .proto-module i {
+            color: var(--primary);
+            width: 18px;
+            text-align: center;
+        }
+
+        .proto-module .mod-name {
+            font-weight: 500;
+            flex: 1;
+        }
+
+        .proto-module .mod-tag {
+            font-size: 0.68rem;
+            color: var(--text-muted);
+            background: rgba(196, 167, 125, 0.1);
+            padding: 1px 6px;
+            border-radius: 5px;
+        }
+
+        .proto-info {
+            background: rgba(255, 255, 255, 0.7);
+            border: 1px dashed var(--border-color);
+            border-radius: 12px;
+            padding: 0.85rem 1rem;
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        .proto-info strong {
+            color: var(--text-secondary);
+        }
+
+        /* 模拟博客前台预览 */
+        .proto-preview {
+            background: #fff;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+            font-size: 0.8rem;
+        }
+
+        .preview-header {
+            background: var(--gradient-main);
+            color: #fff;
+            padding: 0.6rem 0.85rem;
+            font-weight: 600;
+            font-size: 0.82rem;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .preview-body {
+            padding: 0.6rem 0.85rem;
+        }
+
+        .preview-post {
+            padding: 0.45rem 0;
+            border-bottom: 1px dashed var(--border-color);
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        .preview-post:last-child { border-bottom: none; }
+
+        .preview-post .pt-title {
+            color: var(--text-primary);
+            font-weight: 500;
+            font-size: 0.82rem;
+            display: block;
+        }
+
+        .preview-post .pt-meta {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+        }
+
+        .article-cover {
+            width: 100%;
+            border-radius: 14px;
+            margin: 1.5rem 0;
+            box-shadow: var(--shadow-soft);
+            border: 1px solid var(--border-color);
+        }
+
+        .article-section {
+            margin-bottom: 2rem;
+        }
+
+        .article-h2 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            padding-left: 0.8rem;
+            border-left: 4px solid var(--primary);
+            scroll-margin-top: 80px;
+        }
+
+        .article-h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin: 1.25rem 0 0.6rem;
+            scroll-margin-top: 80px;
+        }
+
+        .article-p {
+            color: var(--text-secondary);
+            margin-bottom: 0.8rem;
+            line-height: 1.85;
+        }
+
+        .article-p strong {
+            color: var(--text-primary);
+        }
+
+        .article-ul {
+            color: var(--text-secondary);
+            margin: 0.5rem 0 0.8rem 1.5rem;
+            line-height: 1.9;
+        }
+
+        .article-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+            font-size: 0.9rem;
+        }
+
+        .article-table th,
+        .article-table td {
+            border: 1px solid var(--border-color);
+            padding: 0.7rem 1rem;
+            text-align: left;
+        }
+
+        .article-table th {
+            background: rgba(196, 167, 125, 0.1);
+            font-weight: 600;
+            color: var(--text-primary);
+            white-space: nowrap;
+        }
+
+        .article-table tr:nth-child(even) td {
+            background: rgba(196, 167, 125, 0.04);
+        }
+
+        .article-code {
+            background: #2d2d2d;
+            color: #e8dcc4;
+            padding: 1rem 1.25rem;
+            border-radius: 10px;
+            font-family: 'Consolas', monospace;
+            font-size: 0.85rem;
+            line-height: 1.7;
+            overflow-x: auto;
+            margin: 1rem 0;
+            white-space: pre;
+        }
+
+        .article-code .kw { color: #c4a77d; font-weight: 600; }
+        .article-code .cm { color: #8b7355; font-style: italic; }
+        .article-code .st { color: #d8caaf; }
+
+        .article-highlight {
+            background: rgba(196, 167, 125, 0.1);
+            border-left: 3px solid var(--primary);
+            padding: 0.8rem 1.2rem;
+            border-radius: 0 10px 10px 0;
+            margin: 1rem 0;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .article-highlight strong {
+            color: var(--text-primary);
+        }
+
+        .article-quote {
+            background: rgba(216, 202, 175, 0.18);
+            border: 1px solid rgba(216, 202, 175, 0.4);
+            border-radius: 12px;
+            padding: 1rem 1.25rem;
+            margin: 1rem 0;
+            color: var(--text-secondary);
+            font-size: 0.92rem;
+            position: relative;
+        }
+
+        .article-quote::before {
+            content: '\f10e';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            color: var(--morandi-yellow);
+            position: absolute;
+            top: 0.6rem;
+            right: 0.85rem;
+            font-size: 1rem;
+            opacity: 0.6;
+        }
+
+        .article-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 1rem;
+            margin: 1.25rem 0;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.7);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 1.6rem;
+            font-weight: 700;
+            background: var(--gradient-text);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.2;
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-top: 0.3rem;
+        }
+
+        /* 色卡 */
+        .color-swatch {
+            display: flex;
+            gap: 0.6rem;
+            flex-wrap: wrap;
+            margin: 1rem 0;
+        }
+
+        .swatch-item {
+            flex: 1;
+            min-width: 110px;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            background: #fff;
+        }
+
+        .swatch-color {
+            height: 56px;
+        }
+
+        .swatch-info {
+            padding: 0.45rem 0.7rem;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+        }
+
+        .swatch-info strong {
+            color: var(--text-primary);
+            display: block;
+            font-size: 0.8rem;
+        }
+
+        /* ER图简易展示 */
+        .er-diagram {
+            background: rgba(255, 255, 255, 0.7);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1rem;
+            margin: 1rem 0;
+            font-family: 'Consolas', monospace;
+            font-size: 0.82rem;
+            overflow-x: auto;
+        }
+
+        .er-entity {
+            display: inline-block;
+            vertical-align: top;
+            background: #fff;
+            border: 2px solid var(--primary);
+            border-radius: 8px;
+            min-width: 150px;
+            margin: 0.4rem;
+            overflow: hidden;
+        }
+
+        .er-entity-title {
+            background: rgba(196, 167, 125, 0.15);
+            padding: 0.4rem 0.7rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            border-bottom: 1px solid var(--border-color);
+            font-size: 0.85rem;
+        }
+
+        .er-entity-field {
+            padding: 0.3rem 0.7rem;
+            color: var(--text-secondary);
+            font-size: 0.78rem;
+            border-bottom: 1px dashed var(--border-color);
+        }
+
+        .er-entity-field:last-child { border-bottom: none; }
+        .er-entity-field .pk { color: var(--primary); font-weight: 600; }
+
+        /* 右栏：目录 */
+        .toc-col {
+            border-left: 1px solid var(--border-color);
+            background: rgba(255, 255, 255, 0.3);
+            padding: 1.5rem 1.25rem;
+            overflow-y: auto;
+        }
+
+        .toc-label {
+            font-size: 0.7rem;
+            letter-spacing: 2px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+
+        .toc-list {
+            list-style: none;
+        }
+
+        .toc-list li {
+            margin-bottom: 0.5rem;
+        }
+
+        .toc-list a {
+            display: block;
+            font-size: 0.82rem;
+            color: var(--text-secondary);
+            padding: 0.3rem 0.6rem;
+            border-radius: 6px;
+            transition: all 0.25s;
+            line-height: 1.5;
+            border-left: 2px solid transparent;
+        }
+
+        .toc-list a:hover {
+            color: var(--primary);
+            background: rgba(196, 167, 125, 0.08);
+            border-left-color: var(--primary);
+        }
+
+        .toc-list a.active {
+            color: var(--primary);
+            font-weight: 600;
+            background: rgba(196, 167, 125, 0.12);
+            border-left-color: var(--primary);
+        }
+
+        .toc-list .toc-h3 {
+            padding-left: 1.6rem;
+            font-size: 0.78rem;
+            color: var(--text-muted);
+        }
+
+        /* ===== blog 专属布局：左侧30% ===== */
+        .project-layout {
+            grid-template-columns: 30% 1fr 220px;
+        }
+
+        /* 加载动画 */
+        .proto-loading {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 320px;
+            gap: 14px;
+        }
+
+        .proto-loading-spinner {
+            width: 36px;
+            height: 36px;
+            border: 3px solid rgba(196, 167, 125, 0.2);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 0.9s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .proto-loading-text {
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .proto-loading-text::after {
+            content: '...';
+            display: inline-block;
+            animation: dots 1.4s steps(4, end) infinite;
+        }
+
+        @keyframes dots {
+            0%, 20%   { content: ''; }
+            40%       { content: '.'; }
+            60%       { content: '..'; }
+            80%, 100% { content: '...'; }
+        }
+
+        /* 图片原型 */
+        .proto-image {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+
+        /* ===== 移动端适配 ===== */
+        @media (max-width: 1024px) {
+            .project-layout {
+                grid-template-columns: 1fr !important;
+            }
+            .prototype-col {
+                max-height: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 顶部导航 -->
+    <nav>
+        <div class="nav-inner">
+            <div class="nav-logo">
+                <i class="fas fa-feather"></i>
+                <span>XD · 作品集</span>
+            </div>
+            <div class="nav-projects" id="navProjects">
+                <a href="project-faq-bot.html" class="nav-project-link">FAQ智能体项目</a>
+                <a href="project-water-soil.html" class="nav-project-link">TOB网站项目</a>
+                <a href="project-eat-what.html" class="nav-project-link">小程序项目</a>
+                <a href="project-blog.html" class="nav-project-link active">个人博客项目</a>
+                <a href="project-vr-space.html" class="nav-project-link">UX项目</a>
+            </div>
+            <div class="nav-actions">
+                <span class="nav-divider"></span>
+                <a href="index.html" class="nav-home-link">
+                    <i class="fas fa-home"></i>
+                    <span>返回首页</span>
+                </a>
+                <button class="nav-menu-btn" id="navMenuBtn" type="button" aria-label="项目菜单">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 三栏布局 -->
+    <div class="project-layout">
+
+        <!-- 左栏：交互原型区 -->
+        <aside class="prototype-col" id="prototype-col">
+            <div class="prototype-label">INTERACTIVE PROTOTYPE</div>
+            <div class="prototype-title">博客原型展示</div>
+
+            <!-- 加载动画 -->
+            <div class="proto-loading" id="protoLoading">
+                <div class="proto-loading-spinner"></div>
+                <div class="proto-loading-text">展板正在飞速加载</div>
+            </div>
+
+            <!-- 加载完成后显示图片 -->
+            <img class="proto-image" id="protoImage" src="images/xxd.png" alt="博客原型展示" style="display: none;">
+        </aside>
+
+        <!-- 中栏：文章区 -->
+        <main class="article-col" id="article-col">
+
+            <header class="article-header">
+                <span class="article-tag">全栈开发 · 个人项目</span>
+                <h1 class="article-title">我的被窝 · 个人博客系统</h1>
+                <p class="article-subtitle">一个属于自己的内容阵地，从 0 到 1 跑通 Web 全链路，实现纯个人风格前后台博客</p>
+                <div class="article-meta">
+                    <span><i class="fas fa-calendar"></i> 2022.12</span>
+                    <span><i class="fas fa-user-tie"></i> 全栈开发</span>
+                    <span><i class="fas fa-cogs"></i> Express · MongoDB · Bootstrap</span>
+                    <span><i class="fab fa-git-alt"></i> <a href="https://gitee.com/xu-xiaodan/blog1" target="_blank" style="color:var(--primary);">Gitee 仓库</a></span>
+                </div>
+            </header>
+
+
+            <!-- 1. 项目背景 -->
+            <section class="article-section" id="sec-1">
+                <h2 class="article-h2">一、项目背景</h2>
+                <p class="article-p">
+                    2022 年底，在大二学完动态网页 与数据库基础之后，我需要一个能"把所学全部串起来"的实战项目。<strong>"我的被窝"</strong>这个名字来源于我希望拥有一个属于自己的、温暖的小角落——一个可以记录生活、整理学习笔记、分享作品的内容阵地。
+                </p>
+                <p class="article-p">
+                    选博客系统作为全栈入门项目，是因为它足够"小而全"：既有前台的内容展示，又有后台的数据管理；既要处理静态资源，又要处理动态接口；既涉及用户权限，又涉及富文本与评论交互。它能完整覆盖 Web 开发的全链路。
+                </p>
+                <p class="article-p"><strong>这个项目要解决2个核心问题：</strong></p>
+                <ul class="article-ul">
+                    <li><strong>全栈能力实战：</strong>把前端 HTML/CSS/JS、后端 Node.js/Express、数据库 MongoDB 一次性串起来跑通。</li>
+                    <li><strong>审美表达：</strong>用自己设计的 LOGO、莫兰迪黄配色与圆角毛玻璃风格，做一个纯个人风格色彩的网站。</li>
+                </ul>
+                <div class="article-highlight">
+                    <strong>定位：</strong>这不是一个追求功能大而全的 SaaS 产品，而是一个<strong>"一个人能独立完成的全栈 MVP"</strong>——它让我第一次真正实践"一个网页从浏览器发起到数据库返回再到页面渲染"的完整旅程。
+                </div>
+            </section>
+
+            <!-- 2. 技术选型 -->
+            <section class="article-section" id="sec-2">
+                <h2 class="article-h2">二、技术选型</h2>
+                <p class="article-p">
+                    技术选型的核心原则是"<strong>够用、好学、能跑通</strong>"。作为第一个全栈项目，没有引入 React/Vue 这类前端框架，而是选择了服务端渲染（SSR）的传统栈，把注意力集中在理解 HTTP、模板与数据库上。
+                </p>
+
+                <table class="article-table">
+                    <thead>
+                        <tr>
+                            <th>层级</th>
+                            <th>技术</th>
+                            <th>选型理由</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>后端框架</td>
+                            <td>Express</td>
+                            <td>Node.js 最轻量 Web 框架，路由/中间件模型清晰，上手成本低，社区资源丰富</td>
+                        </tr>
+                        <tr>
+                            <td>模板引擎</td>
+                            <td>art-template</td>
+                            <td>性能高、语法接近原生 HTML，支持 include 公共组件复用，适合 SSR 场景</td>
+                        </tr>
+                        <tr>
+                            <td>数据库</td>
+                            <td>MongoDB</td>
+                            <td>文档型存储，文章/评论结构灵活无需建表，MongoDBCompass 操作直观</td>
+                        </tr>
+                        <tr>
+                            <td>前端交互</td>
+                            <td>jQuery</td>
+                            <td>DOM 操作与 AJAX 简洁，避免在框架学习上分散精力，聚焦业务逻辑</td>
+                        </tr>
+                        <tr>
+                            <td>UI 框架</td>
+                            <td>Bootstrap</td>
+                            <td>响应式栅格 + 现成组件（模态框、表单、分页），快速搭建美观后台</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="article-quote">
+                    选 jQuery 而不是 Vue，是因为当时2022年这个阶段我更想搞清楚"<strong>数据是怎么从后端流到前端的</strong>"，而不是"<strong>前端状态怎么管理</strong>"。后面我主要在TOB网站项目实践了Vue的全流程。
+                </div>
+
+                <h3 class="article-h3" id="sec-2-1">2.1 整体技术架构</h3>
+                <div class="article-code"><span class="cm"># 浏览器（jQuery + Bootstrap）</span>
+   │  HTTP 请求（GET / POST）
+   ▼
+<span class="kw">Express 应用</span>（路由 + 中间件）
+   ├── 静态资源：public/（CSS/JS/图片/LOGO）
+   ├── 路由层：routes/（前台 home/article + 后台 admin）
+   ├── 控制层：controller/（业务逻辑 + 权限校验）
+   └── 模板渲染：art-template → HTML 输出
+   │  mongoose 操作
+   ▼
+<span class="kw">MongoDB</span>（users / articles / comments / messages）</div>
+            </section>
+
+            <!-- 3. 系统架构设计 -->
+            <section class="article-section" id="sec-3">
+                <h2 class="article-h2">三、系统架构设计</h2>
+
+                <h3 class="article-h3" id="sec-3-1">3.1 前后台架构</h3>
+                <p class="article-p">
+                    系统分为<strong>前台（访客视角）</strong>与<strong>后台（管理员视角）</strong>两套独立的页面与路由，共用同一套数据库。前台专注内容呈现与互动，后台专注内容生产与管理。
+                </p>
+                <table class="article-table">
+                    <thead>
+                        <tr>
+                            <th>端</th>
+                            <th>页面/模块</th>
+                            <th>核心职责</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td rowspan="5">前台</td>
+                            <td>首页文章列表</td>
+                            <td>分页展示最新文章，封面图 + 摘要 + 标签</td>
+                        </tr>
+                        <tr>
+                            <td>文章详情页</td>
+                            <td>正文渲染、目录锚点跳转、评论区</td>
+                        </tr>
+                        <tr>
+                            <td>百宝箱</td>
+                            <td>个人收藏的资源、工具、书单整理</td>
+                        </tr>
+                        <tr>
+                            <td>留言板</td>
+                            <td>访客公开留言，无需登录即可提交</td>
+                        </tr>
+                        <tr>
+                            <td>作品集</td>
+                            <td>展示个人设计/开发作品的卡片墙</td>
+                        </tr>
+                        <tr>
+                            <td rowspan="3">后台</td>
+                            <td>用户管理</td>
+                            <td>用户增删改查、角色分配（普通/管理员）</td>
+                        </tr>
+                        <tr>
+                            <td>文章管理</td>
+                            <td>文章发布、编辑、删除、状态切换</td>
+                        </tr>
+                        <tr>
+                            <td>分页模块</td>
+                            <td>通用分页组件，复用于列表与后台</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3 class="article-h3" id="sec-3-2">3.2 数据库 ER 设计</h3>
+                <p class="article-p">
+                    数据库围绕"<strong>用户 - 文章 - 评论 - 留言</strong>"四类核心实体设计，用户与文章为一对多，文章与评论为一对多，留言板独立。
+                </p>
+                <div class="er-diagram">
+                    <div class="er-entity">
+                        <div class="er-entity-title">users · 用户</div>
+                        <div class="er-entity-field"><span class="pk">PK</span> _id</div>
+                        <div class="er-entity-field">username</div>
+                        <div class="er-entity-field">password (MD5)</div>
+                        <div class="er-entity-field">role (0/1)</div>
+                        <div class="er-entity-field">email</div>
+                        <div class="er-entity-field">avatar</div>
+                    </div>
+                    <div class="er-entity">
+                        <div class="er-entity-title">articles · 文章</div>
+                        <div class="er-entity-field"><span class="pk">PK</span> _id</div>
+                        <div class="er-entity-field"><span class="pk">FK</span> author → users</div>
+                        <div class="er-entity-field">title</div>
+                        <div class="er-entity-field">content</div>
+                        <div class="er-entity-field">cover</div>
+                        <div class="er-entity-field">tags</div>
+                        <div class="er-entity-field">createdAt</div>
+                    </div>
+                    <div class="er-entity">
+                        <div class="er-entity-title">comments · 评论</div>
+                        <div class="er-entity-field"><span class="pk">PK</span> _id</div>
+                        <div class="er-entity-field"><span class="pk">FK</span> article → articles</div>
+                        <div class="er-entity-field"><span class="pk">FK</span> user → users</div>
+                        <div class="er-entity-field">content</div>
+                        <div class="er-entity-field">createdAt</div>
+                    </div>
+                    <div class="er-entity">
+                        <div class="er-entity-title">messages · 留言</div>
+                        <div class="er-entity-field"><span class="pk">PK</span> _id</div>
+                        <div class="er-entity-field">nickname</div>
+                        <div class="er-entity-field">content</div>
+                        <div class="er-entity-field">contact (可选)</div>
+                        <div class="er-entity-field">createdAt</div>
+                    </div>
+                </div>
+                <div class="article-highlight">
+                    <strong>设计要点：</strong>评论与文章通过 articleId 关联，查询文章详情时通过 <code style="background:#2d2d2d;color:#d8caaf;padding:1px 5px;border-radius:4px;font-size:0.8rem;">populate</code> 联表取出评论及评论者昵称，避免前端二次请求。
+                </div>
+            </section>
+
+            <!-- 4. 核心功能实现 -->
+            <section class="article-section" id="sec-4">
+                <h2 class="article-h2">四、核心功能实现</h2>
+
+                <h3 class="article-h3" id="sec-4-1">4.1 文章 CRUD</h3>
+                <p class="article-p">
+                    文章的增删改查是后台的核心。通过 Express 路由 + mongoose 模型完成数据操作，art-template 渲染后台列表与编辑页。
+                </p>
+                <div class="article-code"><span class="cm">// routes/admin/article.js —— 文章发布</span>
+router.post(<span class="st">'/add'</span>, <span class="kw">async</span> (req, res) => {
+  <span class="kw">const</span> { title, content, cover, tags } = req.body;
+  <span class="kw">await</span> Article.create({
+    title, content, cover, tags,
+    author: req.session.user._id   <span class="cm">// 从会话取作者</span>
+  });
+  res.redirect(<span class="st">'/admin/articles'</span>);
+});
+
+<span class="cm">// 文章列表分页查询</span>
+router.get(<span class="st">'/'</span>, <span class="kw">async</span> (req, res) => {
+  <span class="kw">const</span> page = +req.query.page || 1;
+  <span class="kw">const</span> size = 5;
+  <span class="kw">const</span> total = <span class="kw">await</span> Article.countDocuments();
+  <span class="kw">const</span> list = <span class="kw">await</span> Article.find()
+    .sort({ createdAt: -1 })
+    .skip((page - 1) * size)
+    .limit(size)
+    .populate(<span class="st">'author'</span>, <span class="st">'username'</span>);
+  res.render(<span class="st">'admin/article-list'</span>, { list, page, total, size });
+});</div>
+
+                <h3 class="article-h3" id="sec-4-2">4.2 用户权限与登录拦截</h3>
+                <p class="article-p">
+                    用户分为<strong>普通用户（role=0）</strong>与<strong>管理员（role=1）</strong>两种角色。登录成功后将用户信息存入 session，通过中间件统一拦截未登录与权限不足的访问。
+                </p>
+                <div class="article-code"><span class="cm">// 中间件：登录拦截</span>
+<span class="kw">function</span> requireLogin(req, res, next) {
+  <span class="kw">if</span> (!req.session.user) {
+    <span class="kw">return</span> res.redirect(<span class="st">'/login?from='</span> + req.url);
+  }
+  next();
+}
+
+<span class="cm">// 中间件：管理员权限校验</span>
+<span class="kw">function</span> requireAdmin(req, res, next) {
+  <span class="kw">if</span> (req.session.user?.role !== 1) {
+    <span class="kw">return</span> res.status(403).send(<span class="st">'权限不足，仅管理员可访问'</span>);
+  }
+  next();
+}
+
+<span class="cm">// 后台路由统一挂载</span>
+app.use(<span class="st">'/admin'</span>, requireLogin, requireAdmin, adminRouter);</div>
+
+                <h3 class="article-h3" id="sec-4-3">4.3 评论系统</h3>
+                <p class="article-p">
+                    文章详情页底部嵌入评论区，登录用户可提交评论。评论通过文章 ID 关联，提交后实时追加到评论列表，并显示评论者昵称与头像。
+                </p>
+                <ul class="article-ul">
+                    <li><strong>提交：</strong>POST <code style="background:rgba(196,167,125,0.12);padding:1px 5px;border-radius:4px;font-size:0.8rem;">/comment/add</code>，携带 articleId 与 content</li>
+                    <li><strong>展示：</strong>查询文章时 populate 关联 comments，按时间倒序渲染</li>
+                    <li><strong>防刷：</strong>未登录跳转登录页；内容为空前端拦截，不发起请求</li>
+                </ul>
+
+                <h3 class="article-h3" id="sec-4-4">4.4 分页模块</h3>
+                <p class="article-p">
+                    分页是博客列表与后台管理的高频需求，封装为通用组件，传入当前页、总条数、每页条数即可渲染。
+                </p>
+                <table class="article-table">
+                    <thead>
+                        <tr>
+                            <th>参数</th>
+                            <th>含义</th>
+                            <th>示例</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>page</td><td>当前页码（从 URL query 取）</td><td>1</td></tr>
+                        <tr><td>size</td><td>每页条数</td><td>5</td></tr>
+                        <tr><td>total</td><td>总条数（countDocuments 取）</td><td>23</td></tr>
+                        <tr><td>totalPage</td><td>总页数（Math.ceil 计算）</td><td>5</td></tr>
+                    </tbody>
+                </table>
+                <div class="article-highlight">
+                    <strong>实现细节：</strong>用 <code style="background:#2d2d2d;color:#d8caaf;padding:1px 5px;border-radius:4px;font-size:0.8rem;">skip((page-1)*size).limit(size)</code> 完成 MongoDB 分页查询；前端用 art-template 循环生成页码按钮，当前页高亮、首末页禁用上下页。
+                </div>
+
+                <h3 class="article-h3" id="sec-4-5">4.5 密码 MD5 加密</h3>
+                <p class="article-p">
+                    密码绝不能明文入库。使用 MD5 对密码进行单向散列，登录时对输入密码同样做 MD5 后与数据库比对。
+                </p>
+                <div class="article-code"><span class="cm">// utils/crypto.js</span>
+<span class="kw">const</span> crypto = <span class="kw">require</span>(<span class="st">'crypto'</span>);
+
+<span class="kw">function</span> md5(str) {
+  <span class="kw">return</span> crypto.createHash(<span class="st">'md5'</span>).update(str).digest(<span class="st">'hex'</span>);
+}
+
+<span class="cm">// 注册：密码加密入库</span>
+<span class="kw">const</span> user = <span class="kw">await</span> User.create({
+  username,
+  password: md5(password)   <span class="cm">// 不存明文</span>
+});
+
+<span class="cm">// 登录：加密后比对</span>
+<span class="kw">const</span> exist = <span class="kw">await</span> User.findOne({
+  username,
+  password: md5(password)
+});</div>
+                <div class="article-quote">
+                    <strong>记录：</strong>MD5 在今天已不安全（可被彩虹表反查）。这是当时学习阶段的方案，后续项目已升级为 bcrypt 加盐哈希，但这个练习让我更深刻理解"<strong>加密</strong>"。
+                </div>
+            </section>
+
+            <!-- 5. 设计亮点 -->
+            <section class="article-section" id="sec-5">
+                <h2 class="article-h2">五、设计亮点</h2>
+                <p class="article-p">
+                    功能是骨架，视觉是皮肤。除了把功能跑通，我在视觉设计上也花了大量心思——希望这个博客不仅"能用"，更要"<strong>充满个人色彩</strong>"。
+                </p>
+
+                <h3 class="article-h3" id="sec-5-1">5.1 莫兰迪黄配色</h3>
+                <p class="article-p">
+                    摒弃常见的纯白 + 蓝色科技风，选了低饱和度的莫兰迪黄作为主色，营造出"<strong>午后阳光洒在被窝上</strong>"的温暖感，呼应"我的被窝"这个项目名。
+                </p>
+                <div class="color-swatch">
+                    <div class="swatch-item">
+                        <div class="swatch-color" style="background:#d8caaf;"></div>
+                        <div class="swatch-info">
+                            <strong>莫兰迪黄</strong>
+                            #d8caaf
+                        </div>
+                    </div>
+                    <div class="swatch-item">
+                        <div class="swatch-color" style="background:#c4a77d;"></div>
+                        <div class="swatch-info">
+                            <strong>暖驼色</strong>
+                            #c4a77d
+                        </div>
+                    </div>
+                    <div class="swatch-item">
+                        <div class="swatch-color" style="background:#e8dcc4;"></div>
+                        <div class="swatch-info">
+                            <strong>米杏色</strong>
+                            #e8dcc4
+                        </div>
+                    </div>
+                    <div class="swatch-item">
+                        <div class="swatch-color" style="background:#5c4a3a;"></div>
+                        <div class="swatch-info">
+                            <strong>深咖文字</strong>
+                            #5c4a3a
+                        </div>
+                    </div>
+                </div>
+
+                <h3 class="article-h3" id="sec-5-2">5.2 圆角毛玻璃风格</h3>
+                <p class="article-p">
+                    卡片大量使用 <code style="background:rgba(196,167,125,0.12);padding:1px 5px;border-radius:4px;font-size:0.8rem;">backdrop-filter: blur()</code> 实现毛玻璃质感，配合 12-16px 的大圆角，整体柔和不刺眼。
+                </p>
+                <div class="article-code"><span class="cm">/* 毛玻璃卡片核心样式 */</span>
+.card {
+  background: rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(196, 167, 125, 0.3);
+  border-radius: 14px;
+  box-shadow: 0 8px 32px rgba(196, 167, 125, 0.15);
+}</div>
+
+                <h3 class="article-h3" id="sec-5-3">5.3 个人原创 LOGO</h3>
+                <p class="article-p">
+                    没有用现成的图标库，而是手绘了一个专属 LOGO——一个蜷缩在被窝里的小形象，呼应"我的被窝"主题。LOGO 用在线条简洁的单色版与带渐变的彩色版两种场景，分别用于导航栏与首页大图。
+                </p>
+                <div class="article-highlight">
+                    <strong>设计理念：</strong>LOGO 不追求精致复杂，而追求"<strong>个人IP塑造</strong>"。它出现在浏览器 favicon、导航栏、页脚与封面图四个位置，形成统一的品牌识别。
+                </div>
+            </section>
+
+            <!-- 6. 项目复盘 -->
+            <section class="article-section" id="sec-6">
+                <h2 class="article-h2">六、项目复盘与反思</h2>
+                <p class="article-p">
+                    "我的被窝"是我<strong>第一个真正意义上独立完成、并部署上线的全栈项目</strong>。它不复杂，但它让我第一次完整地走完了"需求 → 设计 → 开发 → 部署"的整个流程。
+                </p>
+
+                <h3 class="article-h3" id="sec-6-1">6.1 最大的收获</h3>
+                <ul class="article-ul">
+                    <li><strong>建立 Web 全链路理解：</strong>从浏览器发请求 → Express 路由 → 控制器 →  MongoDB数据库 → 模板渲染 → 浏览器展示，每一段都自己深刻实践。</li>
+                    <li><strong>理解前后台分离的本质：</strong>虽然用的是 SSR，但通过这个项目理解了"为什么后来要前后端分离"——SSR 在交互复杂时会很笨重。</li>
+                    <li><strong>建立工程化意识：</strong>学会了用中间件复用逻辑、用 public 目录管理静态资源、用 session 管理登录态、用分页组件复用 UI。</li>
+                    <li><strong>"产品化"思维：</strong>不只是写代码、想配色、想 LOGO，还要想用户看到这个页面是什么感受、如何交互、如何优化用户体验——这开启了后来做产品的工作方式。</li>
+                </ul>
+
+                <h3 class="article-h3" id="sec-6-2">6.2 不足与改进方向</h3>
+                <table class="article-table">
+                    <thead>
+                        <tr>
+                            <th>问题</th>
+                            <th>当时方案</th>
+                            <th>改进方向</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>密码加密</td>
+                            <td>MD5（可被彩虹表反查）</td>
+                            <td>bcrypt 加盐哈希</td>
+                        </tr>
+                        <tr>
+                            <td>登录态</td>
+                            <td>session 存内存（重启丢失）</td>
+                            <td>Redis / JWT</td>
+                        </tr>
+                        <tr>
+                            <td>前端交互</td>
+                            <td>jQuery + SSR</td>
+                            <td>前后端分离 + Vue/React</td>
+                        </tr>
+                        <tr>
+                            <td>评论防刷</td>
+                            <td>仅前端非空校验</td>
+                            <td>限流 + 验证码 + 敏感词过滤</td>
+                        </tr>
+                        <tr>
+                            <td>图片存储</td>
+                            <td>本地 public 目录</td>
+                            <td>对象存储 OSS + CDN</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="article-quote">
+                    项目的价值，不在于它是否复杂，而在于<strong>它让我更懂Web</strong>。从这个博客开始，我建立起了对 Web 全链路的整体认知，后续做更复杂的系统时，脑子里始终有这张"地图"。
+                </div>
+
+                <div class="article-highlight">
+                    <strong>一句话总结：</strong>这是把"<strong>有代码基础</strong>"变成"<strong>能做一个完整产品</strong>"的关键一步。被窝虽小，五脏俱全。
+                </div>
+            </section>
+
+        </main>
+
+        <!-- 右栏：目录导航 -->
+        <aside class="toc-col">
+            <div class="toc-label">CONTENTS · 目录</div>
+            <ul class="toc-list">
+                <li><a href="#sec-1" class="toc-link active">一、项目背景</a></li>
+                <li><a href="#sec-2" class="toc-link">二、技术选型</a></li>
+                <li><a href="#sec-2-1" class="toc-h3 toc-link">2.1 整体技术架构</a></li>
+                <li><a href="#sec-3" class="toc-link">三、系统架构设计</a></li>
+                <li><a href="#sec-3-1" class="toc-h3 toc-link">3.1 前后台架构</a></li>
+                <li><a href="#sec-3-2" class="toc-h3 toc-link">3.2 数据库 ER 设计</a></li>
+                <li><a href="#sec-4" class="toc-link">四、核心功能实现</a></li>
+                <li><a href="#sec-4-1" class="toc-h3 toc-link">4.1 文章 CRUD</a></li>
+                <li><a href="#sec-4-2" class="toc-h3 toc-link">4.2 用户权限与登录拦截</a></li>
+                <li><a href="#sec-4-3" class="toc-h3 toc-link">4.3 评论系统</a></li>
+                <li><a href="#sec-4-4" class="toc-h3 toc-link">4.4 分页模块</a></li>
+                <li><a href="#sec-4-5" class="toc-h3 toc-link">4.5 密码 MD5 加密</a></li>
+                <li><a href="#sec-5" class="toc-link">五、设计亮点</a></li>
+                <li><a href="#sec-5-1" class="toc-h3 toc-link">5.1 莫兰迪黄配色</a></li>
+                <li><a href="#sec-5-2" class="toc-h3 toc-link">5.2 圆角毛玻璃风格</a></li>
+                <li><a href="#sec-5-3" class="toc-h3 toc-link">5.3 个人原创 LOGO</a></li>
+                <li><a href="#sec-6" class="toc-link">六、项目复盘与反思</a></li>
+                <li><a href="#sec-6-1" class="toc-h3 toc-link">6.1 最大的收获</a></li>
+                <li><a href="#sec-6-2" class="toc-h3 toc-link">6.2 不足与改进方向</a></li>
+            </ul>
+        </aside>
+
+    </div>
+
+    <script>
+        // ===== 图片加载完成后显示 =====
+        const protoImage = document.getElementById('protoImage');
+        const protoLoading = document.getElementById('protoLoading');
+
+        if (protoImage && protoLoading) {
+            if (protoImage.complete) {
+                protoLoading.style.display = 'none';
+                protoImage.style.display = 'block';
+            } else {
+                protoImage.addEventListener('load', () => {
+                    protoLoading.style.display = 'none';
+                    protoImage.style.display = 'block';
+                });
+                protoImage.addEventListener('error', () => {
+                    protoLoading.querySelector('.proto-loading-text').textContent = '图片加载失败';
+                });
+            }
+        }
+
+        // ===== 目录高亮：滚动时自动激活当前章节 =====
+        const tocLinks = document.querySelectorAll('.toc-link');
+        const sections = [];
+
+        tocLinks.forEach(link => {
+            const id = link.getAttribute('href').substring(1);
+            const sec = document.getElementById(id);
+            if (sec) sections.push({ id, el: sec, link });
+        });
+
+        function updateToc() {
+            const scrollTop = document.getElementById('article-col').scrollTop;
+            let current = sections[0]?.id;
+
+            for (const sec of sections) {
+                if (sec.el.offsetTop - 120 <= scrollTop) {
+                    current = sec.id;
+                }
+            }
+
+            tocLinks.forEach(link => link.classList.remove('active'));
+            const activeLink = document.querySelector(`.toc-link[href="#${current}"]`);
+            if (activeLink) activeLink.classList.add('active');
+        }
+
+        document.getElementById('article-col').addEventListener('scroll', updateToc);
+
+        // ===== 平滑滚动 =====
+        tocLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const id = link.getAttribute('href').substring(1);
+                const target = document.getElementById(id);
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+
+        // ===== 移动端导航菜单切换 =====
+        const navMenuBtn = document.getElementById('navMenuBtn');
+        const navProjects = document.getElementById('navProjects');
+
+        navMenuBtn.addEventListener('click', () => {
+            navProjects.classList.toggle('show');
+            navMenuBtn.classList.toggle('open');
+            const isOpen = navProjects.classList.contains('show');
+            navMenuBtn.querySelector('i').className = isOpen ? 'fas fa-times' : 'fas fa-bars';
+        });
+
+        // 点击导航链接后关闭菜单
+        navProjects.querySelectorAll('.nav-project-link').forEach(link => {
+            link.addEventListener('click', () => {
+                navProjects.classList.remove('show');
+                navMenuBtn.classList.remove('open');
+                navMenuBtn.querySelector('i').className = 'fas fa-bars';
+            });
+        });
+    </script>
+
+</body>
+</html>
