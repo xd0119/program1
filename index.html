@@ -3109,6 +3109,12 @@
             addMessage('user', message);
             chatInput.value = '';
 
+            // 百度统计：记录访客提问（转义特殊字符防止报错）
+            try {
+                var safeMsg = message.replace(/\\/g, '\\\\').replace(/'/g, "\\'").replace(/"/g, '\\"').replace(/\n/g, ' ').substring(0, 100);
+                if (typeof _hmt !== 'undefined') _hmt.push(['_trackEvent', 'chatbot', 'ask', safeMsg]);
+            } catch(e) {}
+
             addMessage('bot', '');
             const lastMessage = chatMessages.lastElementChild;
 
