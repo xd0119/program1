@@ -2457,7 +2457,7 @@
                     <li><span class="text-[#6b6b6b] flex items-center justify-center md:justify-start"><i
                                 class="bi bi-github mr-2"></i> 托管 · GitHub Pages</span></li>
                     <li><span class="text-[#6b6b6b] flex items-center justify-center md:justify-start"><i
-                                class="bi bi-bar-chart-line mr-2"></i> 统计 · 不蒜子</span></li>
+                                class="bi bi-bar-chart-line mr-2"></i> 统计 · Vercount</span></li>
                 </ul>
             </div>
             <div class="flex flex-col items-center relative">
@@ -3255,7 +3255,17 @@
             chatMessages.scrollTop = chatMessages.scrollHeight;
         }
     </script>
-    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <script defer src="https://vercount.one/js"></script>
+    <script>
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                ['busuanzi_value_site_pv','busuanzi_value_site_uv','busuanzi_value_page_pv'].forEach(function(id) {
+                    var el = document.getElementById(id);
+                    if (el && el.textContent.trim() === '') el.textContent = '-';
+                });
+            }, 1500);
+        });
+    </script>
 </body>
 
 </html>
