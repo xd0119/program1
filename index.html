@@ -3111,9 +3111,17 @@
 
             // 百度统计：记录访客提问（伪装成虚拟页面访问，在"受访页面"可查看）
             try {
-                if (typeof _hmt !== 'undefined') {
-                    var encoded = encodeURIComponent(message.substring(0, 100));
-                    _hmt.push(['_trackPageview', '/chat/' + encoded]);
+                var encoded = encodeURIComponent(message.substring(0, 100));
+                var trackPath = '/chat/' + encoded;
+                if (typeof _hmt !== 'undefined' && _hmt.push) {
+                    _hmt.push(['_trackPageview', trackPath]);
+                } else {
+                    // _hmt 尚未加载，暂存到队列，3秒后重试
+                    setTimeout(function() {
+                        if (typeof _hmt !== 'undefined' && _hmt.push) {
+                            _hmt.push(['_trackPageview', trackPath]);
+                        }
+                    }, 3000);
                 }
             } catch(e) {}
 
