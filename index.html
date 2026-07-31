@@ -3109,10 +3109,12 @@
             addMessage('user', message);
             chatInput.value = '';
 
-            // 百度统计：记录访客提问（转义特殊字符防止报错）
+            // 百度统计：记录访客提问（伪装成虚拟页面访问，在"受访页面"可查看）
             try {
-                var safeMsg = message.replace(/\\/g, '\\\\').replace(/'/g, "\\'").replace(/"/g, '\\"').replace(/\n/g, ' ').substring(0, 100);
-                if (typeof _hmt !== 'undefined') _hmt.push(['_trackEvent', 'chatbot', 'ask', safeMsg]);
+                if (typeof _hmt !== 'undefined') {
+                    var encoded = encodeURIComponent(message.substring(0, 100));
+                    _hmt.push(['_trackPageview', '/chat/' + encoded]);
+                }
             } catch(e) {}
 
             addMessage('bot', '');
