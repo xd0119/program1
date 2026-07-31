@@ -3111,8 +3111,8 @@
 
             // 百度统计：记录访客提问（伪装成虚拟页面访问，在"受访页面"可查看）
             try {
-                var encoded = encodeURIComponent(message.substring(0, 100));
-                var trackPath = '/chat/' + encoded;
+                var safeMsg = message.replace(/\n/g, ' ').replace(/\//g, '_').substring(0, 80);
+                var trackPath = '/chat/' + safeMsg;
                 if (typeof _hmt !== 'undefined' && _hmt.push) {
                     _hmt.push(['_trackPageview', trackPath]);
                 } else {
