@@ -740,45 +740,64 @@
             .project-layout {
                 grid-template-columns: 1fr !important;
             }
-            .proto-simulator {
-                min-height: 420px;
+            /* 移动端隐藏左栏原型内容，仅保留引导 */
+            .prototype-col {
+                max-height: none;
+                padding: 1rem;
+                background: rgba(255, 255, 255, 0.3);
+            }
+            .prototype-col > *:not(.prototype-hint):not(.prototype-title):not(.prototype-label) {
+                display: none !important;
+            }
+            .prototype-label,
+            .prototype-title {
+                display: none;
+            }
+            .prototype-hint {
+                display: flex !important;
+                align-items: center;
+                margin: 0;
             }
         }
 
-        @media (max-width: 640px) {
-            .role-tabs {
-                flex-wrap: nowrap;
-                overflow-x: auto;
-                padding-bottom: 0.3rem;
-                -webkit-overflow-scrolling: touch;
-            }
+        .prototype-hint {
+            display: none;
+            padding: 1rem 1.1rem;
+            background: rgba(196, 167, 125, 0.08);
+            border: 1px solid rgba(196, 167, 125, 0.3);
+            border-radius: 12px;
+            font-size: 0.82rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            gap: 0.6rem;
+        }
 
-            .role-tabs::-webkit-scrollbar {
-                display: none;
-            }
+        .prototype-hint-icon {
+            flex-shrink: 0;
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            background: var(--gradient-main);
+            color: #fff;
+            display: grid;
+            place-items: center;
+            font-size: 1rem;
+        }
 
-            .role-tab {
-                flex-shrink: 0;
-            }
+        .prototype-hint-body {
+            flex: 1;
+        }
 
-            .proto-menu {
-                max-height: 76px;
-                padding: 0.45rem 0.55rem;
-            }
+        .prototype-hint-body strong {
+            color: var(--primary);
+            display: block;
+            font-size: 0.88rem;
+            margin-bottom: 0.2rem;
+        }
 
-            .proto-menu-item {
-                font-size: 0.65rem;
-                padding: 0.25rem 0.5rem;
-            }
-
-            .proto-topbar {
-                padding: 0.4rem 0.6rem;
-                font-size: 0.7rem;
-            }
-
-            .proto-simulator {
-                min-height: 360px;
-            }
+        .prototype-hint-body span {
+            font-size: 0.78rem;
+            color: var(--text-muted);
         }
     </style>
 </head>
@@ -818,6 +837,13 @@
         <aside class="prototype-col" id="prototype-col">
             <div class="prototype-label">INTERACTIVE PROTOTYPE</div>
             <div class="prototype-title">系统展板展示</div>
+            <div class="prototype-hint">
+                <div class="prototype-hint-icon"><i class="fas fa-desktop"></i></div>
+                <div class="prototype-hint-body">
+                    <strong>建议使用 PC 端查看</strong>
+                    <span>项目展板仅在电脑端展示，移动端不显示。</span>
+                </div>
+            </div>
 
             <!-- 加载动画 -->
             <div class="proto-loading" id="protoLoading">
@@ -1013,6 +1039,9 @@
                 <p class="article-p">
                     统筹项目全生命周期管理，牵头对接企业部署上线；输出标准化使用手册，并负责员工赋能培训，保障系统顺利落地使用。
                 </p>
+                <p class="article-p">
+                    团队协作机制：项目启动前输出明确的里程碑计划；每周组织1次会议同步当前任务进度；遇到UI/前端/后端不一致时由我牵头拉对齐会并做决策。我的协作风格偏向'文档先行+快速闭环'——先写PRD定基线，再有风险小步快跑迭代，避免反复返工。
+                </p>
             </section>
 
             <!-- 3. 系统功能模块 -->
@@ -1098,7 +1127,7 @@
                         <tr>
                             <td>前端框架</td>
                             <td>Vue2</td>
-                            <td>生态成熟、上手快，适合团队协作与中小型 B 端系统</td>
+                            <td>2023年项目启动时，Vue3生态对ElementPlus的部分B端组件支持仍不够稳定，Vue2+ElementUI对中小型B端项目是经过大量实战验证的成熟组合，团队熟练度高、风险低。</td>
                         </tr>
                         <tr>
                             <td>UI 组件库</td>
@@ -1288,6 +1317,19 @@
                 <div class="article-highlight">
                     <strong>成果解读：</strong>审批效率提升 70% 主要得益于流程线上化与多角色并行审批；数据错误率从 12% 降至 1% 则归功于中心数据库统一纳管、表单校验与预警规则的事前拦截。
                 </div>
+
+                <p class="article-p">
+                    <strong>成果归因：</strong>
+                </p>
+                <p class="article-p">
+                    效率提升归因：流程线上化（消除线下跨单位签字跑腿）+并行审批改造（原串行改多人可同时审批非依赖节点）。
+                </p>
+                <p class="article-p">
+                    数据质量提升归因：中心库统一纳管（淘汰各单位Excel分散存储）+表单校验规则（防止脏数据提交）+预警规则可视化与邮件事前拦截。
+                </p>
+                <p class="article-p">
+                    预警规则机制说明：系统的预警逻辑基于'编制值vs施工值'的对比——编制单位在工程前期填报各类水土保持措施的编制值，系统在多家施工单位填报施工值时自动累计比对，一旦施工值累计超过编制值设定阈值，即触发邮件预警给建设单位、监理单位、施工单位三方，实现事前拦截而非事后追责。
+                </p>
             </section>
 
             <!-- 7. 项目复盘与反思 -->
@@ -1311,6 +1353,25 @@
                 <div class="article-highlight">
                     <strong>核心方法论总结：</strong>B 端系统的价值不在于功能多少，而在于是否真正打通业务闭环。本项目的关键在于"以痛点定架构、以权限保协同、以预警防风险"——先把多方协同的权责理清，再用动态路由与中心数据库把协同落地，最后用实时预警把风险前移。
                 </div>
+
+                <p class="article-p">
+                    <strong>协作中的一次典型挑战：</strong>
+                </p>
+                <p class="article-p">
+                    前后端对齐接口时，发现对同一产品需求存在认知偏差——不同单位在审批流程中有不同的先后顺序与不同的权限操作按钮，复杂的业务流程让前后端对'谁先审、谁能改、谁只能看'的理解不一致。
+                </p>
+                <p class="article-p">
+                    <strong>我的解法：</strong>
+                </p>
+                <p class="article-p">
+                    ①第一时间拉产品、前端、后端三方对齐会，梳理三方对需求的理解差异；<br>
+                    ②对于需求无法直接实现的矛盾点，我基于业务流程图重新拆解，找到'业务必需'与'技术可实现'的交集；<br>
+                    ③带着两版可实现的替代方案与共识结论，与甲方对齐确认最终方案；<br>
+                    ④确认后更新PRD与接口文档，作为后续开发的基线。
+                </p>
+                <p class="article-p">
+                    这次经历让我形成了一套协作方法论：'发现分歧→三方对齐→提炼替代方案→与甲方共识→文档留痕'，后续在多个复杂需求场景中复用有效。
+                </p>
             </section>
 
         </main>

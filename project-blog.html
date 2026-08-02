@@ -513,9 +513,64 @@
             .project-layout {
                 grid-template-columns: 1fr !important;
             }
+            /* 移动端隐藏左栏原型内容，仅保留引导 */
             .prototype-col {
                 max-height: none;
+                padding: 1rem;
+                background: rgba(255, 255, 255, 0.3);
             }
+            .prototype-col > *:not(.prototype-hint):not(.prototype-title):not(.prototype-label) {
+                display: none !important;
+            }
+            .prototype-label,
+            .prototype-title {
+                display: none;
+            }
+            .prototype-hint {
+                display: flex !important;
+                align-items: center;
+                margin: 0;
+            }
+        }
+
+        .prototype-hint {
+            display: none;
+            padding: 1rem 1.1rem;
+            background: rgba(196, 167, 125, 0.08);
+            border: 1px solid rgba(196, 167, 125, 0.3);
+            border-radius: 12px;
+            font-size: 0.82rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            gap: 0.6rem;
+        }
+
+        .prototype-hint-icon {
+            flex-shrink: 0;
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            background: var(--gradient-main);
+            color: #fff;
+            display: grid;
+            place-items: center;
+            font-size: 1rem;
+        }
+
+        .prototype-hint-body {
+            flex: 1;
+        }
+
+        .prototype-hint-body strong {
+            color: var(--primary);
+            display: block;
+            font-size: 0.88rem;
+            margin-bottom: 0.2rem;
+        }
+
+        .prototype-hint-body span {
+            font-size: 0.78rem;
+            color: var(--text-muted);
         }
     </style>
 </head>
@@ -554,9 +609,14 @@
         <!-- 左栏：交互原型区 -->
         <aside class="prototype-col" id="prototype-col">
             <div class="prototype-label">INTERACTIVE PROTOTYPE</div>
-            <div class="prototype-title">博客原型展示</div>
-
-            <!-- 加载动画 -->
+            <div class="prototype-title">博客展板展示</div>
+            <div class="prototype-hint">
+                <div class="prototype-hint-icon"><i class="fas fa-desktop"></i></div>
+                <div class="prototype-hint-body">
+                    <strong>建议使用 PC 端查看</strong>
+                    <span>项目展板仅在电脑端展示，移动端不显示。</span>
+                </div>
+            </div>
             <div class="proto-loading" id="protoLoading">
                 <div class="proto-loading-spinner"></div>
                 <div class="proto-loading-text">展板正在飞速加载</div>
@@ -589,21 +649,17 @@
                     2022 年底，在大二学完动态网页 与数据库基础之后，我需要一个能"把所学全部串起来"的实战项目。<strong>"我的被窝"</strong>这个名字来源于我希望拥有一个属于自己的、温暖的小角落——一个可以记录生活、整理学习笔记、分享作品的内容阵地。
                 </p>
                 <p class="article-p">
-                    选博客系统作为全栈入门项目，是因为它足够"小而全"：既有前台的内容展示，又有后台的数据管理；既要处理静态资源，又要处理动态接口；既涉及用户权限，又涉及富文本与评论交互。它能完整覆盖 Web 开发的全链路。
+                    选博客系统作为全栈入门项目，是因为它足够"小而全"：既有前台的内容展示，又有后台的数据管理；既要处理静态资源，又要处理动态接口；既涉及用户权限，又涉及富文本与评论交互，它能完整覆盖 Web 开发的全链路。
                 </p>
-                <p class="article-p"><strong>这个项目要解决2个核心问题：</strong></p>
-                <ul class="article-ul">
-                    <li><strong>全栈能力实战：</strong>把前端 HTML/CSS/JS、后端 Node.js/Express、数据库 MongoDB 一次性串起来跑通。</li>
-                    <li><strong>审美表达：</strong>用自己设计的 LOGO、莫兰迪黄配色与圆角毛玻璃风格，做一个纯个人风格色彩的网站。</li>
-                </ul>
+
                 <div class="article-highlight">
                     <strong>定位：</strong>这不是一个追求功能大而全的 SaaS 产品，而是一个<strong>"一个人能独立完成的全栈 MVP"</strong>——它让我第一次真正实践"一个网页从浏览器发起到数据库返回再到页面渲染"的完整旅程。
                 </div>
             </section>
 
-            <!-- 2. 技术选型 -->
+            <!-- 2. 技术选型与架构设计 -->
             <section class="article-section" id="sec-2">
-                <h2 class="article-h2">二、技术选型</h2>
+                <h2 class="article-h2">二、技术选型与架构设计</h2>
                 <p class="article-p">
                     技术选型的核心原则是"<strong>够用、好学、能跑通</strong>"。作为第一个全栈项目，没有引入 React/Vue 这类前端框架，而是选择了服务端渲染（SSR）的传统栈，把注意力集中在理解 HTTP、模板与数据库上。
                 </p>
@@ -646,7 +702,7 @@
                 </table>
 
                 <div class="article-quote">
-                    选 jQuery 而不是 Vue，是因为当时2022年这个阶段我更想搞清楚"<strong>数据是怎么从后端流到前端的</strong>"，而不是"<strong>前端状态怎么管理</strong>"。后面我主要在TOB网站项目实践了Vue的全流程。
+                    选 jQuery 而不是 Vue，是因为当时2022年这个阶段我更想搞清楚"<strong>数据是怎么从后端流到前端的</strong>"，技术选型的第一优先级是"<strong>学习成本最低、最快跑通全链路</strong>"，而非"生产环境最优"。后面我主要在TOB网站项目实践了Vue的全流程。
                 </div>
 
                 <h3 class="article-h3" id="sec-2-1">2.1 整体技术架构</h3>
@@ -661,13 +717,12 @@
    │  mongoose 操作
    ▼
 <span class="kw">MongoDB</span>（users / articles / comments / messages）</div>
+
             </section>
 
-            <!-- 3. 系统架构设计 -->
+            <!-- 3. 系统架构设计（已合并至二章） -->
             <section class="article-section" id="sec-3">
-                <h2 class="article-h2">三、系统架构设计</h2>
-
-                <h3 class="article-h3" id="sec-3-1">3.1 前后台架构</h3>
+                <h3 class="article-h3" id="sec-3-1">2.2 前后台架构</h3>
                 <p class="article-p">
                     系统分为<strong>前台（访客视角）</strong>与<strong>后台（管理员视角）</strong>两套独立的页面与路由，共用同一套数据库。前台专注内容呈现与互动，后台专注内容生产与管理。
                 </p>
@@ -717,7 +772,7 @@
                     </tbody>
                 </table>
 
-                <h3 class="article-h3" id="sec-3-2">3.2 数据库 ER 设计</h3>
+                <h3 class="article-h3" id="sec-3-2">2.3 数据库 ER 设计</h3>
                 <p class="article-p">
                     数据库围绕"<strong>用户 - 文章 - 评论 - 留言</strong>"四类核心实体设计，用户与文章为一对多，文章与评论为一对多，留言板独立。
                 </p>
@@ -765,9 +820,9 @@
 
             <!-- 4. 核心功能实现 -->
             <section class="article-section" id="sec-4">
-                <h2 class="article-h2">四、核心功能实现</h2>
+                <h2 class="article-h2">三、核心功能实现</h2>
 
-                <h3 class="article-h3" id="sec-4-1">4.1 文章 CRUD</h3>
+                <h3 class="article-h3" id="sec-4-1">3.1 文章 CRUD</h3>
                 <p class="article-p">
                     文章的增删改查是后台的核心。通过 Express 路由 + mongoose 模型完成数据操作，art-template 渲染后台列表与编辑页。
                 </p>
@@ -794,7 +849,7 @@ router.get(<span class="st">'/'</span>, <span class="kw">async</span> (req, res)
   res.render(<span class="st">'admin/article-list'</span>, { list, page, total, size });
 });</div>
 
-                <h3 class="article-h3" id="sec-4-2">4.2 用户权限与登录拦截</h3>
+                <h3 class="article-h3" id="sec-4-2">3.2 用户权限与登录拦截</h3>
                 <p class="article-p">
                     用户分为<strong>普通用户（role=0）</strong>与<strong>管理员（role=1）</strong>两种角色。登录成功后将用户信息存入 session，通过中间件统一拦截未登录与权限不足的访问。
                 </p>
@@ -817,7 +872,7 @@ router.get(<span class="st">'/'</span>, <span class="kw">async</span> (req, res)
 <span class="cm">// 后台路由统一挂载</span>
 app.use(<span class="st">'/admin'</span>, requireLogin, requireAdmin, adminRouter);</div>
 
-                <h3 class="article-h3" id="sec-4-3">4.3 评论系统</h3>
+                <h3 class="article-h3" id="sec-4-3">3.3 评论系统</h3>
                 <p class="article-p">
                     文章详情页底部嵌入评论区，登录用户可提交评论。评论通过文章 ID 关联，提交后实时追加到评论列表，并显示评论者昵称与头像。
                 </p>
@@ -827,7 +882,7 @@ app.use(<span class="st">'/admin'</span>, requireLogin, requireAdmin, adminRoute
                     <li><strong>防刷：</strong>未登录跳转登录页；内容为空前端拦截，不发起请求</li>
                 </ul>
 
-                <h3 class="article-h3" id="sec-4-4">4.4 分页模块</h3>
+                <h3 class="article-h3" id="sec-4-4">3.4 分页模块</h3>
                 <p class="article-p">
                     分页是博客列表与后台管理的高频需求，封装为通用组件，传入当前页、总条数、每页条数即可渲染。
                 </p>
@@ -850,7 +905,7 @@ app.use(<span class="st">'/admin'</span>, requireLogin, requireAdmin, adminRoute
                     <strong>实现细节：</strong>用 <code style="background:#2d2d2d;color:#d8caaf;padding:1px 5px;border-radius:4px;font-size:0.8rem;">skip((page-1)*size).limit(size)</code> 完成 MongoDB 分页查询；前端用 art-template 循环生成页码按钮，当前页高亮、首末页禁用上下页。
                 </div>
 
-                <h3 class="article-h3" id="sec-4-5">4.5 密码 MD5 加密</h3>
+                <h3 class="article-h3" id="sec-4-5">3.5 密码 MD5 加密</h3>
                 <p class="article-p">
                     密码绝不能明文入库。使用 MD5 对密码进行单向散列，登录时对输入密码同样做 MD5 后与数据库比对。
                 </p>
@@ -879,12 +934,12 @@ app.use(<span class="st">'/admin'</span>, requireLogin, requireAdmin, adminRoute
 
             <!-- 5. 设计亮点 -->
             <section class="article-section" id="sec-5">
-                <h2 class="article-h2">五、设计亮点</h2>
+                <h2 class="article-h2">四、设计风格</h2>
                 <p class="article-p">
                     功能是骨架，视觉是皮肤。除了把功能跑通，我在视觉设计上也花了大量心思——希望这个博客不仅"能用"，更要"<strong>充满个人色彩</strong>"。
                 </p>
 
-                <h3 class="article-h3" id="sec-5-1">5.1 莫兰迪黄配色</h3>
+                <h3 class="article-h3" id="sec-5-1">4.1 莫兰迪黄配色</h3>
                 <p class="article-p">
                     摒弃常见的纯白 + 蓝色科技风，选了低饱和度的莫兰迪黄作为主色，营造出"<strong>午后阳光洒在被窝上</strong>"的温暖感，呼应"我的被窝"这个项目名。
                 </p>
@@ -919,7 +974,7 @@ app.use(<span class="st">'/admin'</span>, requireLogin, requireAdmin, adminRoute
                     </div>
                 </div>
 
-                <h3 class="article-h3" id="sec-5-2">5.2 圆角毛玻璃风格</h3>
+                <h3 class="article-h3" id="sec-5-2">4.2 圆角毛玻璃风格</h3>
                 <p class="article-p">
                     卡片大量使用 <code style="background:rgba(196,167,125,0.12);padding:1px 5px;border-radius:4px;font-size:0.8rem;">backdrop-filter: blur()</code> 实现毛玻璃质感，配合 12-16px 的大圆角，整体柔和不刺眼。
                 </p>
@@ -933,7 +988,7 @@ app.use(<span class="st">'/admin'</span>, requireLogin, requireAdmin, adminRoute
   box-shadow: 0 8px 32px rgba(196, 167, 125, 0.15);
 }</div>
 
-                <h3 class="article-h3" id="sec-5-3">5.3 个人原创 LOGO</h3>
+                <h3 class="article-h3" id="sec-5-3">4.3 个人原创 LOGO</h3>
                 <p class="article-p">
                     没有用现成的图标库，而是手绘了一个专属 LOGO——一个蜷缩在被窝里的小形象，呼应"我的被窝"主题。LOGO 用在线条简洁的单色版与带渐变的彩色版两种场景，分别用于导航栏与首页大图。
                 </p>
@@ -944,12 +999,12 @@ app.use(<span class="st">'/admin'</span>, requireLogin, requireAdmin, adminRoute
 
             <!-- 6. 项目复盘 -->
             <section class="article-section" id="sec-6">
-                <h2 class="article-h2">六、项目复盘与反思</h2>
+                <h2 class="article-h2">五、项目复盘与反思</h2>
                 <p class="article-p">
-                    "我的被窝"是我<strong>第一个真正意义上独立完成、并部署上线的全栈项目</strong>。它不复杂，但它让我第一次完整地走完了"需求 → 设计 → 开发 → 部署"的整个流程。
+                    "我的被窝"是我<strong>第一个真正意义上独立完成、并部署上线的全栈项目</strong>，第一次完整地走完了"需求 → 设计 → 开发 → 部署"的整个流程。
                 </p>
 
-                <h3 class="article-h3" id="sec-6-1">6.1 最大的收获</h3>
+                <h3 class="article-h3" id="sec-6-1">5.1 最大的收获</h3>
                 <ul class="article-ul">
                     <li><strong>建立 Web 全链路理解：</strong>从浏览器发请求 → Express 路由 → 控制器 →  MongoDB数据库 → 模板渲染 → 浏览器展示，每一段都自己深刻实践。</li>
                     <li><strong>理解前后台分离的本质：</strong>虽然用的是 SSR，但通过这个项目理解了"为什么后来要前后端分离"——SSR 在交互复杂时会很笨重。</li>
@@ -957,7 +1012,7 @@ app.use(<span class="st">'/admin'</span>, requireLogin, requireAdmin, adminRoute
                     <li><strong>"产品化"思维：</strong>不只是写代码、想配色、想 LOGO，还要想用户看到这个页面是什么感受、如何交互、如何优化用户体验——这开启了后来做产品的工作方式。</li>
                 </ul>
 
-                <h3 class="article-h3" id="sec-6-2">6.2 不足与改进方向</h3>
+                <h3 class="article-h3" id="sec-6-2">5.2 不足与改进方向</h3>
                 <table class="article-table">
                     <thead>
                         <tr>
@@ -995,9 +1050,9 @@ app.use(<span class="st">'/admin'</span>, requireLogin, requireAdmin, adminRoute
                     </tbody>
                 </table>
 
-                <div class="article-quote">
-                    项目的价值，不在于它是否复杂，而在于<strong>它让我更懂Web</strong>。从这个博客开始，我建立起了对 Web 全链路的整体认知。
-                </div>
+                <p class="article-p">
+                    <strong>回看技术架构的演进理解：</strong>当时选择MongoDB是因为"文档型无需建表、上手快"，但也因此缺乏关系建模的训练；后续在水土保持系统项目中切换到MySQL+严谨的ER设计，补上了这一课。
+                </p>
 
             </section>
 
@@ -1008,24 +1063,23 @@ app.use(<span class="st">'/admin'</span>, requireLogin, requireAdmin, adminRoute
             <div class="toc-label">CONTENTS · 目录</div>
             <ul class="toc-list">
                 <li><a href="#sec-1" class="toc-link active">一、项目背景</a></li>
-                <li><a href="#sec-2" class="toc-link">二、技术选型</a></li>
+                <li><a href="#sec-2" class="toc-link">二、技术选型与架构设计</a></li>
                 <li><a href="#sec-2-1" class="toc-h3 toc-link">2.1 整体技术架构</a></li>
-                <li><a href="#sec-3" class="toc-link">三、系统架构设计</a></li>
-                <li><a href="#sec-3-1" class="toc-h3 toc-link">3.1 前后台架构</a></li>
-                <li><a href="#sec-3-2" class="toc-h3 toc-link">3.2 数据库 ER 设计</a></li>
-                <li><a href="#sec-4" class="toc-link">四、核心功能实现</a></li>
-                <li><a href="#sec-4-1" class="toc-h3 toc-link">4.1 文章 CRUD</a></li>
-                <li><a href="#sec-4-2" class="toc-h3 toc-link">4.2 用户权限与登录拦截</a></li>
-                <li><a href="#sec-4-3" class="toc-h3 toc-link">4.3 评论系统</a></li>
-                <li><a href="#sec-4-4" class="toc-h3 toc-link">4.4 分页模块</a></li>
-                <li><a href="#sec-4-5" class="toc-h3 toc-link">4.5 密码 MD5 加密</a></li>
-                <li><a href="#sec-5" class="toc-link">五、设计亮点</a></li>
-                <li><a href="#sec-5-1" class="toc-h3 toc-link">5.1 莫兰迪黄配色</a></li>
-                <li><a href="#sec-5-2" class="toc-h3 toc-link">5.2 圆角毛玻璃风格</a></li>
-                <li><a href="#sec-5-3" class="toc-h3 toc-link">5.3 个人原创 LOGO</a></li>
-                <li><a href="#sec-6" class="toc-link">六、项目复盘与反思</a></li>
-                <li><a href="#sec-6-1" class="toc-h3 toc-link">6.1 最大的收获</a></li>
-                <li><a href="#sec-6-2" class="toc-h3 toc-link">6.2 不足与改进方向</a></li>
+                <li><a href="#sec-3-1" class="toc-h3 toc-link">2.2 前后台架构</a></li>
+                <li><a href="#sec-3-2" class="toc-h3 toc-link">2.3 数据库 ER 设计</a></li>
+                <li><a href="#sec-4" class="toc-link">三、核心功能实现</a></li>
+                <li><a href="#sec-4-1" class="toc-h3 toc-link">3.1 文章 CRUD</a></li>
+                <li><a href="#sec-4-2" class="toc-h3 toc-link">3.2 用户权限与登录拦截</a></li>
+                <li><a href="#sec-4-3" class="toc-h3 toc-link">3.3 评论系统</a></li>
+                <li><a href="#sec-4-4" class="toc-h3 toc-link">3.4 分页模块</a></li>
+                <li><a href="#sec-4-5" class="toc-h3 toc-link">3.5 密码 MD5 加密</a></li>
+                <li><a href="#sec-5" class="toc-link">四、设计风格</a></li>
+                <li><a href="#sec-5-1" class="toc-h3 toc-link">4.1 莫兰迪黄配色</a></li>
+                <li><a href="#sec-5-2" class="toc-h3 toc-link">4.2 圆角毛玻璃风格</a></li>
+                <li><a href="#sec-5-3" class="toc-h3 toc-link">4.3 个人原创 LOGO</a></li>
+                <li><a href="#sec-6" class="toc-link">五、项目复盘与反思</a></li>
+                <li><a href="#sec-6-1" class="toc-h3 toc-link">5.1 最大的收获</a></li>
+                <li><a href="#sec-6-2" class="toc-h3 toc-link">5.2 不足与改进方向</a></li>
             </ul>
         </aside>
 

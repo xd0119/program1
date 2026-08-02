@@ -684,23 +684,24 @@
 
         /* ===== 板块标题 ===== */
         .section-heading {
-            margin-bottom: 2.5rem;
+            margin-bottom: 3rem;
+            position: relative;
         }
 
         .section-heading-label {
-            font-size: 0.75rem;
+            font-size: 0.78rem;
             font-weight: 600;
             letter-spacing: 3px;
             color: var(--primary);
             text-transform: uppercase;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.6rem;
         }
 
         .section-heading-title {
-            font-size: 1.875rem;
+            font-size: 2rem;
             font-weight: 700;
             line-height: 1.2;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.6rem;
         }
 
         .section-heading-desc {
@@ -708,6 +709,27 @@
             color: var(--text-muted);
             line-height: 1.6;
             max-width: 540px;
+        }
+
+        /* 板块分隔线（方案C） */
+        .section-divider {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin: 3.5rem 0 0;
+            padding-top: 0;
+        }
+
+        .section-divider-line {
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg, transparent 0%, var(--border-color) 50%, transparent 100%);
+        }
+
+        .section-divider-icon {
+            color: var(--primary);
+            opacity: 0.5;
+            font-size: 0.9rem;
         }
 
         /* ===== 介绍区 Hero ===== */
@@ -936,6 +958,21 @@
                 padding-bottom: 1.5rem;
                 border-right: none;
                 border-bottom: 1px solid var(--border-color);
+            }
+
+            .hero-card-avatar {
+                max-height: 160px;
+                aspect-ratio: 4 / 5;
+                border-radius: 14px;
+                box-shadow: 0 8px 20px rgba(196, 167, 125, 0.2);
+            }
+
+            .hero-card-name {
+                font-size: 1.15rem;
+            }
+
+            .hero-card-role {
+                font-size: 0.8rem;
             }
         }
 
@@ -1644,6 +1681,62 @@
             font-weight: 600;
         }
 
+        /* ===== STAR 的 A 内容分段样式（解决"A字偏多一坨"问题）===== */
+        .star-content .star-item {
+            display: flex;
+            gap: 0.4rem;
+            margin-bottom: 0.35rem;
+            line-height: 1.65;
+        }
+
+        .star-content .star-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .star-content .star-item-num {
+            flex-shrink: 0;
+            color: var(--primary);
+            font-weight: 600;
+            font-size: 0.825rem;
+            min-width: 18px;
+        }
+
+        .star-content .star-item-text {
+            flex: 1;
+        }
+
+        .star-content .star-item-text strong {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        /* ===== 项目角标样式 ===== */
+        .project-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            padding: 0.3rem 0.7rem;
+            border-radius: 16px;
+            font-size: 0.72rem;
+            font-weight: 600;
+            z-index: 5;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .project-badge.badge-star {
+            background: linear-gradient(135deg, #f59e0b 0%, #f97316 100%);
+            color: #fff;
+        }
+
+        .project-badge.badge-leader {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: #fff;
+        }
+
+        .feature-project {
+            position: relative;
+        }
+
         .project-tags {
             display: flex;
             flex-wrap: wrap;
@@ -2023,13 +2116,20 @@
         @media (max-width: 767px) {
             .hero-cta-btn,
             .hero-cta-btn-secondary {
-                width: 100%;
+                width: auto;
+                padding: 0.5rem 1rem;
+                font-size: 0.82rem;
                 justify-content: center;
                 margin-left: 0;
             }
 
             .hero-cta-btn-secondary {
-                margin-top: 0.75rem;
+                margin-top: 0;
+            }
+
+            .hero-card-cta {
+                gap: 0.5rem;
+                margin-top: 0.5rem;
             }
         }
 
@@ -2797,6 +2897,7 @@
 
                 <!-- 项目1：银行信贷FAQ智能体 -->
                 <article class="project-card hover-lift feature-project">
+                    <span class="project-badge badge-star"><i class="fas fa-star"></i> 代表作品</span>
                     <!-- 左侧：图片 + 标题 + 标签 + 按钮 -->
                     <div class="feature-left">
                         <div class="feature-image">
@@ -2829,7 +2930,11 @@
                             <div class="star-label">T</div>
                             <div class="star-content">搭建面向客户经理的「口袋知识助手」FAQ Bot，聚焦产品政策查询、申请资料清单、后台审批流程三大高频场景，变"费时找答案"为"秒级获答案"；同时建立基于100+条真实问题的可持续评测机制，让每轮迭代有据可依。</div>
                             <div class="star-label">A</div>
-                            <div class="star-content">①知识库设计：按客户经理工作场景组织三大类目——产品政策库/申请资料库/后台审批流程库，结构化沉淀100+条业务知识；②RAG全链路：离线阶段分块向量化入库，在线阶段问题向量化→TopK相似度检索→重排序→LLM生成；③三轮迭代：第1轮加政策版本声明解决新旧利率串答；第2轮加产品强绑定规则解决资料/流程跨产品串答；第3轮重建意图识别架构。</div>
+                            <div class="star-content">
+                                <div class="star-item"><span class="star-item-num">①</span><span class="star-item-text"><strong>知识库设计：</strong>按客户经理工作场景组织三大类目——产品政策库/申请资料库/后台审批流程库，结构化沉淀100+条业务知识</span></div>
+                                <div class="star-item"><span class="star-item-num">②</span><span class="star-item-text"><strong>RAG全链路：</strong>离线阶段分块向量化入库，在线阶段问题向量化→TopK相似度检索→重排序→LLM生成</span></div>
+                                <div class="star-item"><span class="star-item-num">③</span><span class="star-item-text"><strong>三轮迭代：</strong>第1轮加政策版本声明解决新旧利率串答；第2轮加产品强绑定规则解决资料/流程跨产品串答；第3轮重建意图识别架构</span></div>
+                            </div>
                             <div class="star-label">R</div>
                             <div class="star-content">经过三轮迭代，回答准确率从48%提升至82%；政策版本混淆率从15%降至0，工具已在组内日常使用。</div>
                         </div>
@@ -2838,6 +2943,7 @@
 
                 <!-- 项目2：水土保持管理系统 -->
                 <article class="project-card hover-lift feature-project">
+                    <span class="project-badge badge-leader"><i class="fas fa-trophy"></i> 项目组长 · 全流程</span>
                     <!-- 左侧：图片 + 标题 + 标签 + 按钮 -->
                     <div class="feature-left">
                         <div class="feature-image">
@@ -2876,7 +2982,13 @@
                             <div class="star-label">T</div>
                             <div class="star-content">作为项目组长兼产品、前端，从0到1主导全流程，统筹产品、UI、前端、后端协作，承担需求调研、产品方案、前端开发、测试优化、项目管理五项核心职责，交付一套覆盖"方案—设计—施工—验收"全过程、可投产使用的ToB水保管控系统。</div>
                             <div class="star-label">A</div>
-                            <div class="star-content">①需求调研：覆盖多角色访谈，从一线真实工作流提炼三大痛点并输出需求清单与业务流程图；②产品方案：设计六大功能模块架构，输出完整PRD与Figma高保真原型作为研发基线；③前端开发：基于Vue2+ElementUI搭建前端，独立开发ECharts可视化模块，并设计动态路由权限体系——覆盖八类用户角色，权限粒度细化到查看/编辑/审核/审批/管理五个层级；④双端兼容：PC端+小程序端，支持施工现场移动巡查数据实时回传；⑤测试迭代：组织2轮Beta测试，收集20+名员工反馈，迭代优化12+功能点。</div>
+                            <div class="star-content">
+                                <div class="star-item"><span class="star-item-num">①</span><span class="star-item-text"><strong>需求调研：</strong>覆盖多角色访谈，从一线真实工作流提炼三大痛点并输出需求清单与业务流程图</span></div>
+                                <div class="star-item"><span class="star-item-num">②</span><span class="star-item-text"><strong>产品方案：</strong>设计六大功能模块架构，输出完整PRD与Figma高保真原型作为研发基线</span></div>
+                                <div class="star-item"><span class="star-item-num">③</span><span class="star-item-text"><strong>前端开发：</strong>基于Vue2+ElementUI搭建前端，独立开发ECharts可视化模块，设计动态路由权限体系——覆盖八类用户角色，权限粒度细化到查看/编辑/审核/审批/管理五个层级</span></div>
+                                <div class="star-item"><span class="star-item-num">④</span><span class="star-item-text"><strong>双端兼容：</strong>PC端+小程序端，支持施工现场移动巡查数据实时回传</span></div>
+                                <div class="star-item"><span class="star-item-num">⑤</span><span class="star-item-text"><strong>测试迭代：</strong>组织2轮Beta测试，收集20+名员工反馈，迭代优化12+功能点</span></div>
+                            </div>
                             <div class="star-label">R</div>
                             <div class="star-content">系统已投产使用。单次审批时长从3-5天缩短至数小时，数据错误率从12%降至1%，信息同步方式从线下纸质流转升级为中心库实时共享，预警时机从事后发现升级为事前实时预警。</div>
                         </div>
@@ -2885,6 +2997,7 @@
 
             </div>
         </section>
+
 
         <!-- ========== 从洞察到实现 + 时间轴 ========== -->
         <section id="design-tech" class="scroll-reveal mb-20">
@@ -2933,7 +3046,11 @@
                         <div class="star-label">T</div>
                         <div class="star-content">从0到1打造一款AI驱动的吃饭决策小程序，包含个性化餐厅推荐、朋友聚会转盘等功能，并支持快速迭代上线。</div>
                         <div class="star-label">A</div>
-                        <div class="star-content">需求分析：通过用户访谈梳理核心需求，发现选项过载、工具断层、意图鸿沟三大痛点；<br>功能设计：设计语义意图匹配功能，用户用自然语言描述需求，系统理解语义意图后匹配相关品类；<br>AICoding：使用Trae进行AI辅助编程开发，基于Taro框架完成前端开发，接入高德API获取附近餐厅数据，核心数据调用逻辑自行编写，AI生成代码逐模块审查验证。</div>
+                            <div class="star-content">
+                                <div class="star-item"><span class="star-item-num">①</span><span class="star-item-text"><strong>需求分析：</strong>通过用户访谈梳理核心需求，发现选项过载、工具断层、意图鸿沟三大痛点</span></div>
+                                <div class="star-item"><span class="star-item-num">②</span><span class="star-item-text"><strong>功能设计：</strong>设计语义意图匹配功能，用户用自然语言描述需求，系统理解语义意图后匹配相关品类</span></div>
+                                <div class="star-item"><span class="star-item-num">③</span><span class="star-item-text"><strong>AICoding：</strong>使用Trae进行AI辅助编程开发，基于Taro框架完成前端开发，接入高德API获取附近餐厅数据，核心数据调用逻辑自行编写，AI生成代码逐模块审查验证</span></div>
+                            </div>
                         <div class="star-label">R</div>
                         <div class="star-content">小程序已上线，持续收集用户反馈迭代优化，推荐满意度从65%提升至85%。</div>
                     </div>
@@ -2967,7 +3084,12 @@
                             <div class="star-label">T</div>
                             <div class="star-content">独立完成一个前后台兼备的个人博客系统，包括文章、用户、分类、搜索等完整功能，并成功部署上线。</div>
                             <div class="star-label">A</div>
-                            <div class="star-content">使用jQuery + Bootstrap + Art-Template构建前台展示页面；MongoDB做数据存储，设计文章、用户、分类标签的数据模型；实现文章增删改查、用户管理、分类标签、分页搜索等功能；完成前后台联调与部署上线。</div>
+                            <div class="star-content">
+                                <div class="star-item"><span class="star-item-num">①</span><span class="star-item-text"><strong>前端构建：</strong>使用jQuery + Bootstrap + Art-Template构建前台展示页面，搭建md文章写入、数据表格展示、文章目录展示等模块。</span></div>
+                                <div class="star-item"><span class="star-item-num">②</span><span class="star-item-text"><strong>数据存储：</strong>MongoDB做数据存储，设计文章、用户、分类标签的数据模型，将数据从本地保存移为云端保存。</span></div>
+                                <div class="star-item"><span class="star-item-num">③</span><span class="star-item-text"><strong>功能实现：</strong>实现文章增删改查、用户管理、分类标签、分页搜索等功能，重点实现用户权限、密码加密等功能</span></div>
+                                <div class="star-item"><span class="star-item-num">④</span><span class="star-item-text"><strong>部署上线：</strong>完成前后台联调与部署上线，完整走完Web全流程。</span></div>
+                            </div>
                             <div class="star-label">R</div>
                             <div class="star-content">第一个全栈部署上线的项目；建立了对Web全链路的系统理解，为后续更大规模项目打下基础。</div>
                         </div>
@@ -3008,7 +3130,12 @@
                             <div class="star-label">T</div>
                             <div class="star-content">完成从用户研究、数据分析到信息架构、原型的完整交互设计流程，产出可落地的设计方案。</div>
                             <div class="star-label">A</div>
-                            <div class="star-content">需求分析：通过问卷调研与深度访谈收集大学生压力源数据，使用SPSS进行因子聚类分析、二元Logistic回归分析；<br>产品设计：对比现有心理健康类产品的交互模式，定位差异化机会——从"对话疗愈"转向"空间沉浸"；<br>用户研究：绘制从"进入压力状态"到"VR空间疗愈"到"退出回归现实"的完整情绪旅程；<br>架构原型：设计VR空间内的导航结构与交互层级，输出低保真原型验证交互逻辑，迭代后产出高保真原型。</div>
+                            <div class="star-content">
+                                <div class="star-item"><span class="star-item-num">①</span><span class="star-item-text"><strong>需求分析：</strong>通过问卷调研与深度访谈收集大学生压力源数据，使用SPSS进行因子聚类分析、二元Logistic回归分析</span></div>
+                                <div class="star-item"><span class="star-item-num">②</span><span class="star-item-text"><strong>产品设计：</strong>对比现有心理健康类产品的交互模式，定位差异化机会——从"对话疗愈"转向"空间沉浸"</span></div>
+                                <div class="star-item"><span class="star-item-num">③</span><span class="star-item-text"><strong>用户研究：</strong>绘制从"进入压力状态"到"VR空间疗愈"到"退出回归现实"的完整情绪旅程</span></div>
+                                <div class="star-item"><span class="star-item-num">④</span><span class="star-item-text"><strong>架构原型：</strong>设计VR空间内的导航结构与交互层级，输出低保真原型验证交互逻辑，迭代后产出高保真原型</span></div>
+                            </div>
                             <div class="star-label">R</div>
                             <div class="star-content">完成从定量数据洞察到交互设计方案的完整推导闭环；验证了定量研究与定性设计相结合的方法体系。</div>
                         </div>
@@ -3222,7 +3349,7 @@
 
             <div class="info-section">
                 <h4><i class="fas fa-bullseye" style="color:var(--primary);font-size:0.8rem;"></i> 网站概述</h4>
-                <p>本网站是许晓丹的个人作品集，展示完整项目经历，涵盖AI智能体、Web开发、AICoding小程序、VR交互设计、游戏开发、动画剪辑等领域。整体设计采用莫兰迪暖色系，支持主题色切换。搭载智谱+本地AI做项目问答助手，同时引入访问统计。</p>
+                <p>本网站是许晓丹的个人作品集，展示完整项目经历，涵盖AI智能体、Web开发、AICoding小程序、VR交互设计等领域。整体设计采用莫兰迪暖色系，支持主题色切换。搭载智谱+本地AI做项目问答助手，同时引入访问统计。</p>
             </div>
 
             <div class="info-section">
@@ -3633,8 +3760,18 @@
         const menuBtn = document.getElementById('menu-btn');
         const mobileMenu = document.getElementById('mobile-menu');
 
-        menuBtn.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
+        menuBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            mobileMenu.classList.toggle('show');
+        });
+
+        // 点击页面其他区域关闭菜单
+        document.addEventListener('click', (e) => {
+            if (mobileMenu.classList.contains('show') &&
+                !mobileMenu.contains(e.target) &&
+                !menuBtn.contains(e.target)) {
+                mobileMenu.classList.remove('show');
+            }
         });
 
         const sections = document.querySelectorAll('.scroll-reveal');

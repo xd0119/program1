@@ -124,19 +124,124 @@
             .project-layout {
                 grid-template-columns: 1fr !important;
             }
+            /* 移动端隐藏左栏原型内容，仅保留引导 */
             .prototype-col {
                 max-height: none;
+                padding: 1rem;
+                background: rgba(255, 255, 255, 0.3);
             }
-            .phone-frame {
-                min-height: 420px;
-                max-width: 260px;
+            .prototype-col > *:not(.prototype-hint):not(.prototype-title):not(.prototype-label) {
+                display: none !important;
+            }
+            .prototype-label,
+            .prototype-title {
+                display: none;
+            }
+            .prototype-hint {
+                display: flex !important;
+                align-items: center;
+                margin: 0;
             }
         }
 
-        @media (max-width: 640px) {
-            .phone-frame {
-                min-height: 380px;
-                max-width: 240px;
+        .prototype-hint {
+            display: none;
+            padding: 1rem 1.1rem;
+            background: rgba(196, 167, 125, 0.08);
+            border: 1px solid rgba(196, 167, 125, 0.3);
+            border-radius: 12px;
+            font-size: 0.82rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            gap: 0.6rem;
+        }
+
+        .prototype-hint-icon {
+            flex-shrink: 0;
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            background: var(--gradient-main);
+            color: #fff;
+            display: grid;
+            place-items: center;
+            font-size: 1rem;
+        }
+
+        .prototype-hint-body {
+            flex: 1;
+        }
+
+        .prototype-hint-body strong {
+            color: var(--primary);
+            display: block;
+            font-size: 0.88rem;
+            margin-bottom: 0.2rem;
+        }
+
+        .prototype-hint-body span {
+            font-size: 0.78rem;
+            color: var(--text-muted);
+        }
+
+        /* ===== 三大痛点卡片式布局（PC端横排 / 移动端竖排） ===== */
+        .pain-cards {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            margin: 1.5em 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .pain-card {
+            flex: 1 1 0;
+            min-width: 250px;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.06) 0%, rgba(240, 147, 251, 0.06) 100%);
+            border: 1px solid rgba(196, 167, 125, 0.28);
+            border-radius: 14px;
+            padding: 20px 22px;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+            line-height: 1.7;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .pain-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 24px rgba(0, 0, 0, 0.1);
+        }
+
+        .pain-card-icon {
+            font-size: 1.6rem;
+            line-height: 1;
+        }
+
+        .pain-card strong {
+            display: block;
+            color: var(--primary);
+            font-size: 1.05rem;
+            margin-bottom: 0;
+            font-weight: 700;
+        }
+
+        .pain-card-desc {
+            border-left: 3px solid rgba(196, 167, 125, 0.5);
+            padding-left: 0.85rem;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.75;
+            font-style: italic;
+        }
+
+        @media (max-width: 768px) {
+            .pain-cards {
+                flex-direction: column;
+            }
+            .pain-card {
+                min-width: 100%;
             }
         }
     </style>
@@ -177,8 +282,13 @@
         <aside class="prototype-col" id="prototype-col">
             <div class="prototype-label">MINI PROGRAM PROTOTYPE</div>
             <div class="prototype-title">干饭趣抽抽 · 页面展示</div>
-
-            <!-- 切换按钮区（手机外部） -->
+            <div class="prototype-hint">
+                <div class="prototype-hint-icon"><i class="fas fa-desktop"></i></div>
+                <div class="prototype-hint-body">
+                    <strong>建议使用 PC 端查看</strong>
+                    <span>此页面切换（12 个小程序界面）的交互式原型仅在电脑端展示，移动端不显示。切换至桌面浏览器可体验完整的手机模型与页面切换效果。</span>
+                </div>
+            </div>
             <div class="proto-switcher" id="protoSwitcher">
                 <button class="switch-btn active" data-index="0">店铺转盘</button>
                 <button class="switch-btn" data-index="1">抽中店铺</button>
@@ -255,13 +365,23 @@
                 <p class="article-p">
                     我在个人吃饭选择和朋友聚餐选择时都发现了类似的选择困难，并归纳出几个核心痛点：
                 </p>
-                <ul class="article-ul">
-                    <li><strong>选项过载：</strong>海量推荐反而引发选择焦虑,
-                    美团、大众点评等平台虽然提供了丰富的团购和评价，但动辄上百家的推荐列表，反而让用户陷入"乱花渐欲迷人眼"的困境。用户在"不知道选哪个"的纠结中，往往渴望一种"帮我做决定"的随机机制。</li>
-                    <li><strong>工具断层：</strong>市面上的"转盘"小程序大多处于两极分化：要么是千篇一律的固定选项，缺乏个性化；要么要求用户手动输入一堆备选项。这本身又制造了新的操作成本——用户原本就是不想动脑筋才用转盘，结果用之前还得先动脑筋填选项，违背了"偷懒"的初衷。</li>
-                    <li><strong>意图鸿沟：</strong>用户的真实需求往往是模糊且复合的，例如"想吃点吃不饱的零食"（可能包含甜品、炸鸡、寿司等）。但在美团或地图软件上，这需要分多次单独搜索类目，无法一次性通过"意图"直接收敛结果，导致搜索路径冗长。</li>
-                   
-                </ul>
+                <div class="pain-cards">
+                    <div class="pain-card">
+                        <div class="pain-card-icon">🍽️</div>
+                        <strong>选项过载</strong>
+                        <div class="pain-card-desc">海量推荐反而引发选择焦虑，美团、大众点评等平台虽然提供了丰富的团购和评价，但动辄上百家的推荐列表，反而让用户陷入"乱花渐欲迷人眼"的困境。用户在"不知道选哪个"的纠结中，往往渴望一种"帮我做决定"的随机机制。</div>
+                    </div>
+                    <div class="pain-card">
+                        <div class="pain-card-icon">🔧</div>
+                        <strong>工具断层</strong>
+                        <div class="pain-card-desc">市面上的"转盘"小程序大多处于两极分化：要么是千篇一律的固定选项，缺乏个性化；要么要求用户手动输入一堆备选项。这本身又制造了新的操作成本——用户原本就是不想动脑筋才用转盘，结果用之前还得先动脑筋填选项，违背了"偷懒"的初衷。</div>
+                    </div>
+                    <div class="pain-card">
+                        <div class="pain-card-icon">💭</div>
+                        <strong>意图鸿沟</strong>
+                        <div class="pain-card-desc">用户的真实需求往往是模糊且复合的，例如"想吃点吃不饱的零食"（可能包含甜品、炸鸡、寿司等）。但在美团或地图软件上，这需要分多次单独搜索类目，无法一次性通过"意图"直接收敛结果，导致搜索路径冗长。</div>
+                    </div>
+                </div>
                 <p class="article-p">
                     于是我决定以"AI设计工程师 + 产品经理"的双重角色，做一个真正能解决"吃什么"的小程序：<strong>把"选择"交给转盘与 AI意图识别，把"真实可去"交给高德地图 POI，把"懂你"交给收藏夹与评分系统</strong>。
                 </p>
@@ -428,11 +548,16 @@ final_score = poi_distance_score * 0.3
                 </div>
             </section>
 
-            <!-- 4. 技术实现 -->
+            <!-- 4. 从0到1：用 Vibe Coding 完成开发 -->
             <section class="article-section" id="sec-4">
-                <h2 class="article-h2">四、技术实现</h2>
+                <h2 class="article-h2">四、从 0 到 1：用 Vibe Coding 完成开发</h2>
 
-                <h3 class="article-h3">4.1 Coze Vibe Coding 开发流程</h3>
+                <h3 class="article-h3">4.1 MVP定义与快速验证</h3>
+                <p class="article-p">
+                    MVP定义与快速验证：项目采用MVP（最小可行产品）策略，2天内完成第一版上线——核心功能仅保留"店铺转盘+高德POI"，验证"随机推荐真实店铺"这一核心假设是否被用户接受。第一版上线后收集用户反馈，再逐步迭代种类选择、活动抽抽、收藏夹等功能模块。这种"先验证核心假设、再迭代完整功能"的方式，让我避免了在用户不要的功能上投入时间。
+                </p>
+
+                <h3 class="article-h3">4.2 Vibe Coding 的 5 步工作流</h3>
                 <p class="article-p">
                     整个小程序使用 Coze 进行 Vibe Coding（以自然语言对话驱动 AI 生成代码）完成从 0 到 1 开发。我以产品经理视角描述需求与交互，由 Coze 生成小程序前端与云函数代码，再由我做联调与微调。整体流程如下：
                 </p>
@@ -444,75 +569,7 @@ final_score = poi_distance_score * 0.3
 5. 联调上线  → 接入高德 POI、配置意图识别，发布体验版</div>
                 <p class="article-p">这套流程让一个以设计/产品为主的角色，也能在没有专业开发的情况下，两天内完成小程序从原型到可体验版本的落地。</p>
 
-                <h3 class="article-h3">4.2 高德地图 POI 接入</h3>
-                <p class="article-p">
-                    "真实存在的店"是产品可信度的底线。通过高德地图 POI 接口，按用户当前定位 + 场景关键词检索附近真实店铺，回填到转盘候选池。核心调用逻辑示意：
-                </p>
-                <div class="article-code">// 高德 POI 周边检索（示意）
-const res = await amap.placeAround({
-    location: `${userLng},${userLat}`,   // 用户当前定位
-    keywords: sceneKeyword,              // 如 "早餐" / "火锅" / "夜宵"
-    radius: 3000,                        // 3km 内
-    types: "050000",                     // 餐饮服务大类
-    sortrule: "distance",                // 按距离排序
-    offset: 20,
-    page: 1
-});
-
-// 过滤无效 POI 后，填入转盘候选池
-const candidates = res.pois
-    .filter(p => p.business_hours && p.tel)  // 在营业 + 有电话
-    .slice(0, 6);                             // 取 6 家填转盘</div>
-                <div class="article-highlight">
-                    <strong>真实 POI 的价值：</strong>过滤"在营业 + 有电话"的店铺，从根本上杜绝了"推荐到闭店"的体验损伤，这也是产品上线后满意度能快速爬升的关键之一。
-                </div>
-
-                <h3 class="article-h3">4.3 35 种意图场景识别</h3>
-                <p class="article-p">
-                    智能搜索的难点在于：用户不会输入规范的菜品名，而是说"清淡点""暖胃""适合带小孩""加班后来一顿"。我梳理了 35 种常见意图场景，映射到高德 POI 的关键词与类型，让自然语言能直接驱动检索。
-                </p>
-                <table class="article-table">
-                    <thead>
-                        <tr>
-                            <th>意图类别</th>
-                            <th>典型表达</th>
-                            <th>映射 POI 关键词</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>清淡养生</td>
-                            <td>"清淡点""暖胃""养生"</td>
-                            <td>粥店 / 素菜 / 蒸菜</td>
-                        </tr>
-                        <tr>
-                            <td>重口解馋</td>
-                            <td>"来点辣的""重口""解馋"</td>
-                            <td>川菜 / 湘菜 / 火锅</td>
-                        </tr>
-                        <tr>
-                            <td>场景适配</td>
-                            <td>"带小孩""加班夜宵""约会"</td>
-                            <td>亲子餐厅 / 烧烤 / 西餐</td>
-                        </tr>
-                        <tr>
-                            <td>饮食约束</td>
-                            <td>"减脂""低卡""无糖"</td>
-                            <td>轻食 / 沙拉 / 减脂餐</td>
-                        </tr>
-                        <tr>
-                            <td>……共 35 类</td>
-                            <td>覆盖早/午/晚/夜宵/下午茶 + 口味 + 约束 + 人数</td>
-                            <td>分别映射对应 POI 标签</td>
-                        </tr>
-                    </tbody>
-                </table>
-                <p class="article-p">意图识别本身通过 Coze 的工作流 + 大模型节点实现：用户输入 → 意图分类节点输出场景标签 → 标签驱动 POI 检索 → 结果回填转盘。整套链路在云端完成，前端只负责展示与转盘动画。</p>
-            </section>
-
-            <!-- 5. AI设计亮点 -->
-            <section class="article-section" id="sec-5">
-                <h2 class="article-h2">五、AI设计亮点：如何用 AI 编程从 0 到 1</h2>
+                <h3 class="article-h3">4.3 实战技巧</h3>
                 <p class="article-p">
                     这个项目最大的亮点不是某个功能，而是<strong>验证了"以产品+设计角色，用 Vibe Coding 独立交付一个小程序"的可行路径</strong>。传统开发与 Vibe Coding 的对比：
                 </p>
@@ -562,11 +619,89 @@ const candidates = res.pois
                 <div class="article-highlight">
                     <strong>方法论提炼：</strong>AI 编程不是"让 AI 全自动写完"，而是"人负责定义正确的问题与体验标准，AI 负责高速生成与试错"。人的角色从"写代码"升级为"写需求 + 验结果"。
                 </div>
+
+                <h3 class="article-h3">4.4 高德地图 POI 接入</h3>
+                <p class="article-p">
+                    "真实存在的店"是产品可信度的底线。通过高德地图 POI 接口，按用户当前定位 + 场景关键词检索附近真实店铺，回填到转盘候选池。核心调用逻辑示意：
+                </p>
+                <div class="article-code">// 高德 POI 周边检索（示意）
+const res = await amap.placeAround({
+    location: `${userLng},${userLat}`,   // 用户当前定位
+    keywords: sceneKeyword,              // 如 "早餐" / "火锅" / "夜宵"
+    radius: 3000,                        // 3km 内
+    types: "050000",                     // 餐饮服务大类
+    sortrule: "distance",                // 按距离排序
+    offset: 20,
+    page: 1
+});
+
+// 过滤无效 POI 后，填入转盘候选池
+const candidates = res.pois
+    .filter(p => p.business_hours && p.tel)  // 在营业 + 有电话
+    .slice(0, 6);                             // 取 6 家填转盘</div>
+                <div class="article-highlight">
+                    <strong>真实 POI 的价值：</strong>过滤"在营业 + 有电话"的店铺，从根本上杜绝了"推荐到闭店"的体验损伤，这也是产品上线后满意度能快速爬升的关键之一。
+                </div>
+
+                <h3 class="article-h3">4.5 35 种意图场景识别</h3>
+                <p class="article-p">
+                    智能搜索的难点在于：用户不会输入规范的菜品名，而是说"清淡点""暖胃""适合带小孩""加班后来一顿"。我梳理了 35 种常见意图场景，映射到高德 POI 的关键词与类型，让自然语言能直接驱动检索。
+                </p>
+                <table class="article-table">
+                    <thead>
+                        <tr>
+                            <th>意图类别</th>
+                            <th>典型表达</th>
+                            <th>映射 POI 关键词</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>清淡养生</td>
+                            <td>"清淡点""暖胃""养生"</td>
+                            <td>粥店 / 素菜 / 蒸菜</td>
+                        </tr>
+                        <tr>
+                            <td>重口解馋</td>
+                            <td>"来点辣的""重口""解馋"</td>
+                            <td>川菜 / 湘菜 / 火锅</td>
+                        </tr>
+                        <tr>
+                            <td>场景适配</td>
+                            <td>"带小孩""加班夜宵""约会"</td>
+                            <td>亲子餐厅 / 烧烤 / 西餐</td>
+                        </tr>
+                        <tr>
+                            <td>饮食约束</td>
+                            <td>"减脂""低卡""无糖"</td>
+                            <td>轻食 / 沙拉 / 减脂餐</td>
+                        </tr>
+                        <tr>
+                            <td>……共 35 类</td>
+                            <td>覆盖早/午/晚/夜宵/下午茶 + 口味 + 约束 + 人数</td>
+                            <td>分别映射对应 POI 标签</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p class="article-p">意图识别本身通过 Coze 的工作流 + 大模型节点实现：用户输入 → 意图分类节点输出场景标签 → 标签驱动 POI 检索 → 结果回填转盘。整套链路在云端完成，前端只负责展示与转盘动画。</p>
+
+                <div class="article-highlight">
+                    <strong>35 种意图场景的提炼方法：</strong>从调研访谈的用户原话中，按"意图动词+场景名词"维度归纳整理，与AI沟通需求中共提炼出35种意图场景，例如：
+                </div>
+                <ul class="article-ul">
+                    <li>"附近、便宜、吃饱" → 工作餐场景（面食、快餐等）</li>
+                    <li>"开车、有包间、多人" → 聚餐场景（人均100+等）</li>
+                    <li>"夜宵、便宜、近" → 夜宵场景（烧烤、小吃、甜品等）</li>
+                    <li>"不想吃太饱" → 轻食/甜品/烧烤场景（边界case）</li>
+                </ul>
+                <p class="article-p">
+                    <strong>意图识别准确率：</strong>v2规划中引入自动评测，对35类意图做混淆矩阵量化。当前仅做人工抽样验证，未做系统性统计。
+                </p>
             </section>
 
-            <!-- 6. 项目成果 -->
+            <!-- 5. 项目成果 -->
             <section class="article-section" id="sec-6">
-                <h2 class="article-h2">六、项目成果</h2>
+                <h2 class="article-h2">五、项目成果</h2>
                 <p class="article-p">小程序上线体验后，通过用户回访与小范围问卷，对推荐满意度做了前后对比。核心成果如下：</p>
                 <table class="article-table">
                     <thead>
@@ -603,9 +738,9 @@ const candidates = res.pois
                 </div>
             </section>
 
-            <!-- 7. 项目复盘与反思 -->
+            <!-- 6. 项目复盘与反思 -->
             <section class="article-section" id="sec-7">
-                <h2 class="article-h2">七、项目复盘与反思</h2>
+                <h2 class="article-h2">六、项目复盘与反思</h2>
                 <p class="article-p"><strong>做得好的地方：</strong></p>
                 <ul class="article-ul">
                     <li>先调研后设计，用"3 分钟决策阈值"这一量化洞察锚定产品形态，避免功能堆砌。</li>
@@ -634,10 +769,9 @@ const candidates = res.pois
                 <li><a href="#sec-1" class="toc-link active">一、项目背景</a></li>
                 <li><a href="#sec-2" class="toc-link">二、需求调研与用户画像</a></li>
                 <li><a href="#sec-3" class="toc-link">三、产品功能设计</a></li>
-                <li><a href="#sec-4" class="toc-link">四、技术实现</a></li>
-                <li><a href="#sec-5" class="toc-link">五、AI设计亮点</a></li>
-                <li><a href="#sec-6" class="toc-link">六、项目成果</a></li>
-                <li><a href="#sec-7" class="toc-link">七、项目复盘与反思</a></li>
+                <li><a href="#sec-4" class="toc-link">四、从0到1：Vibe Coding</a></li>
+                <li><a href="#sec-6" class="toc-link">五、项目成果</a></li>
+                <li><a href="#sec-7" class="toc-link">六、项目复盘与反思</a></li>
             </ul>
         </aside>
 
