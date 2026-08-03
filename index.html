@@ -1848,8 +1848,13 @@
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
         }
 
         .more-modal {
@@ -1866,8 +1871,15 @@
         }
 
         @keyframes slideUp {
-            from { opacity: 0; transform: translateY(24px) scale(0.97); }
-            to { opacity: 1; transform: translateY(0) scale(1); }
+            from {
+                opacity: 0;
+                transform: translateY(24px) scale(0.97);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
         }
 
         .more-modal-close {
@@ -2114,6 +2126,7 @@
         }
 
         @media (max-width: 767px) {
+
             .hero-cta-btn,
             .hero-cta-btn-secondary {
                 width: auto;
@@ -2391,7 +2404,8 @@
             gap: 0.4rem;
         }
 
-        .info-section p, .info-section li {
+        .info-section p,
+        .info-section li {
             font-size: 0.82rem;
             color: var(--text-secondary);
             line-height: 1.7;
@@ -2826,7 +2840,7 @@
                     </div>
                     <div class="hero-card-info">
                         <div class="hero-card-name">许晓丹 · XD</div>
-                        <div class="hero-card-role">AI 设计工程师 · 深圳</div>
+                        <div class="hero-card-role">AI 产品经理 · 深圳</div>
                     </div>
                     <div class="hero-card-cta">
                         <a href="#core" class="hero-cta-btn">
@@ -2843,7 +2857,7 @@
                 <div class="hero-card-right">
                     <p class="hero-label">PORTFOLIO · 作品集</p>
                     <h1 class="hero-title">
-                        <span class="accent">AI 设计工程师</span>
+                        <span class="accent">AI 产品经理</span>
                     </h1>
                     <p class="hero-card-desc">
                         🙆‍♀ 2年一线业务经验 + AI产品独立实践。具备AI全栈落地能力，能快速识别业务痛点并利用AI技术交付最小可行性产品，实现业务闭环。
@@ -2853,18 +2867,20 @@
                             <span class="point-icon"><i class="fas fa-robot"></i></span>
                             <div class="point-body">
                                 <span class="point-title">习惯通过AI搭建解决方案</span>
-                                <p class="point-desc">在工作中发现业务痛点，快速设计Agent助手并推动落地使用；在生活中遇到纠结问题，使用AICoding从0到1开发并上线个性化小程序。</p>
+                                <p class="point-desc">
+                                    在工作中发现业务痛点，快速设计Agent助手并推动落地使用；在生活中遇到纠结问题，使用AICoding从0到1开发并上线个性化小程序。</p>
                             </div>
                         </li>
                         <li class="point-item">
                             <span class="point-icon"><i class="fas fa-layer-group"></i></span>
                             <div class="point-body">
                                 <span class="point-title">全流程产品+研发经验</span>
-                                <p class="point-desc">具备“产品+研发”双重视角，主导ToB数字化项目全生命周期管理，统筹需求洞察、产品设计至研发交付全流程，有效衔接业务与技术，实现业务价值闭环。</p>
+                                <p class="point-desc">
+                                    具备“产品+研发”双重视角，主导ToB数字化项目全生命周期管理，统筹需求洞察、产品设计至研发交付全流程，有效衔接业务与技术，实现业务价值闭环。</p>
                             </div>
                         </li>
                     </ul>
-                    
+
                     <div class="hero-card-abilities">
                         <span class="ability-pill"><i class="fas fa-search"></i>业务问题拆解</span>
                         <span class="ability-pill"><i class="fas fa-brain"></i>AI方案设计</span>
@@ -2873,9 +2889,11 @@
                     </div>
                     <!-- 深入了解入口 -->
                     <div class="hero-card-deep-links">
-                        <a href="javascript:void(0)" onclick="openInfoModal('about-me');return false;" class="deep-link">了解我</a>
+                        <a href="javascript:void(0)" onclick="openInfoModal('about-me');return false;"
+                            class="deep-link">了解我</a>
                         <span class="deep-links-divider">·</span>
-                        <a href="javascript:void(0)" onclick="openInfoModal('about-site');return false;" class="deep-link">本站设计</a>
+                        <a href="javascript:void(0)" onclick="openInfoModal('about-site');return false;"
+                            class="deep-link">本站设计</a>
                         <span class="deep-links-hint">· 更多问题可以问问右下角的小助手~</span>
                     </div>
                 </div>
@@ -2898,7 +2916,8 @@
                     <!-- 左侧：图片 + 标题 + 标签 + 按钮 -->
                     <div class="feature-left">
                         <div class="feature-image">
-                            <div class="project-image-wrapper" style="background: linear-gradient(135deg, var(--secondary) 0%, var(--primary) 100%); display:flex; align-items:center; justify-content:center; min-height: 200px;">
+                            <div class="project-image-wrapper"
+                                style="background: linear-gradient(135deg, var(--secondary) 0%, var(--primary) 100%); display:flex; align-items:center; justify-content:center; min-height: 200px;">
                                 <i class="fas fa-robot" style="font-size:4rem; color:rgba(255,255,255,0.85);"></i>
                             </div>
                         </div>
@@ -2923,14 +2942,24 @@
                         <div class="feature-story-label">STAR · 项目故事</div>
                         <div class="star-grid">
                             <div class="star-label">S</div>
-                            <div class="star-content">银行零售信贷业务涵盖抵押经营贷、消费贷、信用经营贷等多条产品线，政策复杂、利率额度频繁更新，总行与分行政策又易混淆，客户经理对客报价心里没底。一线客户经理面临四大困扰。</div>
+                            <div class="star-content">
+                                银行零售信贷业务涵盖抵押经营贷、消费贷、信用经营贷等多条产品线，政策复杂、利率额度频繁更新，总行与分行政策又易混淆，客户经理对客报价心里没底。一线客户经理面临四大困扰。
+                            </div>
                             <div class="star-label">T</div>
-                            <div class="star-content">搭建面向客户经理的「口袋知识助手」FAQ Bot，聚焦产品政策查询、申请资料清单、后台审批流程三大高频场景，变"费时找答案"为"秒级获答案"；同时建立基于100+条真实问题的可持续评测机制，让每轮迭代有据可依。</div>
+                            <div class="star-content">搭建面向客户经理的「口袋知识助手」FAQ
+                                Bot，聚焦产品政策查询、申请资料清单、后台审批流程三大高频场景，变"费时找答案"为"秒级获答案"；同时建立基于100+条真实问题的可持续评测机制，让每轮迭代有据可依。
+                            </div>
                             <div class="star-label">A</div>
                             <div class="star-content">
-                                <div class="star-item"><span class="star-item-num">①</span><span class="star-item-text"><strong>知识库设计：</strong>按客户经理工作场景组织三大类目——产品政策库/申请资料库/后台审批流程库，结构化沉淀100+条业务知识</span></div>
-                                <div class="star-item"><span class="star-item-num">②</span><span class="star-item-text"><strong>RAG全链路：</strong>离线阶段分块向量化入库，在线阶段问题向量化→TopK相似度检索→重排序→LLM生成</span></div>
-                                <div class="star-item"><span class="star-item-num">③</span><span class="star-item-text"><strong>三轮迭代：</strong>第1轮加政策版本声明解决新旧利率串答；第2轮加产品强绑定规则解决资料/流程跨产品串答；第3轮重建意图识别架构</span></div>
+                                <div class="star-item"><span class="star-item-num">①</span><span
+                                        class="star-item-text"><strong>知识库设计：</strong>按客户经理工作场景组织三大类目——产品政策库/申请资料库/后台审批流程库，结构化沉淀100+条业务知识</span>
+                                </div>
+                                <div class="star-item"><span class="star-item-num">②</span><span
+                                        class="star-item-text"><strong>RAG全链路：</strong>离线阶段分块向量化入库，在线阶段问题向量化→TopK相似度检索→重排序→LLM生成</span>
+                                </div>
+                                <div class="star-item"><span class="star-item-num">③</span><span
+                                        class="star-item-text"><strong>三轮迭代：</strong>第1轮加政策版本声明解决新旧利率串答；第2轮加产品强绑定规则解决资料/流程跨产品串答；第3轮重建意图识别架构</span>
+                                </div>
                             </div>
                             <div class="star-label">R</div>
                             <div class="star-content">经过三轮迭代，回答准确率从48%提升至82%；政策版本混淆率从15%降至0，工具已在组内日常使用。</div>
@@ -2948,7 +2977,8 @@
                                 <div class="image-loader">
                                     <div class="loading-324"></div>
                                 </div>
-                                <img src="images/mscy_compressed.jpg" alt="水土保持管理系统" class="project-image" loading="lazy"
+                                <img src="images/mscy_compressed.jpg" alt="水土保持管理系统" class="project-image"
+                                    loading="lazy"
                                     onload="this.classList.add('loaded'); this.previousElementSibling.classList.add('hidden')"
                                     onerror="this.classList.add('error'); this.previousElementSibling.classList.add('hidden')">
                             </div>
@@ -2977,17 +3007,31 @@
                             <div class="star-label">S</div>
                             <div class="star-content">高速公路水保管控涉及建设、施工、监理、监测、验收等多方主体协同。传统模式下协同依赖线下手工记录与纸质流转，存在三大痛点。</div>
                             <div class="star-label">T</div>
-                            <div class="star-content">作为项目组长兼产品、前端，从0到1主导全流程，统筹产品、UI、前端、后端协作，承担需求调研、产品方案、前端开发、测试优化、项目管理五项核心职责，交付一套覆盖"方案—设计—施工—验收"全过程、可投产使用的ToB水保管控系统。</div>
+                            <div class="star-content">
+                                作为项目组长兼产品、前端，从0到1主导全流程，统筹产品、UI、前端、后端协作，承担需求调研、产品方案、前端开发、测试优化、项目管理五项核心职责，交付一套覆盖"方案—设计—施工—验收"全过程、可投产使用的ToB水保管控系统。
+                            </div>
                             <div class="star-label">A</div>
                             <div class="star-content">
-                                <div class="star-item"><span class="star-item-num">①</span><span class="star-item-text"><strong>需求调研：</strong>覆盖多角色访谈，从一线真实工作流提炼三大痛点并输出需求清单与业务流程图</span></div>
-                                <div class="star-item"><span class="star-item-num">②</span><span class="star-item-text"><strong>产品方案：</strong>设计六大功能模块架构，输出完整PRD与Figma高保真原型作为研发基线</span></div>
-                                <div class="star-item"><span class="star-item-num">③</span><span class="star-item-text"><strong>前端开发：</strong>基于Vue2+ElementUI搭建前端，独立开发ECharts可视化模块，设计动态路由权限体系——覆盖八类用户角色，权限粒度细化到查看/编辑/审核/审批/管理五个层级</span></div>
-                                <div class="star-item"><span class="star-item-num">④</span><span class="star-item-text"><strong>双端兼容：</strong>PC端+小程序端，支持施工现场移动巡查数据实时回传</span></div>
-                                <div class="star-item"><span class="star-item-num">⑤</span><span class="star-item-text"><strong>测试迭代：</strong>组织2轮Beta测试，收集20+名员工反馈，迭代优化12+功能点</span></div>
+                                <div class="star-item"><span class="star-item-num">①</span><span
+                                        class="star-item-text"><strong>需求调研：</strong>覆盖多角色访谈，从一线真实工作流提炼三大痛点并输出需求清单与业务流程图</span>
+                                </div>
+                                <div class="star-item"><span class="star-item-num">②</span><span
+                                        class="star-item-text"><strong>产品方案：</strong>设计六大功能模块架构，输出完整PRD与Figma高保真原型作为研发基线</span>
+                                </div>
+                                <div class="star-item"><span class="star-item-num">③</span><span
+                                        class="star-item-text"><strong>前端开发：</strong>基于Vue2+ElementUI搭建前端，独立开发ECharts可视化模块，设计动态路由权限体系——覆盖八类用户角色，权限粒度细化到查看/编辑/审核/审批/管理五个层级</span>
+                                </div>
+                                <div class="star-item"><span class="star-item-num">④</span><span
+                                        class="star-item-text"><strong>双端兼容：</strong>PC端+小程序端，支持施工现场移动巡查数据实时回传</span>
+                                </div>
+                                <div class="star-item"><span class="star-item-num">⑤</span><span
+                                        class="star-item-text"><strong>测试迭代：</strong>组织2轮Beta测试，收集20+名员工反馈，迭代优化12+功能点</span>
+                                </div>
                             </div>
                             <div class="star-label">R</div>
-                            <div class="star-content">系统已投产使用。单次审批时长从3-5天缩短至数小时，数据错误率从12%降至1%，信息同步方式从线下纸质流转升级为中心库实时共享，预警时机从事后发现升级为事前实时预警。</div>
+                            <div class="star-content">
+                                系统已投产使用。单次审批时长从3-5天缩短至数小时，数据错误率从12%降至1%，信息同步方式从线下纸质流转升级为中心库实时共享，预警时机从事后发现升级为事前实时预警。
+                            </div>
                         </div>
                     </div>
                 </article>
@@ -3043,11 +3087,17 @@
                         <div class="star-label">T</div>
                         <div class="star-content">从0到1打造一款AI驱动的吃饭决策小程序，包含个性化餐厅推荐、朋友聚会转盘等功能，并支持快速迭代上线。</div>
                         <div class="star-label">A</div>
-                            <div class="star-content">
-                                <div class="star-item"><span class="star-item-num">①</span><span class="star-item-text"><strong>需求分析：</strong>通过用户访谈梳理核心需求，发现选项过载、工具断层、意图鸿沟三大痛点</span></div>
-                                <div class="star-item"><span class="star-item-num">②</span><span class="star-item-text"><strong>功能设计：</strong>设计语义意图匹配功能，用户用自然语言描述需求，系统理解语义意图后匹配相关品类</span></div>
-                                <div class="star-item"><span class="star-item-num">③</span><span class="star-item-text"><strong>AICoding：</strong>使用Trae进行AI辅助编程开发，基于Taro框架完成前端开发，接入高德API获取附近餐厅数据，核心数据调用逻辑自行编写，AI生成代码逐模块审查验证</span></div>
+                        <div class="star-content">
+                            <div class="star-item"><span class="star-item-num">①</span><span
+                                    class="star-item-text"><strong>需求分析：</strong>通过用户访谈梳理核心需求，发现选项过载、工具断层、意图鸿沟三大痛点</span>
                             </div>
+                            <div class="star-item"><span class="star-item-num">②</span><span
+                                    class="star-item-text"><strong>功能设计：</strong>设计语义意图匹配功能，用户用自然语言描述需求，系统理解语义意图后匹配相关品类</span>
+                            </div>
+                            <div class="star-item"><span class="star-item-num">③</span><span
+                                    class="star-item-text"><strong>AICoding：</strong>使用Trae进行AI辅助编程开发，基于Taro框架完成前端开发，接入高德API获取附近餐厅数据，核心数据调用逻辑自行编写，AI生成代码逐模块审查验证</span>
+                            </div>
+                        </div>
                         <div class="star-label">R</div>
                         <div class="star-content">小程序已上线，持续收集用户反馈迭代优化，推荐满意度从65%提升至85%。</div>
                     </div>
@@ -3082,10 +3132,18 @@
                             <div class="star-content">独立完成一个前后台兼备的个人博客系统，包括文章、用户、分类、搜索等完整功能，并成功部署上线。</div>
                             <div class="star-label">A</div>
                             <div class="star-content">
-                                <div class="star-item"><span class="star-item-num">①</span><span class="star-item-text"><strong>前端构建：</strong>使用jQuery + Bootstrap + Art-Template构建前台展示页面，搭建md文章写入、数据表格展示、文章目录展示等模块。</span></div>
-                                <div class="star-item"><span class="star-item-num">②</span><span class="star-item-text"><strong>数据存储：</strong>MongoDB做数据存储，设计文章、用户、分类标签的数据模型，将数据从本地保存移为云端保存。</span></div>
-                                <div class="star-item"><span class="star-item-num">③</span><span class="star-item-text"><strong>功能实现：</strong>实现文章增删改查、用户管理、分类标签、分页搜索等功能，重点实现用户权限、密码加密等功能</span></div>
-                                <div class="star-item"><span class="star-item-num">④</span><span class="star-item-text"><strong>部署上线：</strong>完成前后台联调与部署上线，完整走完Web全流程。</span></div>
+                                <div class="star-item"><span class="star-item-num">①</span><span
+                                        class="star-item-text"><strong>前端构建：</strong>使用jQuery + Bootstrap +
+                                        Art-Template构建前台展示页面，搭建md文章写入、数据表格展示、文章目录展示等模块。</span></div>
+                                <div class="star-item"><span class="star-item-num">②</span><span
+                                        class="star-item-text"><strong>数据存储：</strong>MongoDB做数据存储，设计文章、用户、分类标签的数据模型，将数据从本地保存移为云端保存。</span>
+                                </div>
+                                <div class="star-item"><span class="star-item-num">③</span><span
+                                        class="star-item-text"><strong>功能实现：</strong>实现文章增删改查、用户管理、分类标签、分页搜索等功能，重点实现用户权限、密码加密等功能</span>
+                                </div>
+                                <div class="star-item"><span class="star-item-num">④</span><span
+                                        class="star-item-text"><strong>部署上线：</strong>完成前后台联调与部署上线，完整走完Web全流程。</span>
+                                </div>
                             </div>
                             <div class="star-label">R</div>
                             <div class="star-content">第一个全栈部署上线的项目；建立了对Web全链路的系统理解，为后续更大规模项目打下基础。</div>
@@ -3128,10 +3186,18 @@
                             <div class="star-content">完成从用户研究、数据分析到信息架构、原型的完整交互设计流程，产出可落地的设计方案。</div>
                             <div class="star-label">A</div>
                             <div class="star-content">
-                                <div class="star-item"><span class="star-item-num">①</span><span class="star-item-text"><strong>需求分析：</strong>通过问卷调研与深度访谈收集大学生压力源数据，使用SPSS进行因子聚类分析、二元Logistic回归分析</span></div>
-                                <div class="star-item"><span class="star-item-num">②</span><span class="star-item-text"><strong>产品设计：</strong>对比现有心理健康类产品的交互模式，定位差异化机会——从"对话疗愈"转向"空间沉浸"</span></div>
-                                <div class="star-item"><span class="star-item-num">③</span><span class="star-item-text"><strong>用户研究：</strong>绘制从"进入压力状态"到"VR空间疗愈"到"退出回归现实"的完整情绪旅程</span></div>
-                                <div class="star-item"><span class="star-item-num">④</span><span class="star-item-text"><strong>架构原型：</strong>设计VR空间内的导航结构与交互层级，输出低保真原型验证交互逻辑，迭代后产出高保真原型</span></div>
+                                <div class="star-item"><span class="star-item-num">①</span><span
+                                        class="star-item-text"><strong>需求分析：</strong>通过问卷调研与深度访谈收集大学生压力源数据，使用SPSS进行因子聚类分析、二元Logistic回归分析</span>
+                                </div>
+                                <div class="star-item"><span class="star-item-num">②</span><span
+                                        class="star-item-text"><strong>产品设计：</strong>对比现有心理健康类产品的交互模式，定位差异化机会——从"对话疗愈"转向"空间沉浸"</span>
+                                </div>
+                                <div class="star-item"><span class="star-item-num">③</span><span
+                                        class="star-item-text"><strong>用户研究：</strong>绘制从"进入压力状态"到"VR空间疗愈"到"退出回归现实"的完整情绪旅程</span>
+                                </div>
+                                <div class="star-item"><span class="star-item-num">④</span><span
+                                        class="star-item-text"><strong>架构原型：</strong>设计VR空间内的导航结构与交互层级，输出低保真原型验证交互逻辑，迭代后产出高保真原型</span>
+                                </div>
                             </div>
                             <div class="star-label">R</div>
                             <div class="star-content">完成从定量数据洞察到交互设计方案的完整推导闭环；验证了定量研究与定性设计相结合的方法体系。</div>
@@ -3163,8 +3229,8 @@
 
             <div class="grid md:grid-cols-3 gap-6 lg:gap-8"> -->
 
-                <!-- 项目6：虚拟展馆漫游 -->
-                <!-- <article class="project-card hover-lift more-card more-card-vertical">
+        <!-- 项目6：虚拟展馆漫游 -->
+        <!-- <article class="project-card hover-lift more-card more-card-vertical">
                     <a href="https://www.bilibili.com/video/BV1gX4y1p7f1/?spm_id_from=333.1387.homepage.video_card.click"
                         target="_blank" class="block more-card-image-link">
                         <div class="project-image-wrapper more-image-wrapper">
@@ -3196,8 +3262,8 @@
                     </div>
                 </article> -->
 
-                <!-- 项目7：蒸汽末日 -->
-                <!-- <article class="project-card hover-lift more-card more-card-vertical">
+        <!-- 项目7：蒸汽末日 -->
+        <!-- <article class="project-card hover-lift more-card more-card-vertical">
                     <a href="https://www.bilibili.com/video/BV1Bo4y1x7hv/?vd_source=9b69073227bf41d63a3ca206543c5695#reply398270465"
                         target="_blank" class="block more-card-image-link">
                         <div class="project-image-wrapper more-image-wrapper">
@@ -3227,8 +3293,8 @@
                     </div>
                 </article> -->
 
-                <!-- 项目8：采药模拟游戏 -->
-                <!-- <article class="project-card hover-lift more-card more-card-vertical">
+        <!-- 项目8：采药模拟游戏 -->
+        <!-- <article class="project-card hover-lift more-card more-card-vertical">
                     <a href="https://www.bilibili.com/video/BV1LY41117jQ/?vd_source=9b69073227bf41d63a3ca206543c5695#reply145432201248"
                         target="_blank" class="block more-card-image-link">
                         <div class="project-image-wrapper more-image-wrapper">
@@ -3259,7 +3325,7 @@
                     </div>
                 </article> -->
 
-            <!-- </div>
+        <!-- </div>
         </section> -->
 
     </div>
@@ -3288,14 +3354,14 @@
                     关于我
                 </h5>
                 <ul class="space-y-3">
-                    <li><span class="text-[#6b6b6b] flex items-center"><i
-                                class="bi bi-book mr-2"></i> GDUT · 数字媒体技术 · 本科</span></li>
-                    <li><span class="text-[#6b6b6b] flex items-center"><i
-                                class="bi bi-pin-map-fill mr-2"></i> 深圳 · AI设计工程师</span></li>
-                    <li><span class="text-[#6b6b6b] flex items-center"><i
-                                class="bi bi-layers mr-2"></i> 前端 · 产品设计 · AIcoding</span></li>
-                    <li><span class="text-[#6b6b6b] flex items-center"><i
-                                class="bi bi-envelope-open-fill mr-2"></i> xd316012029@163.com</span></li>
+                    <li><span class="text-[#6b6b6b] flex items-center"><i class="bi bi-book mr-2"></i> GDUT · 数字媒体技术 ·
+                            本科</span></li>
+                    <li><span class="text-[#6b6b6b] flex items-center"><i class="bi bi-pin-map-fill mr-2"></i> 深圳 ·
+                            AI产品经理</span></li>
+                    <li><span class="text-[#6b6b6b] flex items-center"><i class="bi bi-layers mr-2"></i> 前端 · 产品设计 ·
+                            AIcoding</span></li>
+                    <li><span class="text-[#6b6b6b] flex items-center"><i class="bi bi-envelope-open-fill mr-2"></i>
+                            xd316012029@163.com</span></li>
                 </ul>
             </div>
             <div class="text-center md:text-left">
@@ -3346,18 +3412,21 @@
 
             <div class="info-section">
                 <h4><i class="fas fa-bullseye" style="color:var(--primary);font-size:0.8rem;"></i> 网站概述</h4>
-                <p>本网站是许晓丹的个人作品集，展示完整项目经历，涵盖AI智能体、Web开发、AICoding小程序、VR交互设计等领域。整体设计采用莫兰迪暖色系，支持主题色切换。搭载智谱+本地AI做项目问答助手，同时引入访问统计。</p>
+                <p>本网站是许晓丹的个人作品集，展示完整项目经历，涵盖AI智能体、Web开发、AICoding小程序、VR交互设计等领域。整体设计采用莫兰迪暖色系，支持主题色切换。搭载智谱+本地AI做项目问答助手，同时引入访问统计。
+                </p>
             </div>
 
             <div class="info-section">
                 <h4><i class="fas fa-server" style="color:var(--primary);font-size:0.8rem;"></i> 技术架构</h4>
                 <div class="info-card">
                     <div class="info-card-title">纯静态 · 纯前端</div>
-                    <div class="info-card-desc">基于 HTML + CSS + JavaScript 构建，托管于 GitHub Pages，无需服务器和数据库，零运维成本。所有交互（AI对话、主题切换、动画）均在前端完成。</div>
+                    <div class="info-card-desc">基于 HTML + CSS + JavaScript 构建，托管于 GitHub
+                        Pages，无需服务器和数据库，零运维成本。所有交互（AI对话、主题切换、动画）均在前端完成。</div>
                 </div>
                 <div class="info-card">
                     <div class="info-card-title">Tailwind CSS · 原生JS</div>
-                    <div class="info-card-desc">使用 Tailwind CSS 提供原子化样式，配合自定义 CSS 变量实现主题切换。所有交互逻辑使用原生 JavaScript，无框架依赖。</div>
+                    <div class="info-card-desc">使用 Tailwind CSS 提供原子化样式，配合自定义 CSS 变量实现主题切换。所有交互逻辑使用原生 JavaScript，无框架依赖。
+                    </div>
                 </div>
             </div>
 
@@ -3366,7 +3435,8 @@
                 <div class="info-card">
                     <div class="info-card-title">两层降级架构</div>
                     <div class="info-card-desc">
-                        <span class="info-tag">第1层</span>智谱 GLM-4-Flash API — 调用云端大模型+知识库，结合内置 System Prompt 和项目页面动态上下文回答问题<br>
+                        <span class="info-tag">第1层</span>智谱 GLM-4-Flash API — 调用云端大模型+知识库，结合内置 System Prompt
+                        和项目页面动态上下文回答问题<br>
                         <span class="info-tag">第2层</span>本地 FAQ 知识库 — 智谱失败时自动降级，基于关键词匹配 + 评分算法回答常见问题<br>
                     </div>
                 </div>
@@ -3384,7 +3454,8 @@
                 </div>
                 <div class="info-card">
                     <div class="info-card-title">百度统计 — 后台分析</div>
-                    <div class="info-card-desc">负责详细流量分析（来源、受访页面、停留时长等）。通过虚拟页面（_trackPageview）方式记录访客在小助理中的提问内容，，不断优化项目。</div>
+                    <div class="info-card-desc">负责详细流量分析（来源、受访页面、停留时长等）。通过虚拟页面（_trackPageview）方式记录访客在小助理中的提问内容，，不断优化项目。
+                    </div>
                 </div>
             </div>
 
@@ -3415,7 +3486,7 @@
             <span class="info-modal-close" onclick="closeInfoModal()"><i class="fas fa-times"></i></span>
             <div class="info-modal-header">
                 <h3>关于我</h3>
-                <p>AI设计工程师 </p>
+                <p>AI产品经理 </p>
             </div>
 
             <div class="info-section">
@@ -3449,7 +3520,8 @@
                     <div class="info-timeline-item">
                         <div class="info-timeline-date">2024.07 - 2026.07</div>
                         <div class="info-timeline-title">广发银行深圳分行 · 零售信贷经理</div>
-                        <div class="info-timeline-desc">负责4亿元零售信贷盘子全生命周期管理。搭建零售业务问答FAQ智能体，知识库100+条，回答准确率从48%提升至82%。离职希望转行成为AI设计师。</div>
+                        <div class="info-timeline-desc">
+                            负责4亿元零售信贷盘子全生命周期管理。搭建零售业务问答FAQ智能体，知识库100+条，回答准确率从48%提升至82%。离职希望转行成为AI设计师。</div>
                     </div>
                 </div>
             </div>
@@ -3499,7 +3571,7 @@
                         <div class="info-skill-label">数据分析</div>
                         <div class="info-skill-value">SQL · Excel · Python</div>
                     </div>
-                    
+
                 </div>
             </div>
 
@@ -3564,7 +3636,8 @@
                 <div id="chat-suggestions" class="chat-suggestions-wrap">
                     <span class="chat-suggestions-label">试试问问：</span>
                     <button class="chat-suggestion-tag" data-msg="你在FAQ智能体项目中做了什么？">你在FAQ智能体项目中做了什么？</button>
-                    <button class="chat-suggestion-tag chat-suggestion-mobile-hide" data-msg="这个作品集网站是怎么做的？">这个作品集网站是怎么做的？</button>
+                    <button class="chat-suggestion-tag chat-suggestion-mobile-hide"
+                        data-msg="这个作品集网站是怎么做的？">这个作品集网站是怎么做的？</button>
                 </div>
                 <div class="flex items-center gap-2">
                     <input type="text" id="chat-input" placeholder="输入你的问题..."
@@ -3621,7 +3694,7 @@
 
         function closeInfoModal(event) {
             if (event && event.target && event.target.closest('.info-modal')) return;
-            document.querySelectorAll('.info-modal-mask').forEach(function(m) {
+            document.querySelectorAll('.info-modal-mask').forEach(function (m) {
                 m.classList.remove('show');
             });
             document.body.style.overflow = '';
@@ -3906,8 +3979,8 @@
         chatSend.addEventListener('click', sendMessage);
 
         // 示例问题标签：点击即发送，标签永久显示
-        document.querySelectorAll('.chat-suggestion-tag').forEach(function(tag) {
-            tag.addEventListener('click', function() {
+        document.querySelectorAll('.chat-suggestion-tag').forEach(function (tag) {
+            tag.addEventListener('click', function () {
                 chatInput.value = tag.getAttribute('data-msg');
                 sendMessage();
             });
@@ -3921,7 +3994,7 @@
 【核心信息】
 - 姓名：许晓丹（XD），24岁
 - 学历：广东工业大学数字媒体技术专业，2024届，GPA前5%
-- 求职意向：AI设计工程师 / AI产品经理
+- 求职意向： AI产品经理
 - 工作经历：广发银行深圳分行客户经理（2024.07-2026.07），负责4亿元零售信贷盘子管理
 - 核心竞争力：AI实战经验（Trae/Coze Vibe Coding）、技术+设计双重能力、快速学习能力、业务理解能力、8个完整项目经验
 
@@ -4045,7 +4118,7 @@
             },
             {
                 keywords: ['求职', '意向', '找工作', '目标岗位', '职业规划'],
-                answer: '我的求职意向是AI设计工程师 / AI产品经理。\n\n我希望在AI产品设计领域深耕，利用我的技术背景（前端开发+游戏开发）、设计能力（UI/UX+交互设计）和业务理解力（金融信贷2年经验），打造出真正解决用户痛点的AI产品。'
+                answer: '我的求职意向是 AI产品经理。\n\n我希望在AI产品设计领域深耕，利用我的技术背景（前端开发+游戏开发）、设计能力（UI/UX+交互设计）和业务理解力（金融信贷2年经验），打造出真正解决用户痛点的AI产品。'
             },
             {
                 keywords: ['联系方式', '联系你', '邮箱', '微信', '怎么找你'],
@@ -4056,7 +4129,7 @@
                 answer: '这个作品集网站是我用Trae IDE（AI辅助编程工具）独立开发的，纯静态HTML/CSS/JS，托管在GitHub Pages上。\n\n技术方案：\n- AI智能体：智谱GLM-4-Flash API + 本地FAQ降级兜底，无需后端服务器\n- 访问统计：Vercount（前台PV/UV展示）+ 百度统计（后台流量分析）\n- 图片优化：懒加载 + 压缩图片体积\n- 响应式设计：PC端左右双栏、移动端单栏自适应\n\n你正在对话的小助理就是智谱AI驱动的，如果智谱挂了会自动切到本地知识库兜底。'
             },
             {
-                keywords: ['统计', 'pv', 'uv', '访问量', '百度统计', 'vercount', ],
+                keywords: ['统计', 'pv', 'uv', '访问量', '百度统计', 'vercount',],
                 answer: '网站访问统计用了两套方案并行运行：\n\n1. Vercount：负责在页面角落显示PV/UV数字\n2. 百度统计：负责后台详细分析（流量来源、受访页面、访客停留时长等），还通过虚拟页面方式记录你在小助理里的提问内容\n\n两者互不冲突，Vercount管展示，百度统计管分析。'
             }
         ];
@@ -4090,7 +4163,7 @@
                 const html = await response.text();
                 const temp = document.createElement('div');
                 temp.innerHTML = html;
-                
+
                 const sections = temp.querySelectorAll('.article-section');
                 let content = '';
                 sections.forEach((sec, idx) => {
@@ -4103,7 +4176,7 @@
                         content += text.substring(0, 2000) + '\n';
                     }
                 });
-                
+
                 return content;
             } catch (e) {
                 return '';
@@ -4201,13 +4274,13 @@
                     _hmt.push(['_trackPageview', trackPath]);
                 } else {
                     // _hmt 尚未加载，暂存到队列，3秒后重试
-                    setTimeout(function() {
+                    setTimeout(function () {
                         if (typeof _hmt !== 'undefined' && _hmt.push) {
                             _hmt.push(['_trackPageview', trackPath]);
                         }
                     }, 3000);
                 }
-            } catch(e) {}
+            } catch (e) { }
 
             addMessage('bot', '');
             const lastMessage = chatMessages.lastElementChild;
@@ -4328,8 +4401,8 @@
 
             const bubble = document.createElement('div');
             bubble.className = `px-3 py-2 rounded-xl shadow-sm max-w-[85%] text-sm ${sender === 'user'
-                    ? 'chat-bubble-user text-white rounded-tr-none'
-                    : 'bg-white chat-text rounded-tl-none'
+                ? 'chat-bubble-user text-white rounded-tr-none'
+                : 'bg-white chat-text rounded-tl-none'
                 }`;
 
             if (content) {
@@ -4357,9 +4430,9 @@
     </script>
     <script defer src="https://vercount.one/js"></script>
     <script>
-        window.addEventListener('load', function() {
-            setTimeout(function() {
-                ['busuanzi_value_site_pv','busuanzi_value_site_uv','busuanzi_value_page_pv'].forEach(function(id) {
+        window.addEventListener('load', function () {
+            setTimeout(function () {
+                ['busuanzi_value_site_pv', 'busuanzi_value_site_uv', 'busuanzi_value_page_pv'].forEach(function (id) {
                     var el = document.getElementById(id);
                     if (el && el.textContent.trim() === '') el.textContent = '-';
                 });
@@ -4369,11 +4442,11 @@
     <!-- 百度统计 -->
     <script>
         var _hmt = _hmt || [];
-        (function() {
-          var hm = document.createElement("script");
-          hm.src = "https://hm.baidu.com/hm.js?4bf2f64ffa43310616c0fcdd991d483b";
-          var s = document.getElementsByTagName("script")[0]; 
-          s.parentNode.insertBefore(hm, s);
+        (function () {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?4bf2f64ffa43310616c0fcdd991d483b";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
         })();
     </script>
 </body>
