@@ -3128,24 +3128,32 @@
                         <div class="feature-story-label">STAR · 项目故事</div>
                         <div class="star-grid">
                             <div class="star-label">S</div>
-                            <div class="star-content">手工做一款推理 RPG 游戏花了 1 周、踩了一堆坑（AI 生图中文乱码、代码递归中断、数值失衡），发现"纯靠 AI 散点加速不够，必须把经验固化成可复用的生产流程"。想验证：能不能把整个游戏制作链路做成 AI 智能体工作流，让下次做游戏不用从零开始、甚至不懂代码的人也能产出。</div>
+                            <div class="star-content">独立开发一款推理 RPG 耗时 1 周、累计消耗 1800 万 token，期间踩遍 AI 协作的典型坑：AI 生图无法渲染中文（验证为模型结构性缺陷、非 prompt 可解）、AI 生成代码出现递归中断与数值失衡。复盘定位根因为<strong>产出不稳定</strong>——同一需求多次生成结果差异大，bug 依赖反复重生成、无法收敛，于是搭建智能体把踩坑经验固化成可复用的生产流程。</div>
                             <div class="star-label">T</div>
-                            <div class="star-content">① 用 AI 辅助开发一款推理 RPG跑通全链路； ② 把经验沉淀为 SKILL.md； ③ 方法论产品化——基于 Coze 搭建智能体工作流，实现"输入剧本需求 → 自动生成完整可运行 RPG HTML"的半自动生产引擎。</div>
+                            <div class="star-content">目标不是"再做一个游戏"，而是沉淀一套可复用的 AI 内容生产引擎：① 用 AI 辅助完整跑通一款推理 RPG（搜证/盘问/推论/多结局分支），识别 AI 在各环节的真实能力边界；② 将踩坑经验结构化为 SKILL.md 方法论（6 阶段 + 避坑清单）；③ 基于该方法论在 Coze 搭建智能体生产引擎，实现"输入剧本需求 → 端到端输出可运行 HTML"，验收标准为：<strong>非技术用户可用、产出质量可控、生成成本可控</strong>。</div>
                             <div class="star-label">A</div>
                             <div class="star-content">
-                                <div class="star-item"><span class="star-item-num">①</span><span class="star-item-text"><strong>AI 生图 + 人工校验边界：</strong>角色立绘、场景背景、线索图全用 AI 生成，但 AI 无法渲染中文是结构性缺陷 → 文档类线索放弃 AI 生图，改用 CSS 渲染纸质文档；NPC 白底立绘 → 写 Python 抠图工具（四角采样+BFS 防误删）补救。</span>
+                                <div class="star-item"><span class="star-item-num">①</span><span class="star-item-text"><strong>踩坑跑通全链路：</strong>用 AI 生图+写代码产出 RPG 游戏 V1，踩到 AI 渲染中文（结构性缺陷→改用 CSS 渲染文档）、代码递归中断、数值失衡等问题 → 逐个根因修复。踩坑过程直接沉淀为后续校验层的约束规则。</span>
                                 </div>
-                                <div class="star-item"><span class="star-item-num">②</span><span class="star-item-text"><strong>AI 写代码 + 根因级修复：</strong>核心逻辑（搜证/盘问/推论/分支树）用 AI 生成，但出现递归中断、数值失衡、弹窗残留等 bug → 逐个定位根因修复，例如分支树新增 findNextBranchNode 跨越中间节点继续递归。</span>
+                                <div class="star-item"><span class="star-item-num">②</span><span class="star-item-text"><strong>架构解耦，为自动化铺路：</strong>将剧情数据与渲染层分离，剧本独立为结构化数据，改剧情不动 HTML。这使智能体只需输出结构化剧本、无需理解前端渲染——是后续全自动生成能够成立的前提。</span>
                                 </div>
-                                <div class="star-item"><span class="star-item-num">③</span><span class="star-item-text"><strong>架构解耦：</strong>剧本与渲染分离，剧情数据独立在 game-script.js，改剧情只改 JS 不动 HTML——为后续智能体自动生成 HTML 铺路（智能体只需要输出结构化剧本数据，不需要懂前端渲染）。</span>
+                                <div class="star-item"><span class="star-item-num">③</span><span class="star-item-text"><strong>沉淀 SKILL.md 方法论：</strong>拆 6 阶段（需求→剧本→原型→美术→测试→部署），写入每阶段的 AI 用法、能力边界、避坑指南，开源至 GitHub，作为智能体的生产标准。</span>
                                 </div>
-                                <div class="star-item"><span class="star-item-num">④</span><span class="star-item-text"><strong>方法沉淀 SKILL.md：</strong>拆 6 阶段（需求→剧本→原型→美术→测试→部署），写入经验教训和避坑指南，上传 GitHub 开源。</span>
-                                </div>
-                                <div class="star-item"><span class="star-item-num">⑤</span><span class="star-item-text"><strong>工作流产品化 → Coze 智能体引擎：</strong>基于 SKILL 方法论，在 Coze 搭建 RPG 游戏智能体生产引擎。</span>
+                                <div class="star-item"><span class="star-item-num">④</span><span class="star-item-text"><strong>Coze 智能体生产引擎（项目核心）：</strong>
+                                    <div style="margin-top:0.4rem; padding-left:1.2rem;">
+                                        <div style="margin-bottom:0.3rem;"><b>架构设计：</b>拆解为 4 个单职责工作流（搭建框架/改剧情/AI生图/用户传图）挂载于同一智能体，通过 Bot 级变量实现跨工作流状态共享与接力编辑。</div>
+                                        <div style="margin-bottom:0.3rem;"><b>AI 可控性设计：</b>编写确定性校验层将 LLM 幻觉拦截在渲染前——契约校验、引用完整性、闭环可达性；Prompt 侧采用"全局联动 + 闭环保证 + 全量输出"约束，避免局部修改导致前后剧情不自洽。</div>
+                                        <div><b>成本与交付稳定性：</b>生图环节选用低单价模型替代按量计费插件；素材以固定对象存储 key 覆盖更新，保证多轮编辑后交付链接不变。</div>
+                                    </div>
+                                </span>
                                 </div>
                             </div>
                             <div class="star-label">R</div>
-                            <div class="star-content">在 Coze 上架「RPG游戏生成」智能体，用户输入剧本需求即可半自动生成完整 HTML——单人开发周期从 1 周 → 1天。</div>
+                            <div class="star-content">
+                                <div style="margin-bottom:0.35rem;">交付 Coze「RPG 游戏生成」智能体，用户输入一句话题材 → 端到端产出可玩 HTML（单文件、打开即玩）。</div>
+                                <div style="margin-bottom:0.35rem;"><b>质量可控：</b>设计 21 项自动化冒烟校验 + 4 类确定性拦截规则，覆盖 LLM 幻觉的主要失效模式（剧情不自洽/选项死循环/素材丢失/结构非法）。</div>
+                                <div><b>可复用：</b>同一游戏支持多轮接力编辑（改剧情/换素材/换立绘），交付链接保持不变。</div>
+                            </div>
                         </div>
                     </div>
                 </article>
