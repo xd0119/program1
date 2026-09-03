@@ -23,6 +23,19 @@ const CORS_HEADERS = {
   'Access-Control-Allow-Headers': 'Content-Type, Authorization, Accept',
 };
 
+// —— GET 验证入口：浏览器直接访问能返回 JSON，方便确认 Pages Function 已部署
+// 实际智谱调用走 POST（onRequestPost），GET 只用来人肉验证部署成功
+export async function onRequestGet({ request, env }) {
+  const hasKey = !!(env && env.ZHIPU_API_KEY);
+  return jsonResponse({
+    service: 'zhipu-pages-proxy',
+    status: 'alive',
+    method: 'Use POST to call Zhipu API',
+    apiKeyConfigured: hasKey,
+    timestamp: new Date().toISOString()
+  }, 200);
+}
+
 // —— 预检 CORS ——
 export async function onRequestOptions() {
   return new Response(null, {
