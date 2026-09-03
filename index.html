@@ -4348,8 +4348,31 @@
          */
         async function callZhipuStream(message, onToken) {
             // 没有Key直接失败，让sendMessage降级到本地FAQ
+             // —— 两种认证方式，二选一就行 ——
+            //   ① 本地开发：secret.js 注入了 window.ZHIPU_API_KEY → 直连 open.bigmodel.cn
+            //   ② 线上 GitHub Pages：走 Cloudflare Worker 代理（Key 只存在 Worker 环境变量）
             const apiKey = window.ZHIPU_API_KEY;
-            if (!apiKey) return { success: false, error: 'API Key 未配置（仅本地开发通过 secret.js 注入，线上走本地FAQ）' };
+            const proxyUrl = window.SITE_CONFIG && window.SITE_CONFIG.ZHIPU_PROXY_URL;
+
+            let targetUrl = '';      // 最终请求 URL
+            let sendAuthHeader = ''; // 要附加的 Bearer Token（只有直连才加，代理不加，防止前端再带 Key）
+
+            if (apiKey) {
+                // 本地模式：直连智谱
+                targetUrl = 'https://open.bigmodel.cn/api/paas/v4/chat/completions';
+                sendAuthHeader = 'Bearer ' + apiKey;
+            } else if (proxyUrl && proxyUrl.indexOf('zhipu-proxy-xd.你的用户名.workers.dev') === -1
+                && proxyUrl.indexOf('你的用户名.workers.dev') === -1
+                && proxyUrl.indexOf('https://zhipu-proxy-xd.你的用户名.workers.dev') === -1) {
+                // 线上模式：用代理。上面这一大串判断是防止你忘记把"第6步示例URL"替换成真实URL —— 如果检测到还是示例值就直接报错
+                targetUrl = proxyUrl;
+                sendAuthHeader = ''; // 注意：这里不要塞 Key！Key 只在 Cloudflare Worker 那边加
+            } else {
+                return {
+                    success: false,
+                    error: '未配置智谱调用通道：本地需 secret.js，线上需在 site-config.js 填 Cloudflare Worker URL。当前自动降级到本地 FAQ。'
+                };
+            }
             let projectContext = '';
             let hitFile = '';
             try {
@@ -4396,13 +4419,15 @@
 
             let response;
             try {
-                response = await fetch('https://open.bigmodel.cn/api/paas/v4/chat/completions', {
+                const hdrs = {
+                    'Content-Type': 'application/json',
+                    'Accept': 'text/event-stream',
+                };
+                if (sendAuthHeader) hdrs['Authorization'] = sendAuthHeader; // 只有本地直连才带
+
+                response = await fetch(targetUrl, {
                     method: 'POST',
-                    headers: {
-                        'Authorization': 'Bearer ' + apiKey,
-                        'Content-Type': 'application/json',
-                        'Accept': 'text/event-stream'
-                    },
+                    headers: hdrs,
                     body: JSON.stringify(requestBody)
                 });
             } catch (e) {
