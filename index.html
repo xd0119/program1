@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh-CN">
 
 <head>
@@ -2261,6 +2261,140 @@
             background: var(--accent);
         }
 
+        .chat-send-btn:disabled,
+        .chat-send-btn.chat-busy {
+            background: var(--border-color, #cfbf9f);
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+
+        .chat-input-field:disabled {
+            opacity: 0.65;
+            cursor: not-allowed;
+        }
+
+        .chat-processing-hint {
+            position: absolute;
+            left: 1rem;
+            right: 5rem;
+            bottom: 100%;
+            margin-bottom: 0.35rem;
+            font-size: 0.72rem;
+            color: var(--text-secondary, #7d7158);
+            display: none;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .chat-processing-hint.show {
+            display: block;
+        }
+
+        /* ====== 方案1：AI回答自动美化排版 · 后处理器样式 ====== */
+        /* 1) 项目名装饰标题（【xxx】开头 → 自动识别包装） */
+        .answer-project-title {
+            position: relative;
+            padding: 0.45rem 0.75rem 0.45rem 0.95rem;
+            margin: 0.1rem 0 0.5rem;
+            background: linear-gradient(90deg, rgba(196,167,125,0.16) 0%, rgba(196,167,125,0.04) 85%, transparent 100%);
+            border-left: 3px solid var(--primary, #c4a77d);
+            border-radius: 0 8px 8px 0;
+            font-size: 0.92rem;
+            font-weight: 700;
+            color: var(--text-primary, #5c4a3a);
+            letter-spacing: 0.2px;
+            line-height: 1.45;
+        }
+        .answer-project-subtitle {
+            display: block;
+            margin-top: 0.2rem;
+            font-size: 0.78rem;
+            font-weight: 500;
+            color: var(--text-secondary, #7d7158);
+        }
+
+        /* 2) 数据指标胶囊徽章（准确率X%、混淆率从X到Y、100+条这类数据） */
+        .answer-metric-chip {
+            display: inline-block;
+            margin: 0 0.15rem 0.15rem 0;
+            padding: 0.1rem 0.5rem;
+            border-radius: 999px;
+            background: linear-gradient(90deg, rgba(110,158,126,0.12), rgba(110,158,126,0.08));
+            border: 1px solid rgba(110,158,126,0.35);
+            color: #355c47;
+            font-size: 0.78rem;
+            font-weight: 600;
+            font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+            letter-spacing: 0.2px;
+            line-height: 1.4;
+            vertical-align: baseline;
+        }
+        .answer-metric-chip[data-type="up"]   { background: linear-gradient(90deg, rgba(110,158,126,0.16), rgba(110,158,126,0.08)); color:#2c503a; border-color:rgba(110,158,126,0.5); }
+        .answer-metric-chip[data-type="down"] { background: linear-gradient(90deg, rgba(209,121,104,0.12), rgba(209,121,104,0.06)); color:#74392c; border-color:rgba(209,121,104,0.4); }
+        .answer-metric-chip[data-type="count"]{ background: linear-gradient(90deg, rgba(196,167,125,0.16), rgba(196,167,125,0.08)); color:#634a2d; border-color:rgba(196,167,125,0.55); }
+
+        /* 3) 成果数据绿色 callout 块 */
+        .answer-result-callout {
+            margin: 0.6rem 0 0.35rem;
+            padding: 0.65rem 0.8rem 0.55rem 0.9rem;
+            border-radius: 12px;
+            background: linear-gradient(135deg, rgba(110,158,126,0.1), rgba(110,158,126,0.02));
+            border: 1px solid rgba(110,158,126,0.3);
+            border-left: 4px solid #6e9e7e;
+            line-height: 1.7;
+        }
+        .answer-result-callout > .answer-callout-title {
+            display: block;
+            margin-bottom: 0.25rem;
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: #355c47;
+            letter-spacing: 0.3px;
+        }
+        .answer-result-callout > p,
+        .answer-result-callout > div {
+            margin: 0 !important;
+        }
+
+        /* 4) 列表（后处理强制换行后渲染出来的 1.2.3. / 项目符号）加大行距与段间距，默认缩进更好看 */
+        .chat-bubble-user ~ *, /* 选择器没用，只是为了不被误删 */
+        .chat-text ul,
+        .chat-text ol {
+            padding-left: 1.25rem !important;
+            margin: 0.25rem 0 0.35rem !important;
+        }
+        .chat-text ul li,
+        .chat-text ol li {
+            margin: 0.22rem 0 !important;
+            line-height: 1.7 !important;
+        }
+        .chat-text ol {
+            list-style: decimal !important;
+        }
+        .chat-text ul {
+            list-style: disc !important;
+        }
+        .chat-text li::marker {
+            color: var(--primary, #c4a77d);
+            font-weight: 700;
+        }
+        .chat-text p {
+            margin: 0.15rem 0 0.3rem !important;
+            line-height: 1.75 !important;
+        }
+        /* 段落第一个"小标题【xx】："样式小强化 */
+        .chat-text p > strong:first-child {
+            color: var(--text-primary, #5c4a3a);
+            margin-right: 2px;
+        }
+        /* 结尾"---"footer分隔线改淡一点 */
+        .chat-text hr {
+            border: none !important;
+            border-top: 1px dashed rgba(196,167,125,0.4) !important;
+            margin: 0.65rem 0 0.35rem !important;
+        }
+
         .chat-text {
             color: var(--text-secondary);
             transition: color 0.5s ease;
@@ -3111,6 +3245,7 @@
                             <span class="tag-chip">AICoding</span>
                             <span class="tag-chip">Agent调试</span>
                             <span class="tag-chip">提效降本工具</span>
+                            <span class="tag-chip">Serverless 安全代理</span>
                         </div>
                         <div class="feature-cta-row">
                             <a href="https://www.coze.cn/store/agent/7679370549109276706?bot_id=true" target="_blank" class="quick-view-btn feature-cta feature-cta-primary">
@@ -3150,7 +3285,7 @@
                             <div class="star-content">
                                 <div style="margin-bottom:0.35rem;">交付「RPG 游戏生成」智能体，用户输入题材 → 产出可玩 HTML。</div>
                                 <div style="margin-bottom:0.35rem;"><b>质量可控：</b>设计4 类确定性拦截规则，覆盖 LLM 幻觉的主要失效模式（剧情不自洽/选项死循环/素材丢失/结构非法）将 LLM 幻觉拦截在渲染前。</div>
-                                <div><b>成本可控：</b>按任务复杂度对 LLM 节点分档选型（关键节点 Pro / 机械提取 Mini），配合模板引擎渲染将渲染 token 归零。</div>
+                                <div style="margin-bottom:0.35rem;"><b>成本可控：</b>按任务复杂度对 LLM 节点分档选型（关键节点 Pro / 机械提取 Mini），配合模板引擎渲染将渲染 token 归零。</div>
                             </div>
                         </div>
                     </div>
@@ -3528,24 +3663,32 @@
                 <h4><i class="fas fa-server" style="color:var(--primary);font-size:0.8rem;"></i> 技术架构</h4>
                 <div class="info-card">
                     <div class="info-card-title">纯静态 · 纯前端</div>
-                    <div class="info-card-desc">基于 HTML + CSS + JavaScript 构建，托管于 GitHub
+                    <div class="info-card-desc">基于 HTML + CSS + JavaScript 构建，前端托管于 GitHub
                         Pages，无需服务器和数据库，零运维成本。所有交互（AI对话、主题切换、动画）均在前端完成。</div>
                 </div>
+                                <div class="info-card">
+                                    <div class="info-card-title">Tailwind CSS · 原生JS</div>
+                                    <div class="info-card-desc">使用 Tailwind CSS 提供原子化样式，配合自定义 CSS 变量实现主题切换。所有交互逻辑使用原生 JavaScript，无框架依赖。
+                                    </div>
+                                </div>
                 <div class="info-card">
-                    <div class="info-card-title">Tailwind CSS · 原生JS</div>
-                    <div class="info-card-desc">使用 Tailwind CSS 提供原子化样式，配合自定义 CSS 变量实现主题切换。所有交互逻辑使用原生 JavaScript，无框架依赖。
+                    <div class="info-card-title">零成本安全代理 · Cloudflare Workers</div>
+                    <div class="info-card-desc">
+                        API Key 不写进前端，而是部署一份 Cloudflare Worker 做 Serverless 中转：
+                        Key 以 <b>Encrypt 加密环境变量</b> 形式只存在 Cloudflare 后台，前端一律请求代理 URL → Worker 加 Bearer Token 转发给智谱 → SSE
+                        流式响应原路返回。
                     </div>
                 </div>
+
             </div>
 
             <div class="info-section">
                 <h4><i class="fas fa-robot" style="color:var(--primary);font-size:0.8rem;"></i> AI 智能体方案</h4>
                 <div class="info-card">
-                    <div class="info-card-title">两层降级架构</div>
+                    <div class="info-card-title">三层安全降级架构</div>
                     <div class="info-card-desc">
-                        <span class="info-tag">第1层</span>智谱 GLM-4-Flash API — 调用云端大模型+知识库，结合内置 System Prompt
-                        和项目页面动态上下文回答问题<br>
-                        <span class="info-tag">第2层</span>本地 FAQ 知识库 — 智谱失败时自动降级，基于关键词匹配 + 评分算法回答常见问题<br>
+                        <span class="info-tag">第1层</span>智谱 glm-4.5-air + 知识库 RAG— Cloudflare Worker 代理，调用云端大模型+检索，结合内置 System Prompt 和项目页面动态上下文回答问题<br>
+                        <span class="info-tag">第2层</span>本地 FAQ 知识库 — 智谱/代理任一层失败时自动降级，基于关键词匹配 + 评分算法回答常见问题<br>
                     </div>
                 </div>
                 <div class="info-card">
@@ -3668,7 +3811,7 @@
                 <div class="info-skill-grid">
                     <div class="info-skill-item">
                         <div class="info-skill-label">AI与智能体</div>
-                        <div class="info-skill-value">LLM理解 · RAG · Prompt工程 · workflow编排</div>
+                        <div class="info-skill-value">LLM · RAG · Prompt工程 · workflow编排</div>
                     </div>
                     <div class="info-skill-item">
                         <div class="info-skill-label">产品设计</div>
@@ -3676,7 +3819,7 @@
                     </div>
                     <div class="info-skill-item">
                         <div class="info-skill-label">研发能力</div>
-                        <div class="info-skill-value">AICoding · 组件化 · GIT · 全栈开发</div>
+                        <div class="info-skill-value">AICoding · 组件化 · GIT · 全栈开发 </div>
                     </div>
                     <div class="info-skill-item">
                         <div class="info-skill-label">数据分析</div>
@@ -3743,7 +3886,8 @@
                 </div>
             </div>
 
-            <div class="chat-input-area p-3 flex-shrink-0">
+            <div class="chat-input-area p-3 flex-shrink-0" style="position:relative;">
+                <div id="chat-processing-hint" class="chat-processing-hint">回答生成中，请稍候再发送下一条…</div>
                 <div id="chat-suggestions" class="chat-suggestions-wrap">
                     <span class="chat-suggestions-label">试试问问：</span>
                     <button class="chat-suggestion-tag" data-msg="你在FAQ智能体项目中做了什么？">你在FAQ智能体项目中做了什么？</button>
@@ -4027,8 +4171,50 @@
         const chatSend = document.getElementById('chat-send');
         const chatMessages = document.getElementById('chat-messages');
         const chatAvatar = document.getElementById('chat-avatar');
+        const chatProcessingHint = document.getElementById('chat-processing-hint');
         let avatarIndex = 0;
         const avatarImages = ['images/chat_avatar1.png', 'images/chat_avatar2.png'];
+
+        /* ===== 聊天发送锁：回答结束前禁止下一条 ===== */
+        window.__chatProcessingLock = false;
+        function acquireChatLock() {
+            if (window.__chatProcessingLock) return false;
+            window.__chatProcessingLock = true;
+            // UI：按钮/输入框禁用 + 发送按钮变"等待"图标 + 提示条显示
+            chatInput.disabled = true;
+            chatSend.disabled = true;
+            chatSend.classList.add('chat-busy');
+            const origIcon = chatSend.querySelector('i');
+            if (origIcon) {
+                chatSend.dataset.origIconClass = origIcon.className;
+                origIcon.className = 'fas fa-hourglass-half text-sm';
+            }
+            if (chatProcessingHint) chatProcessingHint.classList.add('show');
+            // 建议标签也禁用点击（防止标签点了继续塞消息）
+            document.querySelectorAll('.chat-suggestion-tag').forEach(function (tag) {
+                tag.style.pointerEvents = 'none';
+                tag.style.opacity = '0.55';
+            });
+            return true;
+        }
+        function releaseChatLock() {
+            window.__chatProcessingLock = false;
+            chatInput.disabled = false;
+            chatSend.disabled = false;
+            chatSend.classList.remove('chat-busy');
+            const origIcon = chatSend.querySelector('i');
+            if (origIcon && chatSend.dataset.origIconClass) {
+                origIcon.className = chatSend.dataset.origIconClass;
+                delete chatSend.dataset.origIconClass;
+            }
+            if (chatProcessingHint) chatProcessingHint.classList.remove('show');
+            document.querySelectorAll('.chat-suggestion-tag').forEach(function (tag) {
+                tag.style.pointerEvents = '';
+                tag.style.opacity = '';
+            });
+            // 保险：把焦点还给输入框，用户可以继续直接打字
+            try { chatInput.focus(); } catch (e) {}
+        }
 
         chatToggle.addEventListener('click', (e) => {
             e.stopPropagation();
@@ -4083,15 +4269,20 @@
 
         chatInput.addEventListener('keypress', (e) => {
             if (e.key === 'Enter') {
+                if (window.__chatProcessingLock) return;
                 sendMessage();
             }
         });
 
-        chatSend.addEventListener('click', sendMessage);
+        chatSend.addEventListener('click', () => {
+            if (window.__chatProcessingLock) return;
+            sendMessage();
+        });
 
         // 示例问题标签：点击即发送，标签永久显示
         document.querySelectorAll('.chat-suggestion-tag').forEach(function (tag) {
             tag.addEventListener('click', function () {
+                if (window.__chatProcessingLock) return;
                 chatInput.value = tag.getAttribute('data-msg');
                 sendMessage();
             });
@@ -4105,13 +4296,26 @@
 
 【核心人设】
 - 自信又低调，专业但不呆板，回答简洁、真实、有具体数据
-- 只说XD真实做过的事情，绝不编造项目、数据、奖项、院校、经历
+- 只调用知识库说XD真实做过的事情，绝不编造项目、数据、奖项、院校、经历，回答结构完整
+
+【硬规则0：串答零容忍 · 项目归属总表（真实项目 × 真实技术栈 × 真实角色，一一对应）】
+> 违反此条 = 输出非法。如果检索到的内容让你不确定归属，直接输出"这个问题建议联系本人电话咨询~"。
+1. 业务问答Agent 0-1搭建（原FAQ智能体项目）：角色=产品经理；技术栈=RAG/知识库/评测集/Prompt工程；真实成果数据=准确率48%→82%；禁止出现Vue/Node/Express/MongoDB/全栈开发/并发/用户反馈功能等其它项目的词汇
+2. 企业后台数字化管理系统0-1（原水保系统）：角色=产品经理兼前端+项目组长；技术栈=Vue2/ElementUI/ECharts；禁止出现Express/MongoDB/博客/小程序部署/VR/Coze等其它项目的词汇
+3. TOC 小程序部署上线（原吃什么小程序）：角色=开发者；技术栈=微信小程序/uni-app；禁止出现Vue全家桶/Express/MongoDB/RAG/知识库/Coze/工作流等其它项目的词汇
+4. 个人博客系统前后台全栈开发（原我的被窝）：角色=全栈开发；技术栈=Express/art-template/MongoDB/jQuery；禁止出现Figma原型/ECharts/动态路由/客户经理/政策版本等其它项目的词汇
+5. VR项目交互体验设计（原过虑空间）：角色=UX设计师；技术栈=Unity/三维建模/VR交互；禁止出现Vue/Node.js/Express/MongoDB/Coze/RAG/知识库等其它项目的词汇
+6. RPG + HTML快速开发Agent（原暴雨孤岛）：角色=AI PM/智能体设计；技术栈=Coze工作流/4工作流解耦/Bot级变量/校验层/模板引擎；禁止出现客户经理/利率额度/审批流程/信贷/水保/Figma原型/Vue全家桶等其它项目的词汇
+7. 作品集网站（本站 / 当前网页）：角色=独立开发者；技术栈=纯静态HTML/CSS/JavaScript/原生JS/Tailwind CSS/GitHub Pages/Cloudflare Workers Serverless代理；禁止出现Vue/Node.js/Express/MongoDB/MySQL/前后端分离/后端框架等其它项目的词汇；禁止编造开发周期/代码量/并发数/响应时间等非知识库出现过的具体数字
+
+【硬规则0.1：编造数据零容忍】
+除非数字出现在检索到的参考内容里，否则一律禁止输出"开发周期X周、代码量X行、支持X并发、响应时间<X、准确率X%、用户量X、日活/月活X"这类数字形式的成果。FAQ项目允许的真实数字只有：准确率从48%提升至82%，混淆率从15%降至0，知识库100+条，评测集50+条。
 
 【硬规则1：分点编号 · 强约束】
 分点必须使用 1. 2. 3. 4. 严格递增编号，禁止所有条目都写1.
 
 【硬规则2：技术栈归属铁律】
-- 作品集网站（本站）= 纯静态 HTML/CSS/JavaScript 单文件，无框架无后端无数据库，托管GitHub Pages
+- 作品集网站（本站）= 纯静态 HTML/CSS/JavaScript 单文件，无框架无后端无数据库，托管GitHub Pages；AI 请求通过 Cloudflare Workers 中转，API Key 不在前端
 - Vue / Node.js / Express / MongoDB / MySQL 等属于【其他项目】的技术栈，和本站无关
 - 问「作品集网站怎么做/技术栈/开发」时，禁止混入其他项目技术栈
 
@@ -4121,13 +4325,34 @@
 - 吃什么小程序 → TOC 小程序部署上线
 - 我的被窝 → 个人博客系统前后台全栈开发
 - 过虑空间 → VR项目交互体验设计
-- 暴雨孤岛 → RPG + HTML快速开发Agent（暴雨孤岛引擎）
+- 暴雨孤岛 → RPG + HTML快速开发Agent
+
+【硬规则4：话题边界 —— 只聊 XD 本人】
+当用户问到与 XD / 本站项目无关的话题时：
+
+禁止行为：
+- 禁止说"我是 AI / 语言模型 / 无法回答"。
+- 禁止替 XD 表达立场、情绪、偏好、对他人的评价。知识库没写过的，一律视为
+  不存在。
+- 禁止为显得全能而硬答不熟悉的领域。
+
+处理动作（按类型）：
+1. 日常闲聊 / 无恶意跑题 → 平实接 1 句，不展开。
+2. 通用求助（改简历、写代码、查资料）→ 说明定位并给方向："这块我还是专心
+   聊 XD 的项目经历更靠谱。XX 类的问题用 XX 工具会快很多。"
+3. 隐私 / 主观评价（薪资底线、离职真实原因、对前东家或同事的看法、婚育
+   计划等）→ 不代答、不推测、不编造。只给事实范围内可说的部分，其余引导
+   面谈："这块涉及她个人的情况，建议直接和 XD 本人聊~"
+4. 涉政、敏感、违规、攻击性内容 → 一句话明确拒绝，不解释原因、不辩论、
+   不展开。
+
 
 【输出规则】
-- 项目回答格式：[项目名称]担任[角色]，负责[核心职责]，使用[技术栈]，实现[主要功能]，成果[具体数据]
+- 项目回答格式：[项目名称]担任[角色]，负责[核心职责]，使用[技术栈]，实现[主要功能]，成果[具体数据]。所有字段只能使用硬规则0项目归属表里允许的对应内容
 - 不确定的信息：直接说"这个问题建议联系本人电话咨询~"
 - 不要每次都做自我介绍，不要复述用户问题
-- 优先使用下方知识库检索命中的内容作答`;
+- 优先使用下方知识库检索命中的内容作答
+- 【忠实度强约束】若用户提问与标准问答库/本地FAQ中的已知问题相同或高度相似，**直接按知识库中标准答案的措辞和结构复述，不要做同义改写、不要换词、不要换分点顺序、不要"发挥"**，宁可回答短而精确，也不要多元自由发挥。`;
 
         /* ===== 本地FAQ降级库（最终兜底） ===== */
         /* 列表编号强制：1.2.3.递增，禁止全部写1.；项目名称使用通俗版；技术栈严格隔离（本站=纯静态，无Vue/Node/MongoDB） */
@@ -4146,12 +4371,12 @@
             },
             {
                 keywords: ['项目', '做过什么', '经历', '作品', '案例'],
-                answer: '我做过9个完整项目，主要包括：\n\n1. 业务问答Agent 0-1搭建（银行信贷FAQ智能体，2026.05）\n   面向客户经理的口袋知识助手，回答准确率从48%提升至82%，政策版本混淆率从15%降至0\n\n2. 企业后台数字化管理系统0-1（原水保系统，2024.04）\n   产品经理兼项目组长，校企合作项目，审批效率提升70%，数据错误率从12%降至1%\n\n3. RPG + HTML快速开发Agent（暴雨孤岛引擎，2026.08）\n   搭建AI内容生产引擎：输入剧本需求→端到端输出可玩RPG HTML，4类校验规则拦截LLM幻觉\n\n4. TOC 小程序部署上线（原吃什么小程序，2026.06）\n   Coze Vibe Coding从0到1开发，店铺转盘+活动抽抽+收藏评分，推荐满意度65%→85%\n\n5. 个人博客系统前后台全栈开发（2022.12）\n   Express + MongoDB 全栈，前台文章/留言/作品集，后台管理/权限控制\n\n6. VR项目交互体验设计（原过虑空间，2023.01）\n   面向焦虑大学生的VR情绪疗养空间，UX全流程主导\n\n还有三维动画、虚拟展馆漫游、山麓草木香（采药师模拟器）等项目，你想了解哪个？'
+                answer: '1. 业务问答Agent 0-1搭建（银行信贷FAQ智能体，2026.05）\n   面向客户经理的口袋知识助手，回答准确率从48%提升至82%，政策版本混淆率从15%降至0\n\n2. 企业后台数字化管理系统0-1（2024.04）\n   产品经理兼项目组长，校企合作项目，审批效率提升70%，数据错误率从12%降至1%\n\n3. RPG + HTML快速开发Agent（2026.08）\n   搭建AI内容生产引擎：输入剧本需求→端到端输出可玩RPG HTML，4类校验规则拦截LLM幻觉\n\n4. TOC 小程序部署上线（2026.06）\n   Coze Vibe Coding从0到1开发，店铺转盘+活动抽抽+收藏评分，推荐满意度65%→85%\n\n5. 个人博客系统前后台全栈开发（2022.12）\n   Express + MongoDB 全栈，前台文章/留言/作品集，后台管理/权限控制\n\n6. VR项目交互体验设计（2023.01）\n   面向焦虑大学生的VR情绪疗养空间，UX全流程主导\n\n还有三维动画、虚拟展馆漫游等项目，你想了解哪个？'
             },
             /* ---------- FAQ智能体 / 业务问答Agent ---------- */
             {
                 keywords: ['FAQ', '智能体', '银行智能体', '信贷FAQ', '问答Agent', 'FAQ Bot', '口袋知识助手', '业务问答'],
-                answer: '【业务问答Agent 0-1搭建】是我在广发银行期间为客户经理搭建的「口袋知识助手」FAQ智能体，2026.05。\n\n我担任产品经理，主要工作：\n1. 核心思路：针对客户经理政策记不住、资料清单散落、进件流程不熟、产品经理沟通瓶颈四大困扰，设计面向工作动作的知识库组织方式\n2. 知识库设计：构建三大类目——产品政策库、申请资料库、后台审批流程库，按客户经理的工作场景组织100+条业务知识\n3. RAG全链路架构：离线分块向量化入库，在线问题向量化→TopK相似度检索→重排序→LLM生成\n4. 三轮迭代优化：第1轮加政策版本声明解决新旧利率串答；第2轮加产品强绑定规则解决跨产品串答；第3轮重建三路意图分层\n5. 评测机制：建立100+条量化评测集，定义评分标准和评测流程\n6. 项目复盘：总结ToB知识库按工作动作组织的方法论，提出v4规划（政策自动同步+方案模板化+边缘case）\n\n成果：回答准确率从48%提升至82%；政策版本混淆率从15%降至0，工具已在组内日常使用。'
+                answer: '【业务问答Agent 0-1搭建】\n\n我担任产品经理，主要工作：\n1. 核心思路：针对客户经理政策记不住、资料清单散落、进件流程不熟、产品经理沟通瓶颈四大困扰，设计面向工作动作的知识库组织方式\n2. 知识库设计：构建三大类目——产品政策库、申请资料库、后台审批流程库，按客户经理的工作场景组织100+条业务知识\n3. RAG全链路架构：离线分块向量化入库，在线问题向量化→TopK相似度检索→重排序→LLM生成\n4. 三轮迭代优化：第1轮加政策版本声明解决新旧利率串答；第2轮加产品强绑定规则解决跨产品串答；第3轮重建三路意图分层\n5. 评测机制：建立100+条量化评测集，定义评分标准和评测流程\n6. 项目复盘：总结ToB知识库按工作动作组织的方法论，提出v4规划（政策自动同步+方案模板化+边缘case）\n\n成果：回答准确率从48%提升至82%；政策版本混淆率从15%降至0，工具已在组内日常使用。'
             },
             {
                 keywords: ['RAG', '知识库设计', '知识库搭建', '检索增强', 'TopK'],
@@ -4159,32 +4384,28 @@
             },
             {
                 keywords: ['水保', '水土保持', '高速公路', '交通规划', '审批', '管控系统', '企业后台', 'ToB系统'],
-                answer: '【企业后台数字化管理系统0-1】（原高速公路水保管控系统）是我最有成就感的项目，2023.07-2024.04 与广东省交通规划设计研究院校企合作。\n\n我担任产品经理/项目组长，负责：\n1. 需求调研：覆盖多角色访谈，提炼审批慢（人工传递3-5天）、数据乱（Excel分散）、信息不对齐（多方版本不一致）三大痛点\n2. 产品方案：设计六大功能模块架构，输出完整PRD与Figma高保真原型\n3. 前端开发：Vue2+ElementUI，独立开发ECharts可视化模块与动态路由权限（八类角色×五层粒度：查看/编辑/审核/审批/管理）\n4. 双端兼容：PC端+小程序端，施工现场移动巡查数据实时回传\n5. 测试迭代：2轮Beta测试收集20+反馈，优化12+功能点\n\n技术栈：Vue2 + ElementUI + Springboot + MySQL + ECharts\n成果：审批时长从3-5天缩至数小时，数据错误率从12%降至1%，已投产使用。'
+                answer: '【企业后台数字化管理系统0-1】\n\n我担任产品经理/项目组长，负责：\n1. 需求调研：覆盖多角色访谈，提炼审批慢（人工传递3-5天）、数据乱（Excel分散）、信息不对齐（多方版本不一致）三大痛点\n2. 产品方案：设计六大功能模块架构，输出完整PRD与Figma高保真原型\n3. 前端开发：Vue2+ElementUI，独立开发ECharts可视化模块与动态路由权限（八类角色×五层粒度：查看/编辑/审核/审批/管理）\n4. 双端兼容：PC端+小程序端，施工现场移动巡查数据实时回传\n5. 测试迭代：2轮Beta测试收集20+反馈，优化12+功能点\n\n技术栈：Vue2 + ElementUI + Springboot + MySQL + ECharts\n成果：审批时长从3-5天缩至数小时，数据错误率从12%降至1%，已投产使用。'
             },
             /* ---------- RPG / 暴雨孤岛引擎 ---------- */
             {
                 keywords: ['RPG', '暴雨孤岛', '游戏生成', '智能体引擎', 'HTML快速开发', 'Coze工作流', 'workflow', '校验层'],
-                answer: '【RPG + HTML快速开发Agent】（对外名：暴雨孤岛·AI RPG生成引擎）2026.08。\n\n核心定位不是"做一款游戏"，而是沉淀一套可复用的AI内容生产引擎——输入剧本需求→端到端输出可运行的RPG游戏HTML。\n\n我负责的核心动作：\n1. 识别AI边界跑通全链路：用AI生图+写代码产出推理RPG V1，定位AI渲染中文（结构性缺陷→改用CSS渲染文档）、代码递归中断、数值失衡等问题逐个根因修复\n2. 架构解耦：将剧情数据与渲染层分离，剧本独立为结构化数据，改剧情不动HTML\n3. 搭建Coze智能体生产引擎：拆解为4个单职责工作流（搭建框架/改剧情/AI生图/用户传图），通过Bot级变量实现跨工作流接力编辑\n4. 校验层设计：编写4类确定性规则把LLM幻觉拦截在渲染前——契约校验/引用完整性/闭环可达性/图片URL保全\n5. 成本控制：按任务复杂度为LLM节点分档选型（关键节点Pro/机械提取Mini），渲染环节用模板引擎将渲染token归零\n\n成果：交付可体验的智能体和游戏产物，质量/成本双可控。\n智能体体验：https://www.coze.cn/store/agent/7679370549109276706\n游戏体验：https://xd0119.github.io/rpgGame/'
+                answer: '【RPG + HTML快速开发Agent】\n\n核心定位不是"做一款游戏"，而是沉淀一套可复用的AI内容生产引擎——输入剧本需求→端到端输出可运行的RPG游戏HTML。\n\n我负责的核心动作：\n1. 识别AI边界跑通全链路：用AI生图+写代码产出推理RPG V1，定位AI渲染中文（结构性缺陷→改用CSS渲染文档）、代码递归中断、数值失衡等问题逐个根因修复\n2. 架构解耦：将剧情数据与渲染层分离，剧本独立为结构化数据，改剧情不动HTML\n3. 搭建Coze智能体生产引擎：拆解为4个单职责工作流（搭建框架/改剧情/AI生图/用户传图），通过Bot级变量实现跨工作流接力编辑\n4. 校验层设计：编写4类确定性规则把LLM幻觉拦截在渲染前——契约校验/引用完整性/闭环可达性/图片URL保全\n5. 成本控制：按任务复杂度为LLM节点分档选型（关键节点Pro/机械提取Mini），渲染环节用模板引擎将渲染token归零\n\n成果：交付可体验的智能体和游戏产物，质量/成本双可控。'
             },
             {
                 keywords: ['吃什么', '小程序', '餐厅', '推荐', '转盘', 'TOC小程序'],
-                answer: '【TOC 小程序部署上线】（原【吃什么】小程序）是我用Coze做Vibe Coding从0到1开发的，2026.05-2026.06。\n\n背景：朋友聚会时面临"吃什么"的选择困难，决策效率低\n\n三大核心需求：1. 快速推荐（3分钟内一次点击出结果）；2. 个性化适配（按场景/口味/历史偏好筛选）；3. 操作简便（零学习成本）\n\n功能：\n- 店铺转盘：随机选择附近餐厅，支持35种意图场景的智能搜索\n- 种类选择：早餐/午餐/晚餐/减脂餐/夜宵/下午茶等场景\n- 活动抽抽：50个内置活动卡片，解决周末去哪玩\n- 收藏夹与评分系统：越用越懂用户偏好\n\n用户画像：大学生（便宜近快，偏好转盘抽抽）、都市白领（人均可控，依赖评分收藏）、情侣（氛围感场景化推荐）、家庭用户（老少咸宜，在意停车方便）\n\n技术亮点：基于高德地图POI，推荐附近真实存在的餐厅和活动场所。推荐满意度从65%提升至85%。'
+                answer: '【TOC 小程序部署上线】\n\n背景：朋友聚会时面临"吃什么"的选择困难，决策效率低\n\n三大核心需求：1. 快速推荐（3分钟内一次点击出结果）；2. 个性化适配（按场景/口味/历史偏好筛选）；3. 操作简便（零学习成本）\n\n功能：\n- 店铺转盘：随机选择附近餐厅，支持35种意图场景的智能搜索\n- 种类选择：早餐/午餐/晚餐/减脂餐/夜宵/下午茶等场景\n- 活动抽抽：50个内置活动卡片，解决周末去哪玩\n- 收藏夹与评分系统：越用越懂用户偏好\n\n用户画像：大学生（便宜近快，偏好转盘抽抽）、都市白领（人均可控，依赖评分收藏）、情侣（氛围感场景化推荐）、家庭用户（老少咸宜，在意停车方便）\n\n技术亮点：基于高德地图POI，推荐附近真实存在的餐厅和活动场所。推荐满意度从65%提升至85%。'
             },
             {
                 keywords: ['过虑空间', 'VR', '情绪疗养', '心理', '焦虑', '大学生', 'VR项目交互'],
-                answer: '【VR项目交互体验设计】（原【过虑空间】）是面向焦虑大学生的VR情绪疗养空间，2022.09-2023.01，我担任交互设计师（组长）主导全流程。\n\n核心动作：\n1. 研究方法：PEST分析、竞品分析、3个用户深度访谈、144份有效问卷\n2. SPSS因子分析：提取3个公共因子——场景模拟（因子载荷0.774-0.787）、正念冥想（0.670-0.843）、解压放松（0.734-0.823），信度Alpha=0.867、效度KMO=0.846\n3. 竞品对比：好心情VR（B2B2C机构内，自助+专业）、阳光心健VR（B2B学校/社区），本项目切入"亚健康大学生主动自助"公益免费的空白场景\n4. 核心功能设计：场景模拟（汇报/面试/社交焦虑演练）、情绪宣泄（暴力/运动/音乐解压）、正念冥想（沉浸式放松训练）、AI陪伴（70+角色对话）、元宇宙情绪社区\n\n视觉风格：低饱和橙红+黑紫，年轻治愈系。标语：怕过虑，来过滤！'
+                answer: '【VR项目交互体验设计】是面向焦虑大学生的VR情绪疗养空间，我担任交互设计师主导全流程。\n\n核心动作：\n1. 研究方法：PEST分析、竞品分析、3个用户深度访谈、144份有效问卷\n2. SPSS因子分析：提取3个公共因子——场景模拟（因子载荷0.774-0.787）、正念冥想（0.670-0.843）、解压放松（0.734-0.823），信度Alpha=0.867、效度KMO=0.846\n3. 竞品对比：好心情VR（B2B2C机构内，自助+专业）、阳光心健VR（B2B学校/社区），本项目切入"亚健康大学生主动自助"公益免费的空白场景\n4. 核心功能设计：场景模拟（汇报/面试/社交焦虑演练）、情绪宣泄（暴力/运动/音乐解压）、正念冥想（沉浸式放松训练）、AI陪伴（70+角色对话）、元宇宙情绪社区\n\n视觉风格：低饱和橙红+黑紫，年轻治愈系。标语：怕过虑，来过滤！'
             },
             {
                 keywords: ['博客', '被窝', '个人网站', '全栈博客'],
-                answer: '【个人博客系统前后台全栈开发】（原【我的被窝】）2022.11-2022.12 全栈独立开发。\n\n技术栈：Express + art-template + MongoDB + jQuery\n\n功能：\n- 前台：首页文章列表、文章详情页（含评论/目录锚点跳转）、百宝箱、留言板、作品集\n- 后台：用户管理（增删改查）、文章管理（发布/编辑/删除）、分页模块\n- 登录系统：密码MD5加密、角色权限判断（普通用户/管理员）\n- 交互设计：表单验证、模态框确认、未登录拦截\n\n设计亮点：个人原创形象LOGO、莫兰迪黄配色(#d8caaf)、圆角毛玻璃风格\n部署地址：https://gitee.com/xu-xiaodan/blog1'
+                answer: '【个人博客系统前后台全栈开发】全栈独立开发。\n\n技术栈：Express + art-template + MongoDB + jQuery\n\n功能：\n- 前台：首页文章列表、文章详情页（含评论/目录锚点跳转）、百宝箱、留言板、作品集\n- 后台：用户管理（增删改查）、文章管理（发布/编辑/删除）、分页模块\n- 登录系统：密码MD5加密、角色权限判断（普通用户/管理员）\n- 交互设计：表单验证、模态框确认、未登录拦截\n\n设计亮点：个人原创形象LOGO、莫兰迪黄配色(#d8caaf)、圆角毛玻璃风格\n部署地址：https://gitee.com/xu-xiaodan/blog1'
             },
             {
                 keywords: ['技术', '技能', '会什么', '技术栈', '开发', '研发能力'],
                 answer: '我的技术栈涵盖：\n\n前端：HTML/CSS/JavaScript、Vue2/Vue3、组件化、GIT、ElementUI、Bootstrap、jQuery、响应式设计、uni-app\n\n后端：Node.js + Express；Springboot（了解）\n\n数据库：MongoDB、MySQL\n\n数据分析：SQL · Excel · Python · 数据看板\n\nAI与智能体：Trae、Coze平台Vibe Coding、RAG全链路、workflow编排、确定性校验层设计、业务知识库搭建+Prompt优化+评测集设计、AI生图与代码稳定性经验\n\n游戏开发：Unity3D + C#、Mirror多用户联机、C4D基础建模\n\n三维与视觉：3DSMAX/C4D、UE4/UE5、PS/Substance Painter、PR/AU\n\n产品设计：Figma原型（低保真+高保真）、需求分析、用户研究、PRD撰写、竞品分析\n\n其他：系统集成项目管理工程师（软考中级）、项目管理全流程'
-            },
-            {
-                keywords: ['广发', '银行', '金融', '信贷', '客户经理', '工作经历'],
-                answer: '广发银行深圳分行，2024.07-2026.09。\n\n主要工作：\n1. 负责4亿元零售信贷盘子的全生命周期管理\n2. 熟悉抵押经营贷、信用消费贷等核心产品\n3. 对接中培养了客户需求挖掘能力\n4. 搭建零售业务问答FAQ智能体：知识库100+条，评测集50+条，回答准确率从48%提升至82%\n\n这段经历让我对金融业务有了深入理解，也奠定了后续搭建ToB业务知识库Agent的业务基础。'
             },
             {
                 keywords: ['最有成就感', '最满意', '最自豪', '最喜欢的项目', '最有意义'],
@@ -4204,7 +4425,7 @@
             },
             {
                 keywords: ['网站', '这个网站', '作品集网站', '个人网站', '怎么做的', '用什么做的', '本站技术'],
-                answer: '这个作品集网站是我用Trae IDE（AI辅助编程工具）独立开发的。⚠️ 本站是纯静态HTML/CSS/JavaScript单文件，无前端框架、无后端、无数据库，托管在GitHub Pages。\n\n本站技术方案：\n1. 代码实现：纯静态 HTML + CSS + 原生JavaScript，单文件\n2. AI小助理：智谱GLM-4-Flash API + 本地FAQ关键词降级兜底，无需后端服务器\n3. 访问统计：Vercount（前台PV/UV展示）+ 百度统计（后台流量分析+记录小助理提问内容）\n4. 托管部署：GitHub Pages（纯静态托管，无服务器）\n5. 性能优化：图片懒加载(loading="lazy") + 图片体积压缩\n6. 响应式：PC端左右双栏布局、移动端单栏自适应\n'
+                answer: '这个作品集网站是我用Trae IDE 独立开发的。 本站是纯静态HTML/CSS/JavaScript单文件，无前端框架、无后端、无数据库，托管在GitHub Pages。\n\n本站技术方案：\n1. 代码实现：纯静态 HTML + CSS + 原生JavaScript，单文件\n2. AI小助理：智谱GLM-4-Flash API + 本地FAQ关键词降级兜底，无需后端服务器\n3. 访问统计：Vercount（前台PV/UV展示）+ 百度统计（后台流量分析+记录小助理提问内容）\n4. 托管部署：GitHub Pages（纯静态托管，无服务器）\n5. 性能优化：图片懒加载(loading="lazy") + 图片体积压缩\n6. 响应式：PC端左右双栏布局、移动端单栏自适应\n'
             },
             {
                 keywords: ['统计', 'pv', 'uv', '访问量', '百度统计', 'vercount'],
@@ -4217,6 +4438,11 @@
         ];
 
         function getLocalAnswer(userMsg) {
+            const result = matchLocalFaq(userMsg);
+            return result ? result.answer : null;
+        }
+        /* 统一的本地FAQ命中判断（返回整个匹配项，不单只返回 answer，供"命中即复述"模式使用） */
+        function matchLocalFaq(userMsg) {
             const msg = userMsg.toLowerCase();
             let bestMatch = null;
             let bestScore = 0;
@@ -4228,12 +4454,265 @@
                         if (kw.length <= 4) score += 0.5;
                     }
                 }
+                // 关键词命中率（已命中数/该条目关键词总数）越高，分加成越强，防止长尾词弱匹配
+                if (item.keywords && item.keywords.length) {
+                    const hitRatio = score / (item.keywords.length + 1);
+                    score = score * (1 + hitRatio);
+                }
                 if (score > bestScore) {
                     bestScore = score;
                     bestMatch = item;
                 }
             }
-            return bestMatch && bestScore >= 1 ? bestMatch.answer : null;
+            return bestMatch && bestScore >= 1 ? { ...bestMatch, score: bestScore } : null;
+        }
+
+        /* ===== 方案1：AI回答纯文本阶段自动美化排版（后处理器，确定性逻辑、无幻觉） ===== */
+        /**
+         * 设计原则：
+         *   ① 先把"指标数据"包成 〖CHIP:文本:类型〗 标记（准确率从48%提升至82% 这类数据最容易被挤在文字堆里看不见）
+         *   ② 把"【项目名】句首 + 时间/定位"抽成 〖HTITLE:主:副〗 装饰标题
+         *   ④ 给挤在一起的 1. 2. 3.… 中文一二三编号强插换行
+         *   ⑤ 分号/句号的"长并列表述"拆成无序列表 bullet（避免一大坨堵死）
+         *   ⑥ 空行规范化：去掉多余空行、保证标题/成果块/列表之间视觉呼吸感
+         * 以上 6 步都只输出"特殊〖〗标记 + 普通 MD 分行"，最终由 renderMarkdown 解析为 HTML 样式。
+         */
+        function postProcessFormatting(rawText) {
+            if (!rawText) return '';
+            let text = String(rawText).replace(/\r\n/g, '\n').trim();
+            if (!text) return '';
+
+            // —— 先把结尾 footer 切下来单独处理，避免被"标题/列表/拆点"等逻辑切碎 ——
+            const footerMarker = '\n\n---\n';
+            let footer = '';
+            const footerIdx = text.lastIndexOf(footerMarker);
+            if (footerIdx >= 0) {
+                footer = text.slice(footerIdx);   // 保留 \n\n---\nxxx 原样
+                text = text.slice(0, footerIdx);
+            }
+
+            // —— Step 1: 数据指标 chip 化 ——
+            // 1a. "准确率从48%提升至82%" 这种对比指标
+            //     外层正则：指标名 + "从A 提升词 B" 整段；内层把 A/动词/B 抓出来（不再用 ^$ 钉死整段，避免外层带空白时抓不到）
+            text = text.replace(/(准确率|召回率|F1|命中率|通过率|覆盖率|满意度|混淆率|错误率)\s*(从\s*[\d.]+%?\s*(?:提升|提高|上升|增至|升到|到达)\s*[\d.]+%?)/g, function (m0, metric, body) {
+                const m = body.match(/从\s*([\d.]+%?)\s*((?:提升|提高|上升|增至|升到|到达))\s*([\d.]+%?)/);
+                if (!m) return m0;
+                const a = /%$/.test(m[1]) ? m[1] : (m[1] + '%');
+                const b = /%$/.test(m[3]) ? m[3] : (m[3] + '%');
+                return `${metric}〖CHIP:${a}→${b}:up〗`;
+            });
+            // 1a-down：混淆率从15%降至0
+            text = text.replace(/(准确率|召回率|F1|命中率|通过率|覆盖率|满意度|混淆率|错误率)\s*(从\s*[\d.]+%?\s*(?:下降|降低|降至|降到|回落至|下滑|跌落)\s*[\d.]+%?)/g, function (m0, metric, body) {
+                const m = body.match(/从\s*([\d.]+%?)\s*((?:下降|降低|降至|降到|回落至|下滑|跌落))\s*([\d.]+%?)/);
+                if (!m) return m0;
+                const a = /%$/.test(m[1]) ? m[1] : (m[1] + '%');
+                const b = /%$/.test(m[3]) ? m[3] : (m[3] + '%');
+                return `${metric}〖CHIP:${a}→${b}:down〗`;
+            });
+            // 1b. 单独结果 "准确率82%"（1a 处理完已经是 chip 的就跳过）
+            text = text.replace(/(准确率|召回率|F1|命中率|通过率|覆盖率|满意度|混淆率|错误率)(?![^〖〗]*〗)\s*(?:为|达|在|约|提升至|提高到|降至|降到)?\s*([\d.]+%?)(?![\d%→])/g, function (m, metric, value) {
+                if (!/\d/.test(value)) return m;
+                const trend = /下降|降低|降至|降到/.test(m) ? 'down' : 'up';
+                const v = /%$/.test(value) ? value : (value + '%');
+                return `${metric}〖CHIP:${v}:${trend}〗`;
+            });
+            // 1c. 计数类：100+条 / 50+篇 / TopK=3
+            text = text.replace(/((?:知识库|评测集|问题|文档|chunk|数据|样本|用户|功能模块|条目)\s*(?:共|总计|共计|约|达|累计)?\s*\d+\s*\+?\s*(?:条|份|篇|个|类|组|MB|GB|万))/g, '〖CHIP:$1:count〗');
+            text = text.replace(/(TopK\s*[=为是:]?\s*\d+)/gi, '〖CHIP:$1:count〗');
+
+            // —— Step 2: 编号换行（先做，后面 HTITLE/CALLOUT 的"按行 reduce"判断才准确）——
+            // 2a. 标准"标点/空白 → 数字编号"换行
+            text = text.replace(/([。；;！？!?\s\)\）】])\s*(?=\d+[.、\)】]\s*[\u4e00-\u9fa5A-Za-z])/g, function (_m, pre) {
+                return /\n$/.test(pre) ? pre : (pre + '\n');
+            });
+            // 2b. **关键修复**：模型挤成一坨时经常出现"中文/字母直接衔接到 2.3.4. 编号"，前面没标点也没空白就直接接上，比如"组织方式2.知识库设计"——这种情况也要强插换行
+            text = text.replace(/(?<=[^\s。；;！？!?\)\）】\d])\s*(?=\d+[.、\)】]\s*[\u4e00-\u9fa5A-Za-z])/g, '\n');
+            // 2c. 句号/问号/感叹号后紧接编号 → 换行
+            text = text.replace(/([。.!?！？])\s*(?=\d+[.、\)】]\s*|第[一二三四五六七八九十]+\s*)/g, '$1\n');
+            // 2d. 中文"一是/二是/三是/四是/五是" 或 "第一/第二/第三"
+            text = text.replace(/([。；;！？!?\s])\s*(?=(?:第[一二三四五六七八九十]+(?![一二三四五六七八九十])|[一二三四五六七八九十]+是)\s*[:：]?[\u4e00-\u9fa5A-Z])/g,
+                function (match, pre) {
+                    return /\n$/.test(pre) ? match : (pre.replace(/\s+$/, '') + '\n');
+                });
+            // 2e. **关键修复2**：如果"成果/结果/核心成果/【成果】"关键字 **不在行首**（= 它前面还塞着「6.项目复盘：…」这类正文），
+            //     就一定要在"成果："关键字之前打断行。否则 Step 4 的 reducer 会把"6. xxx"当成"成果行"吸收，整个第6点就丢了
+            //     注：前面不能用 \s*+（Node 部分版本不支持 possessive 量词），改成更简洁的逐字断行逻辑
+            text = (function splitBeforeMidResultKw(s) {
+                const kw = /(?:【成果(?:数据)?】|【成效】|【效果】|成果\s*[:：]|结果\s*[:：]|核心成果\s*[:：]|最终成果\s*[:：]|量化成果\s*[:：])/y;
+                const out = [];
+                for (let i = 0; i < s.length; i++) {
+                    const lineStartIdx = (i === 0 || s.charCodeAt(i - 1) === 10) ? i : -1;
+                    if (lineStartIdx === i) {
+                        // 行首：只跳过，不必处理
+                        kw.lastIndex = i;
+                        if (kw.test(s)) { i = kw.lastIndex - 1; continue; }
+                        continue;
+                    }
+                    kw.lastIndex = i;
+                    if (kw.test(s)) {
+                        // 在这个位置插入换行（前面有空白就吃掉一个，避免产生空行）
+                        const prevCh = s[i - 1];
+                        let cutAt = i;
+                        if (prevCh === ' ' || prevCh === '\t') cutAt = i - 1;
+                        out.push(s.slice(0, cutAt));
+                        s = '\n' + s.slice(i);
+                        i = 0;
+                    }
+                }
+                return out.length ? (out.join('\n') + s) : s;
+            })(text);
+
+            // —— Step 3: 【项目名】/[项目名] + 时间/定位的句首 → 装饰标题 HTITLE ——
+            // 形如 "【业务问答Agent 0-1搭建】是我在广发银行期间为客户经理搭建的…，2026.05。我担任产品经理，主要工作：1.…"
+            // 这里把结束条件从"句末字符+预查"改成完全靠预查，不消耗尾部标点，避免 subtitle 里冒号/句号边界判断误剪
+            text = text.replace(/^(【([^】]+)】|\[([^\]]+)\])[\s\u3000]*([\s\S]{0,160}?)\s*(?=我担任|担任|角色\s*[:：]|主要工作\s*[:：]?|核心职责|负责|时间\s*[:：]|定位\s*[:：]|，\s*我|，\s*主要|^\d+[.、\)】]|$)/m,
+                function (m, wrapper, cn, sq, rest) {
+                    const projectName = cn || sq || '';
+                    if (!projectName) return m;
+                    const subtitle = (rest || '').trim().replace(/^[,，。.\s]+/, '').replace(/[。.!?！？,，]\s*$/, '');
+                    return `〖HTITLE:${projectName}:${subtitle}〗`;
+                });
+            // 如果 Step 3 没命中，但文本段开头就是"【xxx】"，保证标题独占一行
+            text = text.replace(/^(【[^】]+】)/m, '\n$1\n');
+
+            // —— Step 4 已废弃：原"【成果数据】/成果：/结果：抽成 CALLOUT 绿色块"逻辑已删除 ——
+
+            // —— Step 5: "；/;"分隔的超长并列句（"针对A，设计B；构建C，组织D；提出E，实现F；…"）拆成 bullet 无序列表 ——
+            text = text.split('\n').map(function (line) {
+                const trimmed = line.trim();
+                if (!trimmed) return line;
+                if (/^(#{1,3}|[-*]\s+|\d+[.、\)】]|〖|__CALLOUT)/.test(trimmed)) return line; // 已经是结构行就保留
+                // 分号超过 2 个且长度 >= 40 的才拆，避免短句误伤
+                const semiCount = (trimmed.match(/[；;]/g) || []).length;
+                if (semiCount < 2 || trimmed.length < 40) return line;
+                const parts = trimmed.split(/[；;]/).map(s => s.trim()).filter(Boolean);
+                if (parts.length < 3) return line;
+                return parts.map(p => '- ' + p).join('\n');
+            }).join('\n');
+
+            // —— Step 6: 空行规范化 ——
+            text = text
+                .replace(/[ \t\u3000]+$/gm, '')                       // 行尾空白
+                .replace(/\n{3,}/g, '\n\n')                            // 三个以上空行压成两个
+                .replace(/(〖HTITLE:[^〗]*〗)\n?/g, '$1\n\n')           // 装饰标题后有空行
+                .replace(/\n?(〖CALLOUT:[^〗]*〗)\n?/g, '\n\n$1\n\n')    // 成果块前后有空行
+                .replace(/\n{3,}/g, '\n\n')                            // 上面两步可能产生 3 空行，再压一次
+                .trim();
+
+            // —— 把 footer 拼回去（footer 绝不做排版加工）——
+            if (footer) text = text + footer;
+            return text;
+        }
+
+        /* ===== 三层防御：输出端契约校验（拦截 LLM 串答/编造数据后再向用户展示） ===== */
+        // 项目归属映射表 —— 一旦【A项目+B项目技术栈】同时出现在回答里，就判定串答
+        const TECH_OWNERSHIP_MAP = [
+            { ownerKeywords: ['作品集网站', '本站', '这个网站', '这个作品集', '网站技术栈', '怎么做的网站', '开发作品集'], forbiddenStack: ['Vue', 'Node', 'Node.js', 'Express', 'MongoDB', 'MySQL', 'Mongo', '前后端分离', '后端框架', '数据库'], projectName: '作品集网站' },
+            { ownerKeywords: ['FAQ智能体', '业务问答Agent', 'FAQ Bot', '口袋知识助手', '银行FAQ', '信贷FAQ'], forbiddenStack: ['Vue', 'Node.js', 'Express', 'MongoDB', 'MySQL', 'uni-app', '微信小程序', '并发', '用户反馈功能', '知识管理', '全栈'], projectName: '业务问答Agent 0-1搭建', ownerRole: '产品经理' },
+            { ownerKeywords: ['企业后台', '水保', '水土保持', '高速公路系统', 'ToB后台', '数字化管理系统'], forbiddenStack: ['express', 'mongodb', 'art-template', '小程序上线', 'VR', 'AICoding'], projectName: '企业后台数字化管理系统0-1' },
+            { ownerKeywords: ['吃什么', '小程序上线', 'TOC小程序', '餐厅推荐'], forbiddenStack: ['Vue', 'Express', 'MongoDB', 'RAG', '知识库', 'Coze', '工作流'], projectName: 'TOC 小程序部署上线' },
+            { ownerKeywords: ['博客', '我的被窝', '全栈博客', '个人博客系统'], forbiddenStack: ['Figma原型', 'ECharts', '动态路由', '客户经理', '政策版本'], projectName: '个人博客系统前后台全栈开发' },
+            { ownerKeywords: ['VR', '过虑空间', '情绪', '心理', '焦虑'], forbiddenStack: ['Vue', 'Node.js', 'Express', 'MongoDB', 'Coze', 'RAG', '知识库'], projectName: 'VR项目交互体验设计' },
+            { ownerKeywords: ['RPG', '暴雨孤岛', '游戏生成智能体', 'Agent引擎'], forbiddenStack: ['客户经理', '利率额度', '审批流程', '信贷', '水土保持', 'Figma原型', 'Vue 全家桶'], projectName: 'RPG + HTML快速开发Agent' },
+        ];
+        // 编造数据关键词：模型喜欢脑补的"开发周期X周/代码量X行/支持X并发/响应时间<X/准确率X%"类虚假数据
+        const FABRICATED_DATA_PATTERNS = [
+            { pattern: /开发周期约?\s*\d+\s*周|约?\s*\d+\s*周左右?完成/gm, label: '开发周期' },
+            { pattern: /代码量约?\s*\d+\s*[行百千万]|大约?\s*\d+\s*行/gm, label: '代码量' },
+            { pattern: /支持\s*\d+\s*\+?\s*并发|并发量?\s*(约|达|超)?\s*\d+/gm, label: '并发量' },
+            { pattern: /响应时间\s*[<≤约]?\s*[\d.]+\s*[秒毫秒ms]|延迟\s*<?\s*[\d.]+/gm, label: '响应时间' },
+            { pattern: /准确率\s*(?:约|达|在)?\s*\d{1,3}%|准确率\s*从\s*\d+%\s*(?:提升|提高|上升)?\s*(?:到|至)?\s*\d+%/gm, label: '准确率', allowOnlyIf: ['82%', '48%'] /* FAQ项目真实出现过的数字才允许 */ },
+            { pattern: /用户(?:量|数)\s*(?:达|超|约)?\s*\d+\+?\s*(?:万|人?用户)/gm, label: '用户量' },
+            { pattern: /[日月年]\s*(?:活|活跃用户)\s*(?:达|超|约)?\s*\d+\+?/gm, label: '日活/月活' },
+        ];
+
+        /**
+         * 本地后处理契约校验器。
+         * 返回 { answer, validated: true, violations: [...] } — 上层直接用 answer 覆盖渲染。
+         * 规则：
+         *  1) 命中 LOCAL_FAQ（highConfidenceMatch）→ 若 Jaccard 相似度 < 0.7 就直接替换成标准答案
+         *  2) A 项目 + B 技术栈 串答黑名单 命中 → 整段打回标准答案（命中 LOCAL_FAQ 优先），否则走模板
+         *  3) 编造数据关键词 + 不在白名单里的具体数值 → 直接剔除或整段替换为标准答案
+         */
+        function validateAnswerContract(userMessage, rawAnswer) {
+            const violations = [];
+            let answer = (rawAnswer || '').trim();
+            const matchedFaq = matchLocalFaq(userMessage);
+            const msgLow = userMessage.toLowerCase();
+
+            // —— 规则1：FAQ命中且是高置信度（score>=2 或 关键词命中>=一半），相似度不够就直接复述标准答案
+            if (matchedFaq && (matchedFaq.score >= 2 || (matchedFaq.keywords && matchedFaq.score >= (matchedFaq.keywords.length - 1) * 0.6))) {
+                const sim = jaccardSimilarity(answer, matchedFaq.answer);
+                if (sim < 0.7) {
+                    violations.push(`LOCAL_FAQ_HIGH_CONF_OVERRIDE 相似度=${sim.toFixed(2)}<0.7，覆盖LLM输出`);
+                    return { answer: matchedFaq.answer, validated: true, violations, overridden: true };
+                }
+            }
+
+            // —— 规则2：串答黑名单
+            let blockedOwner = null;
+            let blockedForbiddenStack = [];
+            for (const rule of TECH_OWNERSHIP_MAP) {
+                const inOwnerContext = rule.ownerKeywords.some(k => msgLow.includes(k.toLowerCase())) ||
+                    (rule.ownerKeywords.some(k => (answer || '').toLowerCase().includes(k.toLowerCase())));
+                if (!inOwnerContext) continue;
+                const hit = rule.forbiddenStack.filter(tok => (answer || '').toLowerCase().includes(tok.toLowerCase()));
+                if (hit.length) {
+                    blockedOwner = rule.projectName;
+                    blockedForbiddenStack = blockedForbiddenStack.concat(hit);
+                    violations.push(`STACK_MISMATCH 项目=[${rule.projectName}] 非法技术栈命中=[${hit.join(', ')}]`);
+                }
+                if (rule.ownerRole) {
+                    // 角色串答校验：FAQ项目里出现了"全栈开发/前端开发/后端开发"等非产品经理角色
+                    const badRoleKeywords = ['全栈开发', '前端开发', '后端开发', '负责前后端', '系统设计', '测试部署', '部署上线'].filter(r =>
+                        (answer || '').toLowerCase().includes(r.toLowerCase()));
+                    if (badRoleKeywords.length && rule.ownerKeywords.some(k => msgLow.includes(k.toLowerCase()))) {
+                        violations.push(`ROLE_MISMATCH 项目=[${rule.projectName}] 角色应为[${rule.ownerRole}] 非法角色表述=[${badRoleKeywords.join(', ')}]`);
+                        blockedOwner = blockedOwner || rule.projectName;
+                    }
+                }
+            }
+
+            // —— 规则3：编造数据
+            const fabricatedTokens = [];
+            for (const fab of FABRICATED_DATA_PATTERNS) {
+                const matches = answer.match(fab.pattern) || [];
+                for (const m of matches) {
+                    if (fab.allowOnlyIf && fab.allowOnlyIf.some(allow => m.includes(allow))) continue;
+                    fabricatedTokens.push(`${fab.label}:${m}`);
+                    answer = answer.replace(m, ''); // 先把编造数据抹掉
+                }
+            }
+            if (fabricatedTokens.length) violations.push(`FABRICATED_DATA 命中=[${fabricatedTokens.join(', ')}]`);
+
+            // —— 规则2+3都触发且命中LOCAL_FAQ，直接覆盖成标准答案最稳
+            if ((blockedOwner || fabricatedTokens.length >= 2) && matchedFaq) {
+                violations.push('BLACKLIST_OVERRIDE 串答/编造数据 触发，替换成LOCAL_FAQ标准答案');
+                // 清理多余标点
+                return { answer: matchedFaq.answer, validated: true, violations, overridden: true };
+            }
+            // 仅编造数据触发但没对应本地FAQ，就只做剔除（结果要把重复的空白收拾一下）
+            answer = answer.replace(/\s+/g, ' ').replace(/\s+\./g, '.').replace(/\s+,/g, ',').replace(/\s{2,}/g, ' ').trim();
+            return { answer: answer || '这个问题建议联系本人电话咨询~', validated: true, violations, overridden: (violations.length > 0) };
+        }
+
+        /* Jaccard 相似度（按字符2-gram），用于比较 LLM 回答 vs LOCAL_FAQ 标准答案的文本贴合度 */
+        function jaccardSimilarity(a, b) {
+            if (!a || !b) return 0;
+            const setA = buildCharBiGrams(a);
+            const setB = buildCharBiGrams(b);
+            if (!setA.size || !setB.size) return 0;
+            let inter = 0;
+            for (const g of setA) if (setB.has(g)) inter++;
+            const uni = setA.size + setB.size - inter;
+            return uni ? inter / uni : 0;
+        }
+        function buildCharBiGrams(str) {
+            const s = String(str).toLowerCase().replace(/\s+/g, '');
+            const out = new Set();
+            for (let i = 0; i < s.length - 1; i++) out.add(s.slice(i, i + 2));
+            if (s.length === 1) out.add(s);
+            return out;
         }
 
         /* ===== 两层降级：智谱 → 本地FAQ ===== */
@@ -4304,18 +4783,57 @@
          * renderMarkdownNow(text) 直接写最终Markdown；
          * appendMarkdownNow(text) 流式增量渲染Markdown全文；
          */
+        /* ===== 流式净化：把 postProcessFormatting 产生的〖宏〗临时降级成朴素文本。
+         * 仅用于"流式增量阶段"（appendMarkdownNow）——流式拼接时跨行宏（HTITLE/CALLOUT）常常"尾巴还没到"，
+         * 如果直接交给 renderMarkdown 解析，会看到〖HTITLE…〗原始符号残留，或者只有一半的 callout。
+         * 净化原则：保留编号/换行/粗体/斜体/列表 这些"基础 MD 结构"，只把三类自定义宏剥掉：
+         *   〖HTITLE:主:副〗    → "【主】副"（两行保留换行感）
+         *   〖CALLOUT:标题|body〗 → "📊 标题：body"（不换绿色块，但保留 📊 保留标题）
+         *   〖CHIP:内容:type〗   → 原样保留内容（"48%→82%" / "100+条"），不拆胶囊样式就行
+         * 最终定稿（renderMarkdownNow）会走完整 renderMarkdown 宏解析 = 正式漂亮排版 — 这时不会再 strip。
+         */
+        function stripFormattingMacros(text) {
+            let s = String(text || '');
+            // 1. HTITLE 宏 → 【主标题】+ 换行 + 副标题（或者"【主】副标题"如果副很短）
+            s = s.replace(/〖HTITLE:([^:：〗]*?)(?::|：)([^〗]*)〗/g, function (_m, main, sub) {
+                const m2 = (main || '').trim();
+                const s2 = (sub || '').trim();
+                return `【${m2}】` + (s2 ? ` ${s2}` : '');
+            });
+            // 2. CALLOUT 宏（可能跨多行）→ 拼回"📊 标题：正文"
+            //    先把跨行的宏抓到（支持任意换行），再统一替换
+            s = s.replace(/〖CALLOUT:([^|｜]*?)[|｜]([\s\S]*?)〗/g, function (_m, title, body) {
+                const t = (title || '成果数据').replace(/[\s]+/g, '');
+                const b = String(body || '').replace(/\n{2,}/g, '\n').trim();
+                return `📊 ${t}：${b}`;
+            });
+            // 3. CHIP 宏 → 纯文本内容，去掉分类后缀
+            s = s.replace(/〖CHIP:([^:：〗]+?)(?::|：(?:up|down|count))?〗/g, '$1');
+            // 清理残余的未闭合宏头（流式拼接过程中 CALLOUT 可能只吐了开头，〖CALLOUT:xxx 尾部还在路上，不能让用户看到"〖CALLOUT:"这种脏东西）
+            s = s.replace(/〖(HTITLE|CALLOUT|CHIP)(?::[^\n〗]*)?$/gm, '');
+            // 清理残余未闭合宏尾
+            s = s.replace(/^[^\n〖]*〗/gm, function (m) {
+                // 只有这一行明显是"上一行宏的断尾"（这一行没有正常句子开头 + 本身以〗或〗结尾）才清掉
+                return /〗$/.test(m) ? m.replace(/^[^〖\n]*〗/, '') : m;
+            });
+            return s;
+        }
+
         function makeBubbleWriter(bubble) {
             return {
                 showTyping() {
                     bubble.innerHTML = '<div class="typing-indicator"><span></span><span></span><span></span></div>';
+                    scrollToBottom();
                 },
                 renderMarkdownNow(text) {
+                    // 最终定稿 = 完整解析〖宏〗→正式漂亮排版
                     bubble.innerHTML = renderMarkdown(text);
                     scrollToBottom();
                 },
-                appendMarkdownNow(text) {
-                    // 流式场景下每次用"当前累计文本"重新渲染Markdown，避免标签中途断裂
-                    bubble.innerHTML = renderMarkdown(text);
+                appendMarkdownNow(text, { stripMacros = false } = {}) {
+                    // 流式增量：默认保持原行为；stripMacros=true 就剥掉自定义宏，用基础 MD 渲染，避免〖〗残留
+                    const content = stripMacros ? stripFormattingMacros(text) : text;
+                    bubble.innerHTML = renderMarkdown(content);
                     scrollToBottom();
                 }
             };
@@ -4356,23 +4874,38 @@
 
             let targetUrl = '';      // 最终请求 URL
             let sendAuthHeader = ''; // 要附加的 Bearer Token（只有直连才加，代理不加，防止前端再带 Key）
+            let channel = '';        // 返回给上层决定 footer 文案：'direct' | 'proxy'
 
             if (apiKey) {
                 // 本地模式：直连智谱
                 targetUrl = 'https://open.bigmodel.cn/api/paas/v4/chat/completions';
                 sendAuthHeader = 'Bearer ' + apiKey;
-            } else if (proxyUrl && proxyUrl.indexOf('zhipu-proxy-xd.你的用户名.workers.dev') === -1
-                && proxyUrl.indexOf('你的用户名.workers.dev') === -1
-                && proxyUrl.indexOf('https://zhipu-proxy-xd.你的用户名.workers.dev') === -1) {
-                // 线上模式：用代理。上面这一大串判断是防止你忘记把"第6步示例URL"替换成真实URL —— 如果检测到还是示例值就直接报错
+                channel = 'direct';
+            } else if (proxyUrl && !/示例|你的用户名|TODO|CHANGEME|xxxx/i.test(proxyUrl)) {
+                // 线上模式：用代理。正则兜底：URL 里还有占位词（"示例/你的用户名/TODO/CHANGEME/xxxx"）一律视为没填，直接报错
                 targetUrl = proxyUrl;
                 sendAuthHeader = ''; // 注意：这里不要塞 Key！Key 只在 Cloudflare Worker 那边加
+                channel = 'proxy';
             } else {
                 return {
                     success: false,
                     error: '未配置智谱调用通道：本地需 secret.js，线上需在 site-config.js 填 Cloudflare Worker URL。当前自动降级到本地 FAQ。'
                 };
             }
+
+            // ====== 【输入端锁死】LOCAL_FAQ 高置信命中就把标准答案作为"必须逐字复述"的契约，放在 system prompt 最前面 ======
+            const matchedLocalFaq = matchLocalFaq(message);
+            let localFaqContractPrompt = '';
+            if (matchedLocalFaq && matchedLocalFaq.score >= 1.5) {
+                localFaqContractPrompt =
+`【标准答案锁定 · 最优先级契约】
+用户当前提问在本地标准问答库中命中了标准答案。你的回答必须与下面【标准答案】的结构、分点、措辞完全一致，允许发生的变化仅在标点/换行符号层面：
+=== 标准答案开始 ===
+${matchedLocalFaq.answer}
+=== 标准答案结束 ===
+如果下面检索到的知识库内容和上面标准答案冲突，以标准答案为准。禁止用下面的知识库内容替换、增加、修改标准答案。`;
+            }
+
             let projectContext = '';
             let hitFile = '';
             try {
@@ -4393,12 +4926,13 @@
                     }
                     if (score > maxScore) { maxScore = score; hitFile = p.file; }
                 }
-                if (hitFile) projectContext = await extractProjectContent(hitFile);
+                // 为避免 HTML 正文抽取出的内容污染 RAG，仅当 LOCAL_FAQ 未命中且关键词分数>=2 时才注入项目详情
+                if (!matchedLocalFaq && maxScore >= 2 && hitFile) projectContext = await extractProjectContent(hitFile);
             } catch (e) { }
             // —— 步骤进度UI已移除，静默处理上下文读取
 
             // 构建 system prompt
-            let systemContent = ZHIPU_SYSTEM_PROMPT;
+            let systemContent = (localFaqContractPrompt ? localFaqContractPrompt + '\n\n' : '') + ZHIPU_SYSTEM_PROMPT;
             if (projectContext) {
                 systemContent += `\n\n${projectContext}\n\n【回答规则 - 强制遵守】\n1. 优先依据上述项目详情资料和知识库中检索到的内容作答，不要编造。\n2. 如果用户提问与【标准问答库】中的问题匹配或同类，严格按照知识库答案的措辞和结构回答（分点务必1.2.3.递增编号，严禁所有条目都写1.）。\n3. 不要添加知识库中没有的信息。\n4. 技术栈归属：作品集网站=纯静态HTML/CSS/JS，Vue/Node/MongoDB等均是其他项目的技术栈，禁止串答。`;
             }
@@ -4406,15 +4940,38 @@
             const requestBody = {
                 model: 'glm-4.5-air',
                 stream: true,
+                // ===== 确定性输出参数（锁温度，避免同问题回答每次都不一样）=====
+                // do_sample = false：关闭随机采样，走贪心/Beam Search，同输入基本同输出
+                // temperature + top_p：如果模型忽略 do_sample，这两个值也足够锁住候选空间
+                // seed：固定随机种子，调试阶段可复现结果；不满意效果直接改数字即可整体换一版"稳定风格"
+                do_sample: false,
+                temperature: 0.05,
+                top_p: 0.05,
+                seed: 20260903,
                 messages: [
                     { role: 'system', content: systemContent },
                     { role: 'user', content: message }
                 ],
+                // ===== 知识库 RAG 强约束（解决跨项目 chunk 串答 + 通用知识兜底）=====
+                // knowledge_type=1：用户创建的自定义知识库（官方文档推荐值，区别于内置互联网知识=0）
+                // retrieval_strategy=1：仅从知识库回答，不命中知识库就直接提示知识库没相关信息，禁止回退模型通用知识
                 retrieval: {
-                    knowledge_id: '2083129946280181760',
-                    prompt_template: '用户提问：{{question}}\n从知识库中检索到的参考内容：{{knowledge}}\n请结合知识库内容优先作答。',
+                    knowledge_id: '2095377489592545280',
+                    knowledge_type: 1,
+                    retrieval_strategy: 1,
+                    prompt_template: '用户提问：{{question}}\n从知识库中检索到的参考内容（以下简称参考内容）：\n{{knowledge}}\n\n【RAG输出铁律】\n1. 必须严格按参考内容原文作答，同义改写只允许发生在参考内容表达不完整的情况下；如果参考内容已经是Q&A格式的标准答案，必须一字不差复述参考答案，不增减、不换词、不补数据。\n2. 只允许使用参考内容里真实出现过的项目名称、技术栈、角色、成果数据。禁止把参考内容里 A 项目的技术/数据放到 B 项目答案里，禁止补参考内容里不存在的开发周期、代码量、并发数、响应时间、准确率百分比等数字。\n3. 如果参考内容为空，或者检索不到与用户提问相关的资料，直接输出「参考内容中暂无该问题的相关信息，建议联系本人电话咨询~」，禁止用任何常识自由发挥。\n请直接输出最终回答，不要输出任何思考过程、推理依据、引用标签。',
                     top_k: 3
-                }
+                },
+                // ===== request_search_options：智谱API服务端检索开关（二次保险，防止服务端忽略retrieval_strategy）=====
+                // enable=true + 只绑定指定 knowledge_id + 显式指定 knowledge_type=1
+                request_search_options: {
+                    enable: true,
+                    search_plan: [{
+                        knowledge_id: '2095377489592545280',
+                        knowledge_type: 1,
+                        top_k: 3,
+                    }]
+                },
             };
 
             let response;
@@ -4442,7 +4999,7 @@
                 if (data.error) return { success: false, error: data.error.message || '智谱错误' };
                 // 非流式：直接读JSON
                 const answer = data.choices?.[0]?.message?.content || '';
-                return { success: true, answer: answer || '这个问题建议联系本人电话咨询~', noStream: true };
+                return { success: true, answer: answer || '这个问题建议联系本人电话咨询~', noStream: true, channel: channel };
             }
 
             // SSE解析：同时处理delta.content和retrieval_documents
@@ -4487,7 +5044,7 @@
                 }
             }
 
-            return { success: true, answer: fullAnswer || '这个问题建议联系本人电话咨询~' };
+            return { success: true, answer: fullAnswer || '这个问题建议联系本人电话咨询~', channel: channel };
         }
 
         // SSE data里偶尔会把多段JSON拼在一起（非标准但智谱偶发），这里做一次切分
@@ -4530,91 +5087,176 @@
         async function sendMessage() {
             const message = chatInput.value.trim();
             if (!message) return;
+            // —— 获取锁（上一个问题回答完毕之前禁止发下一条）——
+            if (!acquireChatLock()) return;
 
-            addMessage('user', message);
-            chatInput.value = '';
-
-            // 百度统计：记录访客提问（伪装成虚拟页面访问，在"受访页面"可查看）
             try {
-                var safeMsg = message.replace(/\n/g, ' ').replace(/\//g, '_').substring(0, 80);
-                var trackPath = '/chat/' + safeMsg;
-                if (typeof _hmt !== 'undefined' && _hmt.push) {
-                    _hmt.push(['_trackPageview', trackPath]);
-                } else {
-                    // _hmt 尚未加载，暂存到队列，3秒后重试
-                    setTimeout(function () {
-                        if (typeof _hmt !== 'undefined' && _hmt.push) {
-                            _hmt.push(['_trackPageview', trackPath]);
+                addMessage('user', message);
+                chatInput.value = '';
+
+                // 百度统计：记录访客提问（伪装成虚拟页面访问，在"受访页面"可查看）
+                try {
+                    var safeMsg = message.replace(/\n/g, ' ').replace(/\//g, '_').substring(0, 80);
+                    var trackPath = '/chat/' + safeMsg;
+                    if (typeof _hmt !== 'undefined' && _hmt.push) {
+                        _hmt.push(['_trackPageview', trackPath]);
+                    } else {
+                        // _hmt 尚未加载，暂存到队列，3秒后重试
+                        setTimeout(function () {
+                            if (typeof _hmt !== 'undefined' && _hmt.push) {
+                                _hmt.push(['_trackPageview', trackPath]);
+                            }
+                        }, 3000);
+                    }
+                } catch (e) { }
+
+                addMessage('bot', '');
+                const lastMessage = chatMessages.lastElementChild;
+                const bubble = lastMessage.querySelector('div:last-child');
+                const writer = makeBubbleWriter(bubble);
+                writer.showTyping(); // 三点跳动
+
+                // 第1层：智谱
+                let gotStreamChunk = false;
+                try {
+                    const result = await callZhipuStream(
+                        message,
+                        (delta, full) => {
+                            if (!gotStreamChunk) gotStreamChunk = true;
+                            // 流式增量：先 postProcessFormatting → 后 stripFormattingMacros 剥掉〖宏〗再用基础 MD 渲染
+                            // 目的：防止 SSE 拼接过程中跨行宏（HTITLE / CALLOUT）"半拉子"时气泡里出现〖〗原始残留字符
+                            writer.appendMarkdownNow(postProcessFormatting(full), { stripMacros: true });
                         }
-                    }, 3000);
-                }
-            } catch (e) { }
+                    );
 
-            addMessage('bot', '');
-            const lastMessage = chatMessages.lastElementChild;
-            const bubble = lastMessage.querySelector('div:last-child');
-            const writer = makeBubbleWriter(bubble);
-            writer.showTyping(); // 三点跳动
+                    if (result.success) {
+                        // ====== 【输出端契约校验 · 静默执行】LLM出来的结果先过本地黑名单/FAQ相似度，违规就自动替换成本地标准答案；用户侧看不见提示，违规细节留console方便开发调试 ======
+                        const validated = validateAnswerContract(message, result.answer || '');
+                        const displayAnswer = validated.answer;
+                        // —— 静默模式：只在 console 里打日志，不在用户气泡里显示任何"校验通过/被替换"文案 ——
+                        if (validated && validated.violations && validated.violations.length) {
+                            console.info('[QA-Contract] 契约校验命中 violations:', validated.violations, '用户提问=', message);
+                        }
 
-            // 第1层：智谱
-            let gotStreamChunk = false;
-            try {
-                const result = await callZhipuStream(
-                    message,
-                    (delta, full) => {
-                        if (!gotStreamChunk) gotStreamChunk = true;
-                        writer.appendMarkdownNow(full);
+                        let finalFooter = '\n\n---\n💡 来自智谱AI';
+                        if (result.channel === 'proxy') {
+                            finalFooter = '\n\n---\n🌩️ 来自智谱AI（通过 Cloudflare Workers 安全代理转发，API Key 不出前端）';
+                        } else if (result.channel === 'direct') {
+                            finalFooter = '\n\n---\n💡 来自智谱AI（本地开发 · secret.js 直连）';
+                        }
+                        const finalFull = displayAnswer + finalFooter;
+                        // 关键修复：定稿也必须走 postProcessFormatting，与流式增量阶段保持一致
+                        // 否则流式过程有格式（编号/bullet/chip/CALLOUT 都整理过），定稿反而丢失这些排版
+                        const formattedFull = postProcessFormatting(finalFull);
+                        if (!gotStreamChunk && result.noStream) {
+                            // 非流式：打字机逐字出（同样基于格式化后的文本）
+                            await typewriter((t) => writer.appendMarkdownNow(t), formattedFull, 10);
+                        }
+                        writer.renderMarkdownNow(formattedFull);
+                        return;
                     }
-                );
+                } catch (e) { /* 智谱失败：继续降级 */ }
 
-                if (result.success) {
-                    let finalFooter = '\n\n---\n💡 来自智谱AI';
-                    if (!gotStreamChunk && result.noStream) {
-                        // 非流式：打字机逐字出
-                        await typewriter((t) => writer.appendMarkdownNow(t), result.answer, 10);
-                    }
-                    writer.renderMarkdownNow(result.answer + finalFooter);
-                    return;
+                // 第2层：本地FAQ
+                const localAnswer = getLocalAnswer(message);
+                if (localAnswer) {
+                    const finalFull = '【本地模式】' + localAnswer + '\n\n---\n💡 来自本地知识库';
+                    await typewriter((t) => writer.appendMarkdownNow(t), finalFull, 10);
+                } else {
+                    const fallback = '这个问题建议联系本人电话咨询~\n\n您可以尝试询问以下问题（本地知识库可回答）：\n1. 介绍一下自己\n2. 你做过哪些项目\n3. 你的核心竞争力是什么\n4. 你会什么技术\n5. 最有成就感的项目\n';
+                    await typewriter((t) => writer.appendMarkdownNow(t), fallback, 14);
                 }
-            } catch (e) { /* 智谱失败：继续降级 */ }
-
-            // 第2层：本地FAQ
-            const localAnswer = getLocalAnswer(message);
-            if (localAnswer) {
-                const finalFull = '【本地模式】' + localAnswer + '\n\n---\n💡 来自本地知识库';
-                await typewriter((t) => writer.appendMarkdownNow(t), finalFull, 10);
-            } else {
-                const fallback = '这个问题建议联系本人电话咨询~\n\n您可以尝试询问以下问题（本地知识库可回答）：\n1. 介绍一下自己\n2. 你做过哪些项目\n3. 你的核心竞争力是什么\n4. 你会什么技术\n5. 最有成就感的项目\n';
-                await typewriter((t) => writer.appendMarkdownNow(t), fallback, 14);
+            } finally {
+                // 必达出口：成功/失败/异常/降级 全部释放锁，保证不会卡死
+                releaseChatLock();
             }
         }
 
-        // ===== 轻量 Markdown 渲染（仅用于 AI 回复） =====
+        // ===== 轻量 Markdown 渲染（仅用于 AI 回复）=====
+        // 除标准 Markdown 子集外，额外支持三种"排版后处理器"自定义语法：
+        //   〖HTITLE:主标题:副标题〗 → 装饰项目标题（带左侧金色装饰条 + 淡金底）
+        //   〖CALLOUT:标题|正文内容支持换行〗 → 绿色数据成果 callout 块
+        //   〖CHIP:内容:up|down|count〗 → 数据指标胶囊徽章（up绿色 / down红色 / count金色）
         function renderMarkdown(text) {
-            // 1. 先转义 HTML，防 XSS
+            // 1. 先转义 HTML，防 XSS。〖〗是 Unicode 特殊定界符，不会被这里动到。
             let html = text
                 .replace(/&/g, '&amp;')
                 .replace(/</g, '&lt;')
                 .replace(/>/g, '&gt;');
 
-            // 2. 按 \n 分行处理（保留空行用于段落分隔）
+            // 2. 【预处理】先把"整行独占"的三个自定义宏抽成特殊占位，避免后面按 \n 分行 + 行首匹配逻辑误伤
+            html = html.replace(/^〖HTITLE:([^:：]*?)(?::|：)([^〗]*)〗\s*$/gm, function (_m, main, sub) {
+                return `__MACRO_HTITLE__${encodeURIComponent(main || '')}__${encodeURIComponent(sub || '')}__`;
+            });
+            html = html.replace(/^〖CALLOUT:([^|｜]*?)[|｜]([\s\S]*?)〗\s*$/gm, function (_m, title, body) {
+                // 注意：body 可能包含 \n，这里用 __n__ 换码，最后统一解回；标题和正文内部也支持 CHIP 内联
+                return `\n__MACRO_CALLOUT_START__${encodeURIComponent(title || '成果数据')}__${encodeURIComponent(body.trim() || '')}__\n`;
+            });
+
+            // 3. 按 \n 分行处理（保留空行用于段落分隔）
             const lines = html.split(/\n/);
             const out = [];
             let inList = false;
 
-            const inline = (s) => s
-                // 粗斜体 ***xxx***
-                .replace(/\*\*\*([^*]+)\*\*\*/g, '<strong><em>$1</em></strong>')
-                // 加粗 **xxx**
-                .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
-                // 斜体 *xxx*
-                .replace(/(^|[^*])\*([^*]+)\*(?!\*)/g, '$1<em>$2</em>')
-                // 行内代码 `xxx`
-                .replace(/`([^`]+)`/g, '<code style="background:rgba(196,167,125,0.12);padding:1px 5px;border-radius:4px;font-size:0.85em;">$1</code>');
+            // —— inline 工具：行内格式化。在这里处理 〖CHIP:...〗（内联胶囊徽章，允许出现在标题/段落/列表项/成果块内）
+            //    以及标准 Markdown 行内语法 **粗体** *斜体* `行内代码`
+            const inline = function (s) {
+                // 3a. 内联数据胶囊 〖CHIP:内容:type〗
+                s = s.replace(/〖CHIP:([^：:〗]+)(?:[:：](up|down|count))?〗/g, function (_m, content, type) {
+                    const t = type || 'count';
+                    const safe = content.trim();
+                    // CHIP 内容里可能已经被 escape 过一次 &amp; 等，这里用 decode 一下再交给 escapeInlinedHtml 统一处理，防双转义
+                    const decoded = safeDecodeComponent(safe);
+                    return `<span class="answer-metric-chip" data-type="${t}">${escapeHtmlForInline(decoded)}</span>`;
+                });
+                return s
+                    // 粗斜体 ***xxx***
+                    .replace(/\*\*\*([^*]+)\*\*\*/g, '<strong><em>$1</em></strong>')
+                    // 加粗 **xxx**
+                    .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+                    // 斜体 *xxx*
+                    .replace(/(^|[^*])\*([^*]+)\*(?!\*)/g, '$1<em>$2</em>')
+                    // 行内代码 `xxx`
+                    .replace(/`([^`]+)`/g, '<code style="background:rgba(196,167,125,0.12);padding:1px 5px;border-radius:4px;font-size:0.85em;">$1</code>');
+            };
 
             for (let i = 0; i < lines.length; i++) {
                 const line = lines[i];
                 const trimmed = line.trim();
+
+                // —— 宏：装饰项目标题（整行独占，优先级最高）——
+                if (/^__MACRO_HTITLE__/.test(trimmed)) {
+                    if (inList) { out.push('</ul>'); inList = false; }
+                    const m = trimmed.match(/^__MACRO_HTITLE__([^_]*)__([^_]*)__$/);
+                    if (m) {
+                        const main = safeDecodeComponent(m[1]);
+                        const sub  = safeDecodeComponent(m[2]);
+                        out.push(
+                            `<div class="answer-project-title">${escapeHtmlForInline(main)}` +
+                            (sub ? `<span class="answer-project-subtitle">${inline(escapeHtmlForInline(sub))}</span>` : '') +
+                            `</div>`
+                        );
+                    }
+                    continue;
+                }
+                // —— 宏：绿色成果 callout 块（整个块被一行占位符表示，body 已 encodeURIComponent）——
+                if (/^__MACRO_CALLOUT_START__/.test(trimmed)) {
+                    if (inList) { out.push('</ul>'); inList = false; }
+                    const m = trimmed.match(/^__MACRO_CALLOUT_START__([^_]+)__(.+)__$/);
+                    if (m) {
+                        const title = safeDecodeComponent(m[1]);
+                        const body  = safeDecodeComponent(m[2]);
+                        // body 内支持"分段 / 列表 / CHIP / 粗体"等基础 MD 语法 → 把 body 递归跑一次 renderMarkdown 子函数
+                        const bodyHtml = renderMarkdownMini(body);
+                        out.push(
+                            `<div class="answer-result-callout">` +
+                            `<span class="answer-callout-title">📊 ${escapeHtmlForInline(title)}</span>` +
+                            bodyHtml +
+                            `</div>`
+                        );
+                    }
+                    continue;
+                }
 
                 // 空行
                 if (trimmed === '') {
@@ -4648,11 +5290,18 @@
                     continue;
                 }
 
-                // 有序列表 1. xxx
-                const ol = trimmed.match(/^(\d+)\.\s+(.*)$/);
+                // 有序列表 1. xxx（支持 1. / 2. / 1、 / 2） / [ 1)、2) ]
+                const ol = trimmed.match(/^(\d+)[.、\)】]\s*(.*)$/);
                 if (ol) {
                     if (!inList) { out.push('<ul style="margin:0.3rem 0;padding-left:1.2rem;list-style:decimal;">'); inList = true; }
                     out.push(`<li style="margin:0.15rem 0;">${inline(ol[2])}</li>`);
+                    continue;
+                }
+                // 中文"一是/二是/三是/四是/五是" 或 "第一/第二/第三" 也按列表渲染（视觉层级更整齐）
+                const cnLi = trimmed.match(/^(第[一二三四五六七八九十]+(?:[:：]|步|章|点|项|轮|层)|[一二三四五六七八九十]+是)\s*[:：]?\s*(.*)$/);
+                if (cnLi) {
+                    if (!inList) { out.push('<ul style="margin:0.3rem 0;padding-left:1.2rem;list-style:disc;">'); inList = true; }
+                    out.push(`<li style="margin:0.15rem 0;"><strong>${escapeHtmlForInline(cnLi[1])}</strong> ${inline(cnLi[2])}</li>`);
                     continue;
                 }
 
@@ -4663,6 +5312,66 @@
             if (inList) out.push('</ul>');
 
             return out.join('\n');
+        }
+
+        // —— 供 renderMarkdown 内部 callout body 递归使用的 MD mini 子集（不处理 HTITLE/CALLOUT 宏，避免嵌套爆炸）——
+        function renderMarkdownMini(text) {
+            if (!text) return '';
+            // 先按 \n 分行，用 <div>p/ul/li</div> 结构，样式沿用父类 chat-text 里的默认样式
+            const html = String(text).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+            const lines = html.split(/\n/);
+            const out = [];
+            let inList = false;
+            const inline = function (s) {
+                // CHIP 同样支持
+                s = s.replace(/〖CHIP:([^：:〗]+)(?:[:：](up|down|count))?〗/g, function (_m, content, type) {
+                    const t = type || 'count';
+                    const decoded = safeDecodeComponent(content.trim());
+                    return `<span class="answer-metric-chip" data-type="${t}">${escapeHtmlForInline(decoded)}</span>`;
+                });
+                return s
+                    .replace(/\*\*\*([^*]+)\*\*\*/g, '<strong><em>$1</em></strong>')
+                    .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+                    .replace(/(^|[^*])\*([^*]+)\*(?!\*)/g, '$1<em>$2</em>')
+                    .replace(/`([^`]+)`/g, '<code style="background:rgba(196,167,125,0.12);padding:1px 5px;border-radius:4px;font-size:0.85em;">$1</code>');
+            };
+            for (const raw of lines) {
+                const trimmed = raw.trim();
+                if (!trimmed) {
+                    if (inList) { out.push('</ul>'); inList = false; }
+                    out.push('<div style="height:0.2rem;"></div>');
+                    continue;
+                }
+                const li = trimmed.match(/^[-*]\s+(.*)$/);
+                if (li) {
+                    if (!inList) { out.push('<ul style="margin:0.1rem 0 0.2rem;padding-left:1.1rem;list-style:disc;">'); inList = true; }
+                    out.push(`<li style="margin:0.18rem 0;line-height:1.7;">${inline(li[1])}</li>`);
+                    continue;
+                }
+                const ol = trimmed.match(/^(\d+)[.、\)】]\s*(.*)$/);
+                if (ol) {
+                    if (!inList) { out.push('<ul style="margin:0.1rem 0 0.2rem;padding-left:1.1rem;list-style:decimal;">'); inList = true; }
+                    out.push(`<li style="margin:0.18rem 0;line-height:1.7;">${inline(ol[2])}</li>`);
+                    continue;
+                }
+                if (inList) { out.push('</ul>'); inList = false; }
+                out.push(`<div style="margin:0.05rem 0 0.25rem;line-height:1.7;">${inline(trimmed)}</div>`);
+            }
+            if (inList) out.push('</ul>');
+            return out.join('\n');
+        }
+
+        // —— MD 辅助：encode/decode + 安全的 HTML escape（用于自定义宏 decode 后再转义）——
+        function safeDecodeComponent(s) {
+            try { return decodeURIComponent(s || ''); } catch (_) { return String(s || '').replace(/%[0-9A-Fa-f]{2}/g, ''); }
+        }
+        function escapeHtmlForInline(s) {
+            return String(s == null ? '' : s)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
         }
 
         function addMessage(sender, content) {
@@ -4711,7 +5420,9 @@
             chatMessages.scrollTop = chatMessages.scrollHeight;
         }
     </script>
-    <!-- secret.js（.gitignore 忽略，只在本地开发注入API Key；线上不传自动降级到本地FAQ兜底） -->
+    <!-- site-config.js（公开部署配置，可以放心提交到 GitHub；里面只有代理 URL，不含任何 Key/Secret） -->
+    <script src="./site-config.js"></script>
+    <!-- secret.js（.gitignore 忽略，只在本地开发注入API Key；线上不传自动走 Cloudflare Worker 代理或降级到本地FAQ兜底） -->
     <script src="./secret.js"></script>
     <script defer src="https://vercount.one/js"></script>
     <script>
