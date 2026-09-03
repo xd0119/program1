@@ -8,6 +8,6 @@
 
 window.SITE_CONFIG = {
   // ↓↓↓ Cloudflare Worker 的公网 URL，部署完把下面示例 URL 替换成你自己的 ↓↓↓
-  ZHIPU_PROXY_URL: 'https://zhipu-proxy-xd.xd316012029.workers.dev/chat/completions',
+  ZHIPU_PROXY_URL: 'https://program1.pages.dev/api/chat/completions',
   // 
 };
