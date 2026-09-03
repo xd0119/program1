@@ -663,84 +663,6 @@
             }
         }
 
-        /* ===== 思考过程：分步进度UI ===== */
-        .thinking-steps {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            padding: 6px 4px 10px;
-        }
-        .thinking-step {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 0.85rem;
-            color: var(--text-secondary);
-            transition: all 0.35s ease;
-        }
-        .thinking-step-icon {
-            width: 22px;
-            height: 22px;
-            border-radius: 50%;
-            display: grid;
-            place-items: center;
-            flex-shrink: 0;
-            font-size: 0.7rem;
-            background: rgba(196, 167, 125, 0.15);
-            color: var(--text-muted);
-            border: 1px dashed rgba(196, 167, 125, 0.35);
-        }
-        .thinking-step.active .thinking-step-icon {
-            background: var(--gradient-main);
-            color: #fff;
-            border: none;
-            animation: thinking-pulse 1.2s infinite ease-in-out;
-        }
-        .thinking-step.done .thinking-step-icon {
-            background: linear-gradient(135deg, #7fb77e, #5aa058);
-            color: #fff;
-            border: none;
-        }
-        .thinking-step-label {
-            flex: 1;
-            font-weight: 500;
-            color: var(--text-muted);
-        }
-        .thinking-step.active .thinking-step-label {
-            color: var(--primary);
-        }
-        .thinking-step.done .thinking-step-label {
-            color: var(--text-secondary);
-            text-decoration: line-through;
-            text-decoration-color: rgba(127, 183, 126, 0.45);
-        }
-        .thinking-step-tag {
-            font-size: 0.7rem;
-            padding: 2px 8px;
-            border-radius: 10px;
-            background: rgba(196, 167, 125, 0.1);
-            color: var(--text-muted);
-        }
-        .thinking-step.active .thinking-step-tag {
-            background: rgba(196, 167, 125, 0.2);
-            color: var(--primary);
-        }
-        .thinking-step.done .thinking-step-tag {
-            background: rgba(127, 183, 126, 0.12);
-            color: #5aa058;
-        }
-        @keyframes thinking-pulse {
-            0%, 100% { box-shadow: 0 0 0 0 rgba(196, 167, 125, 0.45); }
-            50%      { box-shadow: 0 0 0 6px rgba(196, 167, 125, 0); }
-        }
-
-        /* 最终答案与思考过程之间的分隔 */
-        .answer-divider {
-            height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(196, 167, 125, 0.35), transparent);
-            margin: 10px 0 8px;
-        }
-
         .project-image:hover {
             transform: scale(1.02);
             box-shadow: 0 16px 40px rgba(196, 167, 125, 0.2);
@@ -4251,7 +4173,24 @@
 - 图片优化：懒加载（loading="lazy"）+ 压缩图片体积
 - 响应式设计：PC端左右双栏、移动端单栏自适应
 
-【回答规则】
+【回答规则 · 强制合规（任何情况下不得违反）】
+⚠️ 格式铁律1：分点编号必须使用「1. 2. 3. 4. …」严格递增，严禁所有条目都写「1.」，严禁使用同一个数字。
+⚠️ 格式铁律2：分点编号必须使用「1. 2. 3. 4. …」严格递增，严禁所有条目都写「1.」，严禁使用同一个数字。
+⚠️ 格式铁律3：分点编号必须使用「1. 2. 3. 4. …」严格递增，严禁所有条目都写「1.」，严禁使用同一个数字。
+
+⚠️ 技术栈归属铁律：
+  - 【本作品集网站】= 纯静态 HTML/CSS/JavaScript（无框架、无后端、无数据库）
+  - Vue / Node.js / Express / MongoDB / MySQL 等属于我【其他项目】的技术栈，不是本站的
+  - 当用户问「作品集网站怎么做/技术栈/开发」这类问题时，只能输出【本网站技术方案】下的内容，绝不能把其他项目技术栈（Vue/Node/MongoDB/MySQL）拼进去，否则算错
+
+⚠️ 项目名称统一使用通俗版：
+  - 银行信贷FAQ智能体 → 业务问答Agent 0-1搭建
+  - 高速公路水保管控系统 → 企业后台数字化管理系统0-1
+  - 吃什么小程序 → TOC 小程序部署上线
+  - 我的被窝 → 个人博客系统前后台全栈开发
+  - 过虑空间 VR → VR项目交互体验设计
+  - 暴雨孤岛 → RPG + HTML快速开发Agent（暴雨孤岛引擎）
+
 - 直接回答，不要复述用户问题
 - 不要每次都做自我介绍
 - 项目回答格式：[项目名称]担任[角色]，负责[核心职责]，使用[技术栈]，实现[主要功能]，成果[具体数据]
@@ -4425,86 +4364,25 @@
             return '';
         }
 
-        /* ===== 思考步骤进度控制 ===== */
+        /* ===== 气泡内容控制（替换三点跳动/渲染打字机Markdown） ===== */
         /**
-         * 在bot消息气泡内渲染分步思考UI
-         * steps: [{icon, label, tag}]
+         * 简单API：bubble是AI消息气泡div
+         * showTyping() 显示三点跳动动画；
+         * renderMarkdownNow(text) 直接写最终Markdown；
+         * appendMarkdownNow(text) 流式增量渲染Markdown全文；
          */
-        function setupThinkingUI(bubble, steps) {
-            const stepsId = 'ts-' + Math.random().toString(36).slice(2, 8);
-            const ragId = 'rag-' + stepsId;
-            const answerId = 'ans-' + Math.random().toString(36).slice(2, 8);
-
-            const stepsHtml = steps.map((s, i) => `
-                <div class="thinking-step ${i === 0 ? 'active' : ''}" data-idx="${i}">
-                    <div class="thinking-step-icon">${s.icon}</div>
-                    <div class="thinking-step-label">${s.label}</div>
-                    <div class="thinking-step-tag">${s.tag}</div>
-                </div>`).join('');
-
-            bubble.innerHTML = `
-                <div class="thinking-steps" id="${stepsId}">
-                    ${stepsHtml}
-                    <div id="${ragId}" class="rag-refs" style="display:none; margin-top:4px; padding:8px 10px 2px 34px; font-size:0.78rem; color:var(--text-muted); line-height:1.6; border-left:2px solid rgba(196,167,125,0.25);">
-                    </div>
-                </div>
-                <div class="answer-divider" style="display:none;" id="${stepsId}-divider"></div>
-                <div class="ai-answer-body" id="${answerId}"></div>`;
-
+        function makeBubbleWriter(bubble) {
             return {
-                setStepDone(idx) {
-                    const container = document.getElementById(stepsId);
-                    if (!container) return;
-                    const step = container.querySelector(`.thinking-step[data-idx="${idx}"]`);
-                    if (step) {
-                        step.classList.remove('active');
-                        step.classList.add('done');
-                        const icon = step.querySelector('.thinking-step-icon');
-                        if (icon) icon.innerHTML = '<i class="fas fa-check" style="font-size:0.65rem;"></i>';
-                    }
-                    const next = container.querySelector(`.thinking-step[data-idx="${idx + 1}"]`);
-                    if (next) next.classList.add('active');
+                showTyping() {
+                    bubble.innerHTML = '<div class="typing-indicator"><span></span><span></span><span></span></div>';
                 },
-                // 把某一步的标签追加细节（比如命中了哪个项目页、RAG检索到几条知识）
-                appendStepDetail(idx, htmlDetail) {
-                    const container = document.getElementById(stepsId);
-                    if (!container) return;
-                    const step = container.querySelector(`.thinking-step[data-idx="${idx}"]`);
-                    if (step) {
-                        const tag = step.querySelector('.thinking-step-tag');
-                        if (tag) tag.insertAdjacentHTML('afterend', `<div style="flex-basis:100%; padding-left:32px; font-size:0.75rem; color:var(--text-muted);">${htmlDetail}</div>`);
-                    }
-                },
-                // 展示RAG参考片段
-                addRagRef(title, snippet) {
-                    const box = document.getElementById(ragId);
-                    if (!box) return;
-                    box.style.display = 'block';
-                    if (!box.querySelector('.rag-refs-title')) {
-                        box.insertAdjacentHTML('afterbegin', '<div class="rag-refs-title" style="font-weight:600; color:var(--primary); margin-bottom:4px;">📚 云端知识库参考</div>');
-                    }
-                    const clean = (snippet || '').toString().replace(/<[^>]+>/g, '').slice(0, 120);
-                    const item = document.createElement('div');
-                    item.style.marginBottom = '3px';
-                    item.innerHTML = `<span style="color:var(--primary);">·</span> <b style="color:var(--text-secondary);">${title}：</b>${clean}…`;
-                    box.appendChild(item);
+                renderMarkdownNow(text) {
+                    bubble.innerHTML = renderMarkdown(text);
                     scrollToBottom();
                 },
-                showDivider() {
-                    const d = document.getElementById(stepsId + '-divider');
-                    if (d) d.style.display = 'block';
-                },
-                getAnswerEl() {
-                    return document.getElementById(answerId);
-                },
-                appendMarkdown(fullTextSoFar) {
-                    const el = this.getAnswerEl();
-                    if (el) el.innerHTML = renderMarkdown(fullTextSoFar);
-                    scrollToBottom();
-                },
-                setFinalMarkdown(fullText) {
-                    const el = this.getAnswerEl();
-                    if (el) el.innerHTML = renderMarkdown(fullText);
+                appendMarkdownNow(text) {
+                    // 流式场景下每次用"当前累计文本"重新渲染Markdown，避免标签中途断裂
+                    bubble.innerHTML = renderMarkdown(text);
                     scrollToBottom();
                 }
             };
@@ -4535,22 +4413,10 @@
          * onToken(chunkText, fullTextSoFar) — 流式逐片回调
          * 返回 { success, answer }
          */
-        async function callZhipuStream(message, onStepDone, onToken, hooks) {
-            // ===== 优先级：代理URL > 本地Key直连 > 失败降级 =====
-            const proxyUrl = typeof window.ZHIPU_PROXY_URL === 'string'
-                && window.ZHIPU_PROXY_URL.startsWith('http')
-                ? window.ZHIPU_PROXY_URL
-                : '';
+        async function callZhipuStream(message, onToken) {
+            // 没有Key直接失败，让sendMessage降级到本地FAQ
             const apiKey = window.ZHIPU_API_KEY;
-
-            if (!proxyUrl && !apiKey) {
-                return { success: false, error: 'API Key / 代理均未配置（线上自动降级到本地FAQ）' };
-            }
-            if (proxyUrl) {
-                // —— 通过 Gitee / Cloudflare 云函数代理（推荐模式：浏览器不持有真Key）——
-                return callZhipuThroughProxy(proxyUrl, message, onStepDone, onToken, hooks);
-            }
-            // —— 本地开发：直连智谱（Key 来自 .gitignore 的 secret.js）——
+            if (!apiKey) return { success: false, error: 'API Key 未配置（仅本地开发通过 secret.js 注入，线上走本地FAQ）' };
             let projectContext = '';
             let hitFile = '';
             try {
@@ -4573,8 +4439,7 @@
                 }
                 if (hitFile) projectContext = await extractProjectContent(hitFile);
             } catch (e) { }
-            if (hooks && typeof hooks.onContextDone === 'function') hooks.onContextDone(hitFile, projectContext);
-            if (typeof onStepDone === 'function') onStepDone(0);
+            // —— 步骤进度UI已移除，静默处理上下文读取
 
             // 构建 system prompt
             let systemContent = ZHIPU_SYSTEM_PROMPT;
@@ -4611,18 +4476,13 @@
                 return { success: false, error: '网络错误' };
             }
 
-            // 步骤②：云端RAG检索（request已发出）
-            if (typeof onStepDone === 'function') onStepDone(1);
+            // 步骤进度UI已移除：请求发出后静默等待SSE返回
 
             const ctype = response.headers.get('content-type') || '';
             if (!ctype.includes('text/event-stream') && !ctype.includes('application/x-ndjson')) {
                 const data = await response.json();
                 if (data.error) return { success: false, error: data.error.message || '智谱错误' };
-                // 非流式：若有retrieval结果也回调一次
-                const refs = Array.isArray(data.retrieval_documents) ? data.retrieval_documents : [];
-                refs.forEach(r => {
-                    if (hooks && hooks.onRagRef) hooks.onRagRef(r.filename || r.doc_id || '文档', r.content || r.text || r.snippet || '');
-                });
+                // 非流式：直接读JSON
                 const answer = data.choices?.[0]?.message?.content || '';
                 return { success: true, answer: answer || '这个问题建议联系本人电话咨询~', noStream: true };
             }
@@ -4655,16 +4515,7 @@
                                 if (json.error) {
                                     return { success: false, error: json.error.message || '智谱错误' };
                                 }
-                                // RAG检索片段（第一条事件通常带retrieval_documents）
-                                const refs = Array.isArray(json.retrieval_documents)
-                                    ? json.retrieval_documents
-                                    : (json.choices?.[0]?.retrieval_documents || []);
-                                refs.forEach(r => {
-                                    const title = r.filename || r.doc_id || r.title || '云端文档';
-                                    const snip = r.content || r.text || r.snippet || '';
-                                    if (hooks && hooks.onRagRef && snip) hooks.onRagRef(title, snip);
-                                });
-                                // 增量token
+                                // 只处理增量token
                                 const delta = json.choices?.[0]?.delta?.content || '';
                                 if (delta) {
                                     fullAnswer += delta;
@@ -4718,115 +4569,6 @@
             return results;
         }
 
-        /* ===== 代理模式：浏览器只和你自己的 Gitee/Cloudflare 云函数通信，真Key存服务端 ===== */
-        async function callZhipuThroughProxy(proxyUrl, message, onStepDone, onToken, hooks) {
-            // 步骤①：本地项目页上下文读取（与直连模式相同的逻辑，在客户端提前完成，减少代理压力）
-            let projectContext = '';
-            let hitFile = '';
-            try {
-                const projects = [
-                    { keywords: ['水保', '水土保持', '高速公路', '交通规划', '审批', '企业后台', 'ToB'], file: 'project-water-soil.html' },
-                    { keywords: ['过虑空间', 'VR', '情绪', '心理', '焦虑', '大学生', 'VR交互'], file: 'project-vr-space.html' },
-                    { keywords: ['吃什么', '小程序', '餐厅', '推荐', '转盘', 'TOC小程序'], file: 'project-eat-what.html' },
-                    { keywords: ['博客', '被窝', '个人网站', '全栈博客'], file: 'project-blog.html' },
-                    { keywords: ['FAQ', '智能体', '银行', '信贷', '问答', '业务问答'], file: 'project-faq-bot.html' },
-                    { keywords: ['RPG', '暴雨孤岛', '游戏生成', 'Agent引擎', 'workflow', '校验层'], file: 'project-rpg.html' }
-                ];
-                let maxScore = 0;
-                for (const p of projects) {
-                    let score = 0;
-                    for (const kw of p.keywords) { if (message.includes(kw)) score++; }
-                    if (score > maxScore) { maxScore = score; hitFile = p.file; }
-                }
-                if (hitFile) projectContext = await extractProjectContent(hitFile);
-            } catch (e) { }
-            if (hooks && typeof hooks.onContextDone === 'function') hooks.onContextDone(hitFile, projectContext);
-            if (typeof onStepDone === 'function') onStepDone(0);
-
-            // 请求体：只带 messages + projectContext；model/retrieval/Key 都在代理侧强制覆盖，防止前端篡改
-            const requestBody = {
-                messages: [
-                    { role: 'user', content: message }
-                ],
-                _project_context: projectContext || null,  // 代理端会拼进 system prompt
-            };
-
-            let response;
-            try {
-                response = await fetch(proxyUrl, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Accept': 'text/event-stream'
-                    },
-                    body: JSON.stringify(requestBody)
-                });
-            } catch (e) {
-                return { success: false, error: '代理连接失败: ' + e.message };
-            }
-
-            // 步骤②：代理已收到请求，云端RAG开始
-            if (typeof onStepDone === 'function') onStepDone(1);
-
-            const ctype = response.headers.get('content-type') || '';
-            if (!ctype.includes('text/event-stream') && !ctype.includes('application/x-ndjson')) {
-                // 非流式：读JSON后用noStream兜底
-                const data = await response.json();
-                if (data.error) return { success: false, error: data.error.message || '代理错误' };
-                const refs = Array.isArray(data.retrieval_documents) ? data.retrieval_documents : [];
-                refs.forEach(r => {
-                    if (hooks && hooks.onRagRef) hooks.onRagRef(r.filename || r.doc_id || '云端文档', r.content || r.text || r.snippet || '');
-                });
-                const answer = data.choices?.[0]?.message?.content || '';
-                return { success: true, answer: answer || '这个问题建议联系本人电话咨询~', noStream: true };
-            }
-
-            // SSE流式解析（与直连模式解析逻辑完全一致）
-            const reader = response.body.getReader();
-            const decoder = new TextDecoder('utf-8');
-            let buffer = '';
-            let fullAnswer = '';
-
-            while (true) {
-                const { done, value } = await reader.read();
-                if (done) break;
-                buffer += decoder.decode(value, { stream: true });
-                const parts = buffer.split(/\r?\n\r?\n/);
-                buffer = parts.pop() || '';
-                for (const part of parts) {
-                    const lines = part.split(/\r?\n/);
-                    for (const line of lines) {
-                        if (!line.startsWith('data:')) continue;
-                        const raw = line.slice(5).trim();
-                        if (!raw || raw === '[DONE]') continue;
-                        const jsons = splitMultipleJson(raw);
-                        for (const rawJson of jsons) {
-                            try {
-                                const json = JSON.parse(rawJson);
-                                if (json.error) return { success: false, error: json.error.message || '代理错误' };
-                                // RAG参考
-                                const refs = Array.isArray(json.retrieval_documents)
-                                    ? json.retrieval_documents
-                                    : (json.choices?.[0]?.retrieval_documents || []);
-                                refs.forEach(r => {
-                                    const title = r.filename || r.doc_id || r.title || '云端文档';
-                                    const snip = r.content || r.text || r.snippet || '';
-                                    if (hooks && hooks.onRagRef && snip) hooks.onRagRef(title, snip);
-                                });
-                                const delta = json.choices?.[0]?.delta?.content || '';
-                                if (delta) {
-                                    fullAnswer += delta;
-                                    if (typeof onToken === 'function') onToken(delta, fullAnswer);
-                                }
-                            } catch (e) { /* 忽略碎片 */ }
-                        }
-                    }
-                }
-            }
-
-            return { success: true, answer: fullAnswer || '这个问题建议联系本人电话咨询~' };
-        }
-
         async function sendMessage() {
             const message = chatInput.value.trim();
             if (!message) return;
@@ -4853,90 +4595,39 @@
             addMessage('bot', '');
             const lastMessage = chatMessages.lastElementChild;
             const bubble = lastMessage.querySelector('div:last-child');
+            const writer = makeBubbleWriter(bubble);
+            writer.showTyping(); // 三点跳动
 
-            // —— 装配思考过程UI ——
-            const thinkSteps = [
-                { icon: '📄', label: '读取本地项目页面上下文', tag: '客户端 · 0ms' },
-                { icon: '☁️', label: '调用云端知识库 RAG 检索', tag: '智谱 API' },
-                { icon: '🧠', label: '组装答案 · 逐字输出', tag: '流式 / 打字机' }
-            ];
-            const ui = setupThinkingUI(bubble, thinkSteps);
-
-            // 第1层：智谱（带步骤进度+流式+RAG参考显示）
+            // 第1层：智谱
             let gotStreamChunk = false;
             try {
                 const result = await callZhipuStream(
                     message,
-                    (idx) => ui.setStepDone(idx),
                     (delta, full) => {
-                        if (!gotStreamChunk) {
-                            ui.setStepDone(1);
-                            ui.showDivider();
-                            gotStreamChunk = true;
-                        }
-                        ui.appendMarkdown(full);
-                    },
-                    {
-                        onContextDone(hitFile, ctx) {
-                            if (hitFile) {
-                                const niceName = ({
-                                    'project-water-soil.html': '企业后台数字化管理系统',
-                                    'project-vr-space.html': 'VR项目交互体验设计',
-                                    'project-eat-what.html': 'TOC小程序（吃什么）',
-                                    'project-blog.html': '个人博客全栈开发',
-                                    'project-faq-bot.html': '业务问答Agent / FAQ智能体',
-                                    'project-rpg.html': 'RPG + HTML快速开发Agent（暴雨孤岛引擎）'
-                                })[hitFile] || hitFile;
-                                const n = (ctx.match(/章节/g) || []).length;
-                                ui.appendStepDetail(0, `✓ 命中【${niceName}】项目页，提取 ${n > 0 ? n + ' 个章节' : '内容'} 作为上下文`);
-                            } else {
-                                ui.appendStepDetail(0, '✓ 无需读取项目详情页，仅使用全局知识库');
-                            }
-                        },
-                        onRagRef(title, snip) {
-                            ui.addRagRef(title, snip);
-                        }
+                        if (!gotStreamChunk) gotStreamChunk = true;
+                        writer.appendMarkdownNow(full);
                     }
                 );
 
                 if (result.success) {
-                    ui.setStepDone(1);
-                    ui.setStepDone(2);
-
                     let finalFooter = '\n\n---\n💡 来自智谱AI';
-
                     if (!gotStreamChunk && result.noStream) {
-                        ui.showDivider();
-                        await typewriter(
-                            (t) => ui.appendMarkdown(t),
-                            result.answer,
-                            10
-                        );
+                        // 非流式：打字机逐字出
+                        await typewriter((t) => writer.appendMarkdownNow(t), result.answer, 10);
                     }
-                    ui.setFinalMarkdown(result.answer + finalFooter);
+                    writer.renderMarkdownNow(result.answer + finalFooter);
                     return;
                 }
-            } catch (e) {
-                // 网络失败，继续降级
-            }
+            } catch (e) { /* 智谱失败：继续降级 */ }
 
             // 第2层：本地FAQ
             const localAnswer = getLocalAnswer(message);
-            // 云端失败，把前两步标记为完成（跨掉），第三步active打字机
-            ui.setStepDone(0);
-            bubble.querySelector('.thinking-step[data-idx="1"] .thinking-step-label').textContent = '云端降级，使用本地知识库';
-            bubble.querySelector('.thinking-step[data-idx="1"] .thinking-step-tag').textContent = '本地';
-            ui.setStepDone(1);
-            ui.showDivider();
-
             if (localAnswer) {
                 const finalFull = '【本地模式】' + localAnswer + '\n\n---\n💡 来自本地知识库';
-                await typewriter((t) => ui.appendMarkdown(t), finalFull, 10);
-                ui.setStepDone(2);
+                await typewriter((t) => writer.appendMarkdownNow(t), finalFull, 10);
             } else {
                 const fallback = '这个问题建议联系本人电话咨询~\n\n您可以尝试询问以下问题（本地知识库可回答）：\n1. 介绍一下自己\n2. 你做过哪些项目\n3. 你的核心竞争力是什么\n4. 你会什么技术\n5. 最有成就感的项目\n';
-                await typewriter((t) => ui.appendMarkdown(t), fallback, 14);
-                ui.setStepDone(2);
+                await typewriter((t) => writer.appendMarkdownNow(t), fallback, 14);
             }
         }
 
@@ -5062,9 +4753,7 @@
             chatMessages.scrollTop = chatMessages.scrollHeight;
         }
     </script>
-    <!-- site-config.js（安全可提交，只存公开代理URL；留空=线上自动走本地FAQ兜底） -->
-    <script src="./site-config.js"></script>
-    <!-- secret.js（.gitignore 忽略；只在本地开发注入API Key，线上不传此文件） -->
+    <!-- secret.js（.gitignore 忽略，只在本地开发注入API Key；线上不传自动降级到本地FAQ兜底） -->
     <script src="./secret.js"></script>
     <script defer src="https://vercount.one/js"></script>
     <script>
