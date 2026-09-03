@@ -663,6 +663,84 @@
             }
         }
 
+        /* ===== 思考过程：分步进度UI ===== */
+        .thinking-steps {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            padding: 6px 4px 10px;
+        }
+        .thinking-step {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            transition: all 0.35s ease;
+        }
+        .thinking-step-icon {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            flex-shrink: 0;
+            font-size: 0.7rem;
+            background: rgba(196, 167, 125, 0.15);
+            color: var(--text-muted);
+            border: 1px dashed rgba(196, 167, 125, 0.35);
+        }
+        .thinking-step.active .thinking-step-icon {
+            background: var(--gradient-main);
+            color: #fff;
+            border: none;
+            animation: thinking-pulse 1.2s infinite ease-in-out;
+        }
+        .thinking-step.done .thinking-step-icon {
+            background: linear-gradient(135deg, #7fb77e, #5aa058);
+            color: #fff;
+            border: none;
+        }
+        .thinking-step-label {
+            flex: 1;
+            font-weight: 500;
+            color: var(--text-muted);
+        }
+        .thinking-step.active .thinking-step-label {
+            color: var(--primary);
+        }
+        .thinking-step.done .thinking-step-label {
+            color: var(--text-secondary);
+            text-decoration: line-through;
+            text-decoration-color: rgba(127, 183, 126, 0.45);
+        }
+        .thinking-step-tag {
+            font-size: 0.7rem;
+            padding: 2px 8px;
+            border-radius: 10px;
+            background: rgba(196, 167, 125, 0.1);
+            color: var(--text-muted);
+        }
+        .thinking-step.active .thinking-step-tag {
+            background: rgba(196, 167, 125, 0.2);
+            color: var(--primary);
+        }
+        .thinking-step.done .thinking-step-tag {
+            background: rgba(127, 183, 126, 0.12);
+            color: #5aa058;
+        }
+        @keyframes thinking-pulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(196, 167, 125, 0.45); }
+            50%      { box-shadow: 0 0 0 6px rgba(196, 167, 125, 0); }
+        }
+
+        /* 最终答案与思考过程之间的分隔 */
+        .answer-divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(196, 167, 125, 0.35), transparent);
+            margin: 10px 0 8px;
+        }
+
         .project-image:hover {
             transform: scale(1.02);
             box-shadow: 0 16px 40px rgba(196, 167, 125, 0.2);
@@ -3562,7 +3640,7 @@
                 </div>
                 <div class="info-card">
                     <div class="info-card-title">百度统计 — 后台分析</div>
-                    <div class="info-card-desc">负责详细流量分析（来源、受访页面、停留时长等）。通过虚拟页面（_trackPageview）方式记录访客在小助理中的提问内容，，不断优化项目。
+                    <div class="info-card-desc">负责详细流量分析（来源、受访页面、停留时长等）。通过虚拟页面（_trackPageview）方式记录访客在小助理中的提问内容，不断优化项目。
                     </div>
                 </div>
             </div>
@@ -4178,50 +4256,65 @@
 - 如果不确定的信息，直接说"这个问题建议联系本人电话咨询~"`;
 
         /* ===== 本地FAQ降级库（最终兜底） ===== */
+        /* 列表编号强制：1.2.3.递增，禁止全部写1.；项目名称使用通俗版；技术栈严格隔离（本站=纯静态，无Vue/Node/MongoDB） */
         const LOCAL_FAQ = [
             {
                 keywords: ['你是谁', '叫什么', '介绍自己', '介绍一下', '自我', '名字'],
-                answer: '我是许晓丹（XD），24岁，毕业于广东工业大学数字媒体技术专业。有2年金融信贷工作经验，现在正在转型AI设计领域。很高兴认识你！'
+                answer: '我是许晓丹（XD），24岁，毕业于广东工业大学数字媒体技术专业。有2年金融信贷工作经验，正在转型AI产品/Agent设计领域。很高兴认识你！'
             },
             {
                 keywords: ['核心竞争力', '优势', '特长', '擅长什么', '亮点'],
-                answer: '我的核心竞争力包括：\n1. AI实战经验：使用Trae独立完成小程序从0到1开发并上线，具备Vibe Coding完整经验；基于业务问题搭建Agent解决实际咨询问题\n2. 技术+设计双重能力：计算机专业背景 + 现代UI/UX设计能力\n3. 快速学习能力：在职考取软考中级，持续跟进AI领域\n4. 业务理解能力：2年金融信贷经验，熟悉信贷全流程\n5. 项目经验丰富：0-1完整项目经验，涵盖Web、小程序、游戏、VR、三维动画'
+                answer: '我的核心竞争力包括：\n1. AI实战经验：Trae独立完成小程序从0到1开发并上线；Coze搭建RPG智能体生产引擎（4工作流解耦+Bot级变量共享+校验层拦截LLM幻觉）\n2. 技术+设计双重能力：计算机专业背景+现代UI/UX设计能力，懂代码边界、懂用户体验\n3. 快速学习能力：在职考取软考中级，持续跟进AI领域，踩坑即沉淀为方法论\n4. 业务理解能力：2年金融信贷经验，熟悉信贷全流程，懂ToB知识库的工作动作组织\n5. 项目经验丰富：9个完整项目，涵盖Agent/workflow、ToB系统、小程序、全栈博客、VR、游戏、三维动画'
             },
             {
                 keywords: ['为什么转行', '为什么离开银行', '离开广发', '辞职', '换工作'],
-                answer: '职业成长节奏和银行不够匹配，希望找到更有挑战性的平台，在专业领域进一步深耕。'
+                answer: '职业成长节奏和银行不够匹配，希望找到更有挑战性的平台，在AI产品/Agent设计领域进一步深耕。'
             },
             {
                 keywords: ['项目', '做过什么', '经历', '作品', '案例'],
-                answer: '我做过8个完整项目，主要包括：\n\n1. 【吃什么】小程序（2026.05-2026.06）\n   使用Coze进行Vibe Coding从0到1开发，包括店铺转盘、活动抽抽、收藏评分等功能，推荐满意度从65%提升至85%\n\n2. 高速公路工程水土保持全过程管控系统（2023.07-2024.04）\n   担任产品经理/项目组长，与广东省交通规划设计研究院校企合作，审批效率提升70%，数据错误率从12%降至1%\n\n3. 我的被窝（个人博客，2022.11-2022.12）\n   Express + MongoDB 全栈开发，含前台文章/留言、后台管理/权限控制\n\n4. 过虑空间 | VR情绪疗养空间交互设计（2022.09-2023.01）\n   面向焦虑大学生的VR情绪疗养空间，交互设计项目\n\n还有三维动画、虚拟展馆、游戏开发等项目，你想了解哪个？'
+                answer: '我做过9个完整项目，主要包括：\n\n1. 业务问答Agent 0-1搭建（银行信贷FAQ智能体，2026.05）\n   面向客户经理的口袋知识助手，回答准确率从48%提升至82%，政策版本混淆率从15%降至0\n\n2. 企业后台数字化管理系统0-1（原水保系统，2024.04）\n   产品经理兼项目组长，校企合作项目，审批效率提升70%，数据错误率从12%降至1%\n\n3. RPG + HTML快速开发Agent（暴雨孤岛引擎，2026.08）\n   搭建AI内容生产引擎：输入剧本需求→端到端输出可玩RPG HTML，4类校验规则拦截LLM幻觉\n\n4. TOC 小程序部署上线（原吃什么小程序，2026.06）\n   Coze Vibe Coding从0到1开发，店铺转盘+活动抽抽+收藏评分，推荐满意度65%→85%\n\n5. 个人博客系统前后台全栈开发（2022.12）\n   Express + MongoDB 全栈，前台文章/留言/作品集，后台管理/权限控制\n\n6. VR项目交互体验设计（原过虑空间，2023.01）\n   面向焦虑大学生的VR情绪疗养空间，UX全流程主导\n\n还有三维动画、虚拟展馆漫游、山麓草木香（采药师模拟器）等项目，你想了解哪个？'
+            },
+            /* ---------- FAQ智能体 / 业务问答Agent ---------- */
+            {
+                keywords: ['FAQ', '智能体', '银行智能体', '信贷FAQ', '问答Agent', 'FAQ Bot', '口袋知识助手', '业务问答'],
+                answer: '【业务问答Agent 0-1搭建】是我在广发银行期间为客户经理搭建的「口袋知识助手」FAQ智能体，2026.05。\n\n我担任产品经理，主要工作：\n1. 核心思路：针对客户经理政策记不住、资料清单散落、进件流程不熟、产品经理沟通瓶颈四大困扰，设计面向工作动作的知识库组织方式\n2. 知识库设计：构建三大类目——产品政策库、申请资料库、后台审批流程库，按客户经理的工作场景组织100+条业务知识\n3. RAG全链路架构：离线分块向量化入库，在线问题向量化→TopK相似度检索→重排序→LLM生成\n4. 三轮迭代优化：第1轮加政策版本声明解决新旧利率串答；第2轮加产品强绑定规则解决跨产品串答；第3轮重建三路意图分层\n5. 评测机制：建立100+条量化评测集，定义评分标准和评测流程\n6. 项目复盘：总结ToB知识库按工作动作组织的方法论，提出v4规划（政策自动同步+方案模板化+边缘case）\n\n成果：回答准确率从48%提升至82%；政策版本混淆率从15%降至0，工具已在组内日常使用。'
             },
             {
-                keywords: ['水保', '水土保持', '高速公路', '交通规划', '审批', '管控系统'],
-                answer: '【高速公路工程水土保持全过程管控系统】是我最有成就感的项目，2023.07-2024.04 广东省交通规划设计研究院校企合作。\n\n我担任产品经理/项目组长，负责：\n- 需求调研：深度访谈企业员工，梳理审批慢（人工传递）、数据乱（Excel分散）、信息不对齐（多方版本不一致）三大痛点\n- 产品方案设计：设计系统功能架构——中心数据库+项目管理+员工管理+系统管理四大模块，8类角色权限矩阵\n- 前端开发：Vue2+ElementUI，搭建动态路由、ECharts可视化预警\n- 项目管理：统筹全生命周期，对接企业部署上线，输出标准化使用手册\n\n技术栈：Vue2 + ElementUI + Springboot + MySQL + ECharts\n成果：审批效率提升70%，数据错误率从12%降至1%\n功能模块：工程设计（设计单位编辑）、工程施工（施工单位编辑）、工程管理（建设/监理审核）、工程验收（验收单位审批）、实时预警（监测单位管理）'
+                keywords: ['RAG', '知识库设计', '知识库搭建', '检索增强', 'TopK'],
+                answer: '我在FAQ智能体项目中落地了完整的RAG全链路：\n1. 离线阶段：原始政策文件/资料清单/流程SOP → 分块(Chunking) → 向量化(Embed) → 存入向量数据库\n2. 在线阶段：客户经理提问 → 问题向量化 → TopK相似度检索（TopK=3） → 重排序(Rerank) → LLM生成回答\n3. 关键参数：分块大小500字、重叠比例20%、相似度阈值0.7\n三轮迭代后回答准确率从48%提升至82%。'
             },
             {
-                keywords: ['吃什么', '小程序', '餐厅', '推荐', '转盘'],
-                answer: '【吃什么】小程序是我用Coze做Vibe Coding从0到1开发的，2026.05-2026.06。\n\n背景：朋友聚会时面临"吃什么"的选择困难\n\n功能：\n- 店铺转盘：随机选择附近餐厅，支持35种意图场景的智能搜索\n- 种类选择：早餐/午餐/晚餐/减脂餐/夜宵/下午茶\n- 活动抽抽：50个内置活动卡片，解决周末去哪玩\n- 收藏夹与评分系统：越用越懂用户偏好\n\n技术亮点：基于高德地图POI，推荐附近真实存在的餐厅和活动场所。推荐满意度从65%提升至85%。'
+                keywords: ['水保', '水土保持', '高速公路', '交通规划', '审批', '管控系统', '企业后台', 'ToB系统'],
+                answer: '【企业后台数字化管理系统0-1】（原高速公路水保管控系统）是我最有成就感的项目，2023.07-2024.04 与广东省交通规划设计研究院校企合作。\n\n我担任产品经理/项目组长，负责：\n1. 需求调研：覆盖多角色访谈，提炼审批慢（人工传递3-5天）、数据乱（Excel分散）、信息不对齐（多方版本不一致）三大痛点\n2. 产品方案：设计六大功能模块架构，输出完整PRD与Figma高保真原型\n3. 前端开发：Vue2+ElementUI，独立开发ECharts可视化模块与动态路由权限（八类角色×五层粒度：查看/编辑/审核/审批/管理）\n4. 双端兼容：PC端+小程序端，施工现场移动巡查数据实时回传\n5. 测试迭代：2轮Beta测试收集20+反馈，优化12+功能点\n\n技术栈：Vue2 + ElementUI + Springboot + MySQL + ECharts\n成果：审批时长从3-5天缩至数小时，数据错误率从12%降至1%，已投产使用。'
+            },
+            /* ---------- RPG / 暴雨孤岛引擎 ---------- */
+            {
+                keywords: ['RPG', '暴雨孤岛', '游戏生成', '智能体引擎', 'HTML快速开发', 'Coze工作流', 'workflow', '校验层'],
+                answer: '【RPG + HTML快速开发Agent】（对外名：暴雨孤岛·AI RPG生成引擎）2026.08。\n\n核心定位不是"做一款游戏"，而是沉淀一套可复用的AI内容生产引擎——输入剧本需求→端到端输出可运行的RPG游戏HTML。\n\n我负责的核心动作：\n1. 识别AI边界跑通全链路：用AI生图+写代码产出推理RPG V1，定位AI渲染中文（结构性缺陷→改用CSS渲染文档）、代码递归中断、数值失衡等问题逐个根因修复\n2. 架构解耦：将剧情数据与渲染层分离，剧本独立为结构化数据，改剧情不动HTML\n3. 搭建Coze智能体生产引擎：拆解为4个单职责工作流（搭建框架/改剧情/AI生图/用户传图），通过Bot级变量实现跨工作流接力编辑\n4. 校验层设计：编写4类确定性规则把LLM幻觉拦截在渲染前——契约校验/引用完整性/闭环可达性/图片URL保全\n5. 成本控制：按任务复杂度为LLM节点分档选型（关键节点Pro/机械提取Mini），渲染环节用模板引擎将渲染token归零\n\n成果：交付可体验的智能体和游戏产物，质量/成本双可控。\n智能体体验：https://www.coze.cn/store/agent/7679370549109276706\n游戏体验：https://xd0119.github.io/rpgGame/'
             },
             {
-                keywords: ['过虑空间', 'VR', '情绪疗养', '心理', '焦虑', '大学生'],
-                answer: '【过虑空间】是面向焦虑大学生的VR情绪疗养空间，2022.09-2023.01，我担任UX设计师主导全流程。\n\n核心思路：\n- 痛点：传统心理咨询资源稀缺、病耻感高、预约门槛高\n- 定位："怕过虑，来过滤"——低门槛、强隐私、可重复使用的情绪疗愈空间\n- 用户研究：144份问卷+SPSS因子分析，提取3个公共因子（场景模拟、正念冥想、解压放松）\n- 竞品分析：好心情VR（机构内，自助+专业）、阳光心健VR（学校/社区，自助为主），本项目切入"亚健康大学生主动自助"空白场景\n\n核心功能：\n- 场景模拟：汇报/面试/社交焦虑演练，在安全环境中提前适应\n- 情绪宣泄：虚拟环境释放压力\n- 正念冥想：沉浸式放松训练\n- AI陪伴：智能情绪识别与对话\n- 元宇宙情绪社区：同频用户互动交流\n\n视觉风格：低饱和橙红+黑紫，年轻治愈风格'
+                keywords: ['吃什么', '小程序', '餐厅', '推荐', '转盘', 'TOC小程序'],
+                answer: '【TOC 小程序部署上线】（原【吃什么】小程序）是我用Coze做Vibe Coding从0到1开发的，2026.05-2026.06。\n\n背景：朋友聚会时面临"吃什么"的选择困难，决策效率低\n\n三大核心需求：1. 快速推荐（3分钟内一次点击出结果）；2. 个性化适配（按场景/口味/历史偏好筛选）；3. 操作简便（零学习成本）\n\n功能：\n- 店铺转盘：随机选择附近餐厅，支持35种意图场景的智能搜索\n- 种类选择：早餐/午餐/晚餐/减脂餐/夜宵/下午茶等场景\n- 活动抽抽：50个内置活动卡片，解决周末去哪玩\n- 收藏夹与评分系统：越用越懂用户偏好\n\n用户画像：大学生（便宜近快，偏好转盘抽抽）、都市白领（人均可控，依赖评分收藏）、情侣（氛围感场景化推荐）、家庭用户（老少咸宜，在意停车方便）\n\n技术亮点：基于高德地图POI，推荐附近真实存在的餐厅和活动场所。推荐满意度从65%提升至85%。'
             },
             {
-                keywords: ['博客', '被窝', '个人网站'],
-                answer: '【我的被窝】是我的个人博客，2022.11-2022.12全栈独立开发。\n\n技术栈：Express + art-template + MongoDB + jQuery\n\n功能：\n- 前台：首页文章列表、文章详情页（含评论/目录锚点跳转）、百宝箱、留言板、作品集\n- 后台：用户管理（增删改查）、文章管理（发布/编辑/删除）、分页模块\n- 登录系统：密码MD5加密、角色权限判断（普通用户/管理员）\n- 交互设计：表单验证、模态框确认、未登录拦截\n\n设计亮点：个人原创形象LOGO、莫兰迪黄配色(#d8caaf)、圆角毛玻璃风格\n部署地址：https://gitee.com/xu-xiaodan/blog1'
+                keywords: ['过虑空间', 'VR', '情绪疗养', '心理', '焦虑', '大学生', 'VR项目交互'],
+                answer: '【VR项目交互体验设计】（原【过虑空间】）是面向焦虑大学生的VR情绪疗养空间，2022.09-2023.01，我担任交互设计师（组长）主导全流程。\n\n核心动作：\n1. 研究方法：PEST分析、竞品分析、3个用户深度访谈、144份有效问卷\n2. SPSS因子分析：提取3个公共因子——场景模拟（因子载荷0.774-0.787）、正念冥想（0.670-0.843）、解压放松（0.734-0.823），信度Alpha=0.867、效度KMO=0.846\n3. 竞品对比：好心情VR（B2B2C机构内，自助+专业）、阳光心健VR（B2B学校/社区），本项目切入"亚健康大学生主动自助"公益免费的空白场景\n4. 核心功能设计：场景模拟（汇报/面试/社交焦虑演练）、情绪宣泄（暴力/运动/音乐解压）、正念冥想（沉浸式放松训练）、AI陪伴（70+角色对话）、元宇宙情绪社区\n\n视觉风格：低饱和橙红+黑紫，年轻治愈系。标语：怕过虑，来过滤！'
             },
             {
-                keywords: ['技术', '技能', '会什么', '技术栈', '开发'],
-                answer: '我的技术栈涵盖：\n\n前端：HTML/CSS/JavaScript、Vue3、uni-app\n\n后端：Node.js + Express\n\n数据库：MongoDB、MySQL\n\nAI与智能体：Cursor 、Trae 、Coze平台、RAG知识库搭建、Prompt优化、评测集设计\n\n游戏开发：Unity3D + C#、Mirror多用户联机、C4D基础建模\n\n三维与视觉：3DSMAX/C4D、UE4/UE5、PS、PR\n\n产品设计：Figma原型、需求分析、用户研究、PRD撰写、竞品分析\n\n其他：系统集成项目管理工程师（软考中级）'
+                keywords: ['博客', '被窝', '个人网站', '全栈博客'],
+                answer: '【个人博客系统前后台全栈开发】（原【我的被窝】）2022.11-2022.12 全栈独立开发。\n\n技术栈：Express + art-template + MongoDB + jQuery\n\n功能：\n- 前台：首页文章列表、文章详情页（含评论/目录锚点跳转）、百宝箱、留言板、作品集\n- 后台：用户管理（增删改查）、文章管理（发布/编辑/删除）、分页模块\n- 登录系统：密码MD5加密、角色权限判断（普通用户/管理员）\n- 交互设计：表单验证、模态框确认、未登录拦截\n\n设计亮点：个人原创形象LOGO、莫兰迪黄配色(#d8caaf)、圆角毛玻璃风格\n部署地址：https://gitee.com/xu-xiaodan/blog1'
             },
             {
-                keywords: ['广发', '银行', '金融', '信贷', '客户经理', '工作'],
-                answer: '我在广发银行深圳分行担任客户经理（零售信贷经理），2024.07-2026.07。\n\n主要工作：\n- 负责4亿元零售信贷盘子的全生命周期管理\n- 熟悉抵押经营贷、信用消费贷等核心产品\n- 对接中培养了客户需求挖掘能力\n- 搭建零售业务问答FAQ智能体：知识库100+条，评测集50+条，回答准确率从48%提升至82%\n\n这段经历让我对金融业务有了深入理解，也锻炼了结构化思维和沟通能力。'
+                keywords: ['技术', '技能', '会什么', '技术栈', '开发', '研发能力'],
+                answer: '我的技术栈涵盖：\n\n前端：HTML/CSS/JavaScript、Vue2/Vue3、组件化、GIT、ElementUI、Bootstrap、jQuery、响应式设计、uni-app\n\n后端：Node.js + Express；Springboot（了解）\n\n数据库：MongoDB、MySQL\n\n数据分析：SQL · Excel · Python · 数据看板\n\nAI与智能体：Trae、Coze平台Vibe Coding、RAG全链路、workflow编排（4工作流+Bot级变量）、确定性校验层设计、业务知识库搭建+Prompt优化+评测集设计、AI生图与代码稳定性经验\n\n游戏开发：Unity3D + C#、Mirror多用户联机、C4D基础建模\n\n三维与视觉：3DSMAX/C4D、UE4/UE5、PS/Substance Painter、PR/AU\n\n产品设计：Figma原型（低保真+高保真）、需求分析、用户研究、PRD撰写、竞品分析\n\n其他：系统集成项目管理工程师（软考中级）、项目管理全流程'
+            },
+            {
+                keywords: ['广发', '银行', '金融', '信贷', '客户经理', '工作经历'],
+                answer: '我在广发银行深圳分行担任客户经理（零售信贷经理），2024.07-2026.07。\n\n主要工作：\n1. 负责4亿元零售信贷盘子的全生命周期管理\n2. 熟悉抵押经营贷、信用消费贷等核心产品\n3. 对接中培养了客户需求挖掘能力\n4. 搭建零售业务问答FAQ智能体：知识库100+条，评测集50+条，回答准确率从48%提升至82%\n\n这段经历让我对金融业务有了深入理解，也奠定了后续搭建ToB业务知识库Agent的业务基础。'
             },
             {
                 keywords: ['最有成就感', '最满意', '最自豪', '最喜欢的项目', '最有意义'],
-                answer: '最有成就感的项目是【高速公路工程水土保持全过程管控系统】。\n\n这是真实投产上线的系统，与广东省交通规划设计研究院校企合作。我从需求调研到产品方案设计，再到前端开发（Vue2+ElementUI），全程深度参与。\n\n成果数据：审批效率提升70%，数据错误率从12%降至1%。看到企业员工的工作流程因为我们的系统而变得更高效，这种真实的价值感是最让我有成就感的。'
+                answer: '最有成就感的项目是【企业后台数字化管理系统0-1】（原高速公路水保管控系统）。\n\n这是真实投产上线的ToB系统，与广东省交通规划设计研究院校企合作。我作为产品经理兼项目组长，从需求调研→产品方案→前端开发（Vue2+ElementUI）→测试上线全流程主导。\n\n成果：单次审批时长从3-5天缩至数小时，数据错误率从12%降至1%，预警时机从事后升级为实时。看到企业员工的工作流程因为我们的系统切实变高效，这种真实价值感最有成就感。'
             },
             {
                 keywords: ['教育', '学校', '学历', '毕业', '大学', 'GDUT'],
@@ -4229,19 +4322,23 @@
             },
             {
                 keywords: ['求职', '意向', '找工作', '目标岗位', '职业规划'],
-                answer: '我的求职意向是 AI产品。\n\n我希望在AI产品设计领域深耕，利用我的技术背景（前端开发+游戏开发）、设计能力（UI/UX+交互设计）和业务理解力（金融信贷2年经验），打造出真正解决用户痛点的AI产品。'
+                answer: '我的求职意向是：AI产品经理 / AI设计工程师，主攻 Agent设计、workflow编排方向。\n\n我希望在AI产品/Agent领域深耕，利用技术背景（前端开发+游戏开发+组件化/GIT经验）、设计能力（UI/UX+交互设计+Figma）、业务理解力（金融信贷2年经验+ToB知识库组织方法论），打造真正解决用户痛点的AI产品与智能体。'
             },
             {
                 keywords: ['联系方式', '联系你', '邮箱', '微信', '怎么找你'],
                 answer: '很高兴你对我的作品感兴趣！你可以通过页面底部的联系方式找到我。'
             },
             {
-                keywords: ['网站', '这个网站', '作品集网站', '个人网站', '怎么做的', '用什么做的'],
-                answer: '这个作品集网站是我用Trae IDE（AI辅助编程工具）独立开发的，纯静态HTML/CSS/JS，托管在GitHub Pages上。\n\n技术方案：\n- AI智能体：智谱GLM-4-Flash API + 本地FAQ降级兜底，无需后端服务器\n- 访问统计：Vercount（前台PV/UV展示）+ 百度统计（后台流量分析）\n- 图片优化：懒加载 + 压缩图片体积\n- 响应式设计：PC端左右双栏、移动端单栏自适应\n\n你正在对话的小助理就是智谱AI驱动的，如果智谱挂了会自动切到本地知识库兜底。'
+                keywords: ['网站', '这个网站', '作品集网站', '个人网站', '怎么做的', '用什么做的', '本站技术'],
+                answer: '这个作品集网站是我用Trae IDE（AI辅助编程工具）独立开发的。⚠️ 本站是纯静态HTML/CSS/JavaScript单文件，无前端框架、无后端、无数据库，托管在GitHub Pages——Vue/Node/MongoDB等是我其他项目的技术栈，和本站无关。\n\n本站技术方案：\n1. 代码实现：纯静态 HTML + CSS + 原生JavaScript，单文件\n2. AI小助理：智谱GLM-4-Flash API + 本地FAQ关键词降级兜底，无需后端服务器\n3. 访问统计：Vercount（前台PV/UV展示）+ 百度统计（后台流量分析+记录小助理提问内容）\n4. 托管部署：GitHub Pages（纯静态托管，无服务器）\n5. 性能优化：图片懒加载(loading="lazy") + 图片体积压缩\n6. 响应式：PC端左右双栏布局、移动端单栏自适应\n\n你现在对话的小助理就是两层降级——智谱优先，挂了自动切到我正在用的这个本地FAQ兜底。'
             },
             {
-                keywords: ['统计', 'pv', 'uv', '访问量', '百度统计', 'vercount',],
+                keywords: ['统计', 'pv', 'uv', '访问量', '百度统计', 'vercount'],
                 answer: '网站访问统计用了两套方案并行运行：\n\n1. Vercount：负责在页面角落显示PV/UV数字\n2. 百度统计：负责后台详细分析（流量来源、受访页面、访客停留时长等），还通过虚拟页面方式记录你在小助理里的提问内容\n\n两者互不冲突，Vercount管展示，百度统计管分析。'
+            },
+            {
+                keywords: ['小助理', '怎么工作的', 'AI助手', '两层降级', '本地模式', '兜底机制'],
+                answer: '小助理采用两层降级架构：\n1. 第1层：调用智谱GLM-4-Flash API + RAG命中我上传的知识库（推荐场景，答案更灵活）\n2. 第2层：如果智谱调用失败（网络问题、API不可用等），自动降级到本地FAQ关键词匹配——就是你现在看到的这个【本地模式】答案\n\n两层机制保证即使API挂了也能回答常见问题。本地FAQ基于关键词匹配+评分算法，覆盖个人介绍、9个项目、技术栈、求职意向等高频问题。'
             }
         ];
 
@@ -4326,23 +4423,152 @@
             return '';
         }
 
-        async function callZhipu(message) {
-            // 先获取项目页面上下文
-            let projectContext = '';
-            try {
-                projectContext = await getProjectContext(message);
-            } catch (e) {
-                // 获取失败则跳过
-            }
+        /* ===== 思考步骤进度控制 ===== */
+        /**
+         * 在bot消息气泡内渲染分步思考UI
+         * steps: [{icon, label, tag}]
+         */
+        function setupThinkingUI(bubble, steps) {
+            const stepsId = 'ts-' + Math.random().toString(36).slice(2, 8);
+            const ragId = 'rag-' + stepsId;
+            const answerId = 'ans-' + Math.random().toString(36).slice(2, 8);
 
-            // 构建 system prompt：原始规则 + 项目页面内容 + 严格命中知识库规则
+            const stepsHtml = steps.map((s, i) => `
+                <div class="thinking-step ${i === 0 ? 'active' : ''}" data-idx="${i}">
+                    <div class="thinking-step-icon">${s.icon}</div>
+                    <div class="thinking-step-label">${s.label}</div>
+                    <div class="thinking-step-tag">${s.tag}</div>
+                </div>`).join('');
+
+            bubble.innerHTML = `
+                <div class="thinking-steps" id="${stepsId}">
+                    ${stepsHtml}
+                    <div id="${ragId}" class="rag-refs" style="display:none; margin-top:4px; padding:8px 10px 2px 34px; font-size:0.78rem; color:var(--text-muted); line-height:1.6; border-left:2px solid rgba(196,167,125,0.25);">
+                    </div>
+                </div>
+                <div class="answer-divider" style="display:none;" id="${stepsId}-divider"></div>
+                <div class="ai-answer-body" id="${answerId}"></div>`;
+
+            return {
+                setStepDone(idx) {
+                    const container = document.getElementById(stepsId);
+                    if (!container) return;
+                    const step = container.querySelector(`.thinking-step[data-idx="${idx}"]`);
+                    if (step) {
+                        step.classList.remove('active');
+                        step.classList.add('done');
+                        const icon = step.querySelector('.thinking-step-icon');
+                        if (icon) icon.innerHTML = '<i class="fas fa-check" style="font-size:0.65rem;"></i>';
+                    }
+                    const next = container.querySelector(`.thinking-step[data-idx="${idx + 1}"]`);
+                    if (next) next.classList.add('active');
+                },
+                // 把某一步的标签追加细节（比如命中了哪个项目页、RAG检索到几条知识）
+                appendStepDetail(idx, htmlDetail) {
+                    const container = document.getElementById(stepsId);
+                    if (!container) return;
+                    const step = container.querySelector(`.thinking-step[data-idx="${idx}"]`);
+                    if (step) {
+                        const tag = step.querySelector('.thinking-step-tag');
+                        if (tag) tag.insertAdjacentHTML('afterend', `<div style="flex-basis:100%; padding-left:32px; font-size:0.75rem; color:var(--text-muted);">${htmlDetail}</div>`);
+                    }
+                },
+                // 展示RAG参考片段
+                addRagRef(title, snippet) {
+                    const box = document.getElementById(ragId);
+                    if (!box) return;
+                    box.style.display = 'block';
+                    if (!box.querySelector('.rag-refs-title')) {
+                        box.insertAdjacentHTML('afterbegin', '<div class="rag-refs-title" style="font-weight:600; color:var(--primary); margin-bottom:4px;">📚 云端知识库参考</div>');
+                    }
+                    const clean = (snippet || '').toString().replace(/<[^>]+>/g, '').slice(0, 120);
+                    const item = document.createElement('div');
+                    item.style.marginBottom = '3px';
+                    item.innerHTML = `<span style="color:var(--primary);">·</span> <b style="color:var(--text-secondary);">${title}：</b>${clean}…`;
+                    box.appendChild(item);
+                    scrollToBottom();
+                },
+                showDivider() {
+                    const d = document.getElementById(stepsId + '-divider');
+                    if (d) d.style.display = 'block';
+                },
+                getAnswerEl() {
+                    return document.getElementById(answerId);
+                },
+                appendMarkdown(fullTextSoFar) {
+                    const el = this.getAnswerEl();
+                    if (el) el.innerHTML = renderMarkdown(fullTextSoFar);
+                    scrollToBottom();
+                },
+                setFinalMarkdown(fullText) {
+                    const el = this.getAnswerEl();
+                    if (el) el.innerHTML = renderMarkdown(fullText);
+                    scrollToBottom();
+                }
+            };
+        }
+
+        /* ===== 打字机逐字输出（非流式兜底 / 本地FAQ使用） ===== */
+        function typewriter(elSetter, fullText, speed = 12) {
+            return new Promise(resolve => {
+                let i = 0;
+                const tick = () => {
+                    if (i >= fullText.length) {
+                        resolve();
+                        return;
+                    }
+                    // 按段+少量字符批次刷新，避免卡顿
+                    const step = Math.max(1, Math.min(4, Math.ceil(fullText.length / 400)));
+                    i += step;
+                    elSetter(fullText.slice(0, i));
+                    setTimeout(tick, speed);
+                };
+                tick();
+            });
+        }
+
+        /* ===== 智谱调用：客户端分步进度 + SSE流式 ===== */
+        /**
+         * onStepDone(idx) — 完成某步进度时回调
+         * onToken(chunkText, fullTextSoFar) — 流式逐片回调
+         * 返回 { success, answer }
+         */
+        async function callZhipuStream(message, onStepDone, onToken, hooks) {
+            // 步骤①：本地项目页上下文读取（纯客户端fetch同域项目页HTML）
+            let projectContext = '';
+            let hitFile = '';
+            try {
+                // 读取并顺便记录命中哪个文件（UI展示细节）
+                const projects = [
+                    { keywords: ['水保', '水土保持', '高速公路', '交通规划', '审批', '企业后台', 'ToB'], file: 'project-water-soil.html' },
+                    { keywords: ['过虑空间', 'VR', '情绪', '心理', '焦虑', '大学生', 'VR交互'], file: 'project-vr-space.html' },
+                    { keywords: ['吃什么', '小程序', '餐厅', '推荐', '转盘', 'TOC小程序'], file: 'project-eat-what.html' },
+                    { keywords: ['博客', '被窝', '个人网站', '全栈博客'], file: 'project-blog.html' },
+                    { keywords: ['FAQ', '智能体', '银行', '信贷', '问答', '业务问答'], file: 'project-faq-bot.html' },
+                    { keywords: ['RPG', '暴雨孤岛', '游戏生成', 'Agent引擎', 'workflow', '校验层'], file: 'project-rpg.html' }
+                ];
+                let maxScore = 0;
+                for (const p of projects) {
+                    let score = 0;
+                    for (const kw of p.keywords) {
+                        if (message.includes(kw)) score++;
+                    }
+                    if (score > maxScore) { maxScore = score; hitFile = p.file; }
+                }
+                if (hitFile) projectContext = await extractProjectContent(hitFile);
+            } catch (e) { }
+            if (hooks && typeof hooks.onContextDone === 'function') hooks.onContextDone(hitFile, projectContext);
+            if (typeof onStepDone === 'function') onStepDone(0);
+
+            // 构建 system prompt
             let systemContent = ZHIPU_SYSTEM_PROMPT;
             if (projectContext) {
-                systemContent += `\n\n${projectContext}\n\n【回答规则 - 强制遵守】\n1. 优先依据上述项目详情资料和知识库中检索到的内容作答，不要编造。\n2. 如果用户提问与【标准问答库】中的问题匹配或同类，严格按照知识库答案的措辞和结构回答。\n3. 不要添加知识库中没有的信息。`;
+                systemContent += `\n\n${projectContext}\n\n【回答规则 - 强制遵守】\n1. 优先依据上述项目详情资料和知识库中检索到的内容作答，不要编造。\n2. 如果用户提问与【标准问答库】中的问题匹配或同类，严格按照知识库答案的措辞和结构回答（分点务必1.2.3.递增编号，严禁所有条目都写1.）。\n3. 不要添加知识库中没有的信息。\n4. 技术栈归属：作品集网站=纯静态HTML/CSS/JS，Vue/Node/MongoDB等均是其他项目的技术栈，禁止串答。`;
             }
 
             const requestBody = {
                 model: 'glm-4-flash',
+                stream: true,
                 messages: [
                     { role: 'system', content: systemContent },
                     { role: 'user', content: message }
@@ -4354,20 +4580,126 @@
                 }
             };
 
-            const response = await fetch('https://open.bigmodel.cn/api/paas/v4/chat/completions', {
-                method: 'POST',
-                headers: {
-                    'Authorization': 'Bearer ' + ZHIPU_API_KEY,
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(requestBody)
-            });
-            const data = await response.json();
-            if (data.error) {
-                return { success: false, error: data.error.message || '智谱错误' };
+            let response;
+            try {
+                response = await fetch('https://open.bigmodel.cn/api/paas/v4/chat/completions', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': 'Bearer ' + ZHIPU_API_KEY,
+                        'Content-Type': 'application/json',
+                        'Accept': 'text/event-stream'
+                    },
+                    body: JSON.stringify(requestBody)
+                });
+            } catch (e) {
+                return { success: false, error: '网络错误' };
             }
-            const answer = data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content;
-            return { success: true, answer: answer || '这个问题建议联系本人电话咨询~' };
+
+            // 步骤②：云端RAG检索（request已发出）
+            if (typeof onStepDone === 'function') onStepDone(1);
+
+            const ctype = response.headers.get('content-type') || '';
+            if (!ctype.includes('text/event-stream') && !ctype.includes('application/x-ndjson')) {
+                const data = await response.json();
+                if (data.error) return { success: false, error: data.error.message || '智谱错误' };
+                // 非流式：若有retrieval结果也回调一次
+                const refs = Array.isArray(data.retrieval_documents) ? data.retrieval_documents : [];
+                refs.forEach(r => {
+                    if (hooks && hooks.onRagRef) hooks.onRagRef(r.filename || r.doc_id || '文档', r.content || r.text || r.snippet || '');
+                });
+                const answer = data.choices?.[0]?.message?.content || '';
+                return { success: true, answer: answer || '这个问题建议联系本人电话咨询~', noStream: true };
+            }
+
+            // SSE解析：同时处理delta.content和retrieval_documents
+            const reader = response.body.getReader();
+            const decoder = new TextDecoder('utf-8');
+            let buffer = '';
+            let fullAnswer = '';
+
+            while (true) {
+                const { done, value } = await reader.read();
+                if (done) break;
+                buffer += decoder.decode(value, { stream: true });
+
+                const parts = buffer.split(/\r?\n\r?\n/);
+                buffer = parts.pop() || '';
+
+                for (const part of parts) {
+                    const lines = part.split(/\r?\n/);
+                    for (const line of lines) {
+                        if (!line.startsWith('data:')) continue;
+                        const raw = line.slice(5).trim();
+                        if (!raw || raw === '[DONE]') continue;
+                        // 智谱SSE偶尔会有"data: {\"choices\":...}"或"data: {...retrieval_documents...}"两类格式
+                        const jsons = splitMultipleJson(raw);
+                        for (const rawJson of jsons) {
+                            try {
+                                const json = JSON.parse(rawJson);
+                                if (json.error) {
+                                    return { success: false, error: json.error.message || '智谱错误' };
+                                }
+                                // RAG检索片段（第一条事件通常带retrieval_documents）
+                                const refs = Array.isArray(json.retrieval_documents)
+                                    ? json.retrieval_documents
+                                    : (json.choices?.[0]?.retrieval_documents || []);
+                                refs.forEach(r => {
+                                    const title = r.filename || r.doc_id || r.title || '云端文档';
+                                    const snip = r.content || r.text || r.snippet || '';
+                                    if (hooks && hooks.onRagRef && snip) hooks.onRagRef(title, snip);
+                                });
+                                // 增量token
+                                const delta = json.choices?.[0]?.delta?.content || '';
+                                if (delta) {
+                                    fullAnswer += delta;
+                                    if (typeof onToken === 'function') onToken(delta, fullAnswer);
+                                }
+                            } catch (e) {
+                                // 忽略碎片
+                            }
+                        }
+                    }
+                }
+            }
+
+            return { success: true, answer: fullAnswer || '这个问题建议联系本人电话咨询~' };
+        }
+
+        // SSE data里偶尔会把多段JSON拼在一起（非标准但智谱偶发），这里做一次切分
+        function splitMultipleJson(str) {
+            const results = [];
+            let braceCount = 0;
+            let bracketCount = 0;
+            let inString = false;
+            let start = -1;
+            for (let i = 0; i < str.length; i++) {
+                const ch = str[i];
+                const prev = str[i - 1];
+                if (ch === '"' && prev !== '\\') inString = !inString;
+                if (!inString) {
+                    if (ch === '{') {
+                        if (braceCount === 0 && bracketCount === 0) start = i;
+                        braceCount++;
+                    } else if (ch === '}') {
+                        braceCount--;
+                        if (braceCount === 0 && bracketCount === 0 && start !== -1) {
+                            results.push(str.slice(start, i + 1));
+                            start = -1;
+                        }
+                    } else if (ch === '[') {
+                        if (braceCount === 0 && bracketCount === 0) start = i;
+                        bracketCount++;
+                    } else if (ch === ']') {
+                        bracketCount--;
+                        if (braceCount === 0 && bracketCount === 0 && start !== -1) {
+                            results.push(str.slice(start, i + 1));
+                            start = -1;
+                        }
+                    }
+                }
+            }
+            if (results.length === 0) results.push(str);
+            return results;
         }
 
         async function sendMessage() {
@@ -4395,25 +4727,91 @@
 
             addMessage('bot', '');
             const lastMessage = chatMessages.lastElementChild;
+            const bubble = lastMessage.querySelector('div:last-child');
 
-            // 第1层：智谱
+            // —— 装配思考过程UI ——
+            const thinkSteps = [
+                { icon: '📄', label: '读取本地项目页面上下文', tag: '客户端 · 0ms' },
+                { icon: '☁️', label: '调用云端知识库 RAG 检索', tag: '智谱 API' },
+                { icon: '🧠', label: '组装答案 · 逐字输出', tag: '流式 / 打字机' }
+            ];
+            const ui = setupThinkingUI(bubble, thinkSteps);
+
+            // 第1层：智谱（带步骤进度+流式+RAG参考显示）
+            let gotStreamChunk = false;
             try {
-                const zhipuResult = await callZhipu(message);
-                if (zhipuResult.success) {
-                    updateMessage(lastMessage, zhipuResult.answer + '\n\n---\n💡 来自智谱AI');
+                const result = await callZhipuStream(
+                    message,
+                    (idx) => ui.setStepDone(idx),
+                    (delta, full) => {
+                        if (!gotStreamChunk) {
+                            ui.setStepDone(1);
+                            ui.showDivider();
+                            gotStreamChunk = true;
+                        }
+                        ui.appendMarkdown(full);
+                    },
+                    {
+                        onContextDone(hitFile, ctx) {
+                            if (hitFile) {
+                                const niceName = ({
+                                    'project-water-soil.html': '企业后台数字化管理系统',
+                                    'project-vr-space.html': 'VR项目交互体验设计',
+                                    'project-eat-what.html': 'TOC小程序（吃什么）',
+                                    'project-blog.html': '个人博客全栈开发',
+                                    'project-faq-bot.html': '业务问答Agent / FAQ智能体',
+                                    'project-rpg.html': 'RPG + HTML快速开发Agent（暴雨孤岛引擎）'
+                                })[hitFile] || hitFile;
+                                const n = (ctx.match(/章节/g) || []).length;
+                                ui.appendStepDetail(0, `✓ 命中【${niceName}】项目页，提取 ${n > 0 ? n + ' 个章节' : '内容'} 作为上下文`);
+                            } else {
+                                ui.appendStepDetail(0, '✓ 无需读取项目详情页，仅使用全局知识库');
+                            }
+                        },
+                        onRagRef(title, snip) {
+                            ui.addRagRef(title, snip);
+                        }
+                    }
+                );
+
+                if (result.success) {
+                    ui.setStepDone(1);
+                    ui.setStepDone(2);
+
+                    let finalFooter = '\n\n---\n💡 来自智谱AI';
+
+                    if (!gotStreamChunk && result.noStream) {
+                        ui.showDivider();
+                        await typewriter(
+                            (t) => ui.appendMarkdown(t),
+                            result.answer,
+                            10
+                        );
+                    }
+                    ui.setFinalMarkdown(result.answer + finalFooter);
                     return;
                 }
-                // 智谱失败，继续降级
             } catch (e) {
-                // 智谱网络失败，继续降级
+                // 网络失败，继续降级
             }
 
             // 第2层：本地FAQ
             const localAnswer = getLocalAnswer(message);
+            // 云端失败，把前两步标记为完成（跨掉），第三步active打字机
+            ui.setStepDone(0);
+            bubble.querySelector('.thinking-step[data-idx="1"] .thinking-step-label').textContent = '云端降级，使用本地知识库';
+            bubble.querySelector('.thinking-step[data-idx="1"] .thinking-step-tag').textContent = '本地';
+            ui.setStepDone(1);
+            ui.showDivider();
+
             if (localAnswer) {
-                updateMessage(lastMessage, '【本地模式】' + localAnswer + '\n\n---\n💡 来自本地知识库');
+                const finalFull = '【本地模式】' + localAnswer + '\n\n---\n💡 来自本地知识库';
+                await typewriter((t) => ui.appendMarkdown(t), finalFull, 10);
+                ui.setStepDone(2);
             } else {
-                updateMessage(lastMessage, '这个问题建议联系本人电话咨询~\n\n您可以尝试询问以下问题（本地知识库可回答）：\n•介绍一下自己\n• 你做过哪些项目\n• 你的核心竞争力是什么\n• 你会什么技术\n• 最有成就感的项目\n');
+                const fallback = '这个问题建议联系本人电话咨询~\n\n您可以尝试询问以下问题（本地知识库可回答）：\n1. 介绍一下自己\n2. 你做过哪些项目\n3. 你的核心竞争力是什么\n4. 你会什么技术\n5. 最有成就感的项目\n';
+                await typewriter((t) => ui.appendMarkdown(t), fallback, 14);
+                ui.setStepDone(2);
             }
         }
 
