@@ -4175,7 +4175,9 @@
             });
         });
 
-        const ZHIPU_API_KEY = '81fb7bcd51824f508d4b800754bc69f4.IjmcK2MuCE7DiD9A';
+        // —— ZHIPU_API_KEY 已移至 secret.js（该文件被 .gitignore，不进仓库）
+        // —— 若 secret.js 缺失，window.ZHIPU_API_KEY 为 undefined，sendMessage会自动跳过智谱，直接走本地FAQ兜底
+        // —— 格式：window.ZHIPU_API_KEY = '你的真实智谱API Key';
 
         /* ===== 智谱 System Prompt（核心知识库摘要） ===== */
         const ZHIPU_SYSTEM_PROMPT = `你是许晓丹（XD）的个人AI助手，负责回答关于XD的求职、项目经历、技能背景等问题。
@@ -4534,7 +4536,21 @@
          * 返回 { success, answer }
          */
         async function callZhipuStream(message, onStepDone, onToken, hooks) {
-            // 步骤①：本地项目页上下文读取（纯客户端fetch同域项目页HTML）
+            // ===== 优先级：代理URL > 本地Key直连 > 失败降级 =====
+            const proxyUrl = typeof window.ZHIPU_PROXY_URL === 'string'
+                && window.ZHIPU_PROXY_URL.startsWith('http')
+                ? window.ZHIPU_PROXY_URL
+                : '';
+            const apiKey = window.ZHIPU_API_KEY;
+
+            if (!proxyUrl && !apiKey) {
+                return { success: false, error: 'API Key / 代理均未配置（线上自动降级到本地FAQ）' };
+            }
+            if (proxyUrl) {
+                // —— 通过 Gitee / Cloudflare 云函数代理（推荐模式：浏览器不持有真Key）——
+                return callZhipuThroughProxy(proxyUrl, message, onStepDone, onToken, hooks);
+            }
+            // —— 本地开发：直连智谱（Key 来自 .gitignore 的 secret.js）——
             let projectContext = '';
             let hitFile = '';
             try {
@@ -4585,7 +4601,7 @@
                 response = await fetch('https://open.bigmodel.cn/api/paas/v4/chat/completions', {
                     method: 'POST',
                     headers: {
-                        'Authorization': 'Bearer ' + ZHIPU_API_KEY,
+                        'Authorization': 'Bearer ' + apiKey,
                         'Content-Type': 'application/json',
                         'Accept': 'text/event-stream'
                     },
@@ -4700,6 +4716,115 @@
             }
             if (results.length === 0) results.push(str);
             return results;
+        }
+
+        /* ===== 代理模式：浏览器只和你自己的 Gitee/Cloudflare 云函数通信，真Key存服务端 ===== */
+        async function callZhipuThroughProxy(proxyUrl, message, onStepDone, onToken, hooks) {
+            // 步骤①：本地项目页上下文读取（与直连模式相同的逻辑，在客户端提前完成，减少代理压力）
+            let projectContext = '';
+            let hitFile = '';
+            try {
+                const projects = [
+                    { keywords: ['水保', '水土保持', '高速公路', '交通规划', '审批', '企业后台', 'ToB'], file: 'project-water-soil.html' },
+                    { keywords: ['过虑空间', 'VR', '情绪', '心理', '焦虑', '大学生', 'VR交互'], file: 'project-vr-space.html' },
+                    { keywords: ['吃什么', '小程序', '餐厅', '推荐', '转盘', 'TOC小程序'], file: 'project-eat-what.html' },
+                    { keywords: ['博客', '被窝', '个人网站', '全栈博客'], file: 'project-blog.html' },
+                    { keywords: ['FAQ', '智能体', '银行', '信贷', '问答', '业务问答'], file: 'project-faq-bot.html' },
+                    { keywords: ['RPG', '暴雨孤岛', '游戏生成', 'Agent引擎', 'workflow', '校验层'], file: 'project-rpg.html' }
+                ];
+                let maxScore = 0;
+                for (const p of projects) {
+                    let score = 0;
+                    for (const kw of p.keywords) { if (message.includes(kw)) score++; }
+                    if (score > maxScore) { maxScore = score; hitFile = p.file; }
+                }
+                if (hitFile) projectContext = await extractProjectContent(hitFile);
+            } catch (e) { }
+            if (hooks && typeof hooks.onContextDone === 'function') hooks.onContextDone(hitFile, projectContext);
+            if (typeof onStepDone === 'function') onStepDone(0);
+
+            // 请求体：只带 messages + projectContext；model/retrieval/Key 都在代理侧强制覆盖，防止前端篡改
+            const requestBody = {
+                messages: [
+                    { role: 'user', content: message }
+                ],
+                _project_context: projectContext || null,  // 代理端会拼进 system prompt
+            };
+
+            let response;
+            try {
+                response = await fetch(proxyUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'text/event-stream'
+                    },
+                    body: JSON.stringify(requestBody)
+                });
+            } catch (e) {
+                return { success: false, error: '代理连接失败: ' + e.message };
+            }
+
+            // 步骤②：代理已收到请求，云端RAG开始
+            if (typeof onStepDone === 'function') onStepDone(1);
+
+            const ctype = response.headers.get('content-type') || '';
+            if (!ctype.includes('text/event-stream') && !ctype.includes('application/x-ndjson')) {
+                // 非流式：读JSON后用noStream兜底
+                const data = await response.json();
+                if (data.error) return { success: false, error: data.error.message || '代理错误' };
+                const refs = Array.isArray(data.retrieval_documents) ? data.retrieval_documents : [];
+                refs.forEach(r => {
+                    if (hooks && hooks.onRagRef) hooks.onRagRef(r.filename || r.doc_id || '云端文档', r.content || r.text || r.snippet || '');
+                });
+                const answer = data.choices?.[0]?.message?.content || '';
+                return { success: true, answer: answer || '这个问题建议联系本人电话咨询~', noStream: true };
+            }
+
+            // SSE流式解析（与直连模式解析逻辑完全一致）
+            const reader = response.body.getReader();
+            const decoder = new TextDecoder('utf-8');
+            let buffer = '';
+            let fullAnswer = '';
+
+            while (true) {
+                const { done, value } = await reader.read();
+                if (done) break;
+                buffer += decoder.decode(value, { stream: true });
+                const parts = buffer.split(/\r?\n\r?\n/);
+                buffer = parts.pop() || '';
+                for (const part of parts) {
+                    const lines = part.split(/\r?\n/);
+                    for (const line of lines) {
+                        if (!line.startsWith('data:')) continue;
+                        const raw = line.slice(5).trim();
+                        if (!raw || raw === '[DONE]') continue;
+                        const jsons = splitMultipleJson(raw);
+                        for (const rawJson of jsons) {
+                            try {
+                                const json = JSON.parse(rawJson);
+                                if (json.error) return { success: false, error: json.error.message || '代理错误' };
+                                // RAG参考
+                                const refs = Array.isArray(json.retrieval_documents)
+                                    ? json.retrieval_documents
+                                    : (json.choices?.[0]?.retrieval_documents || []);
+                                refs.forEach(r => {
+                                    const title = r.filename || r.doc_id || r.title || '云端文档';
+                                    const snip = r.content || r.text || r.snippet || '';
+                                    if (hooks && hooks.onRagRef && snip) hooks.onRagRef(title, snip);
+                                });
+                                const delta = json.choices?.[0]?.delta?.content || '';
+                                if (delta) {
+                                    fullAnswer += delta;
+                                    if (typeof onToken === 'function') onToken(delta, fullAnswer);
+                                }
+                            } catch (e) { /* 忽略碎片 */ }
+                        }
+                    }
+                }
+            }
+
+            return { success: true, answer: fullAnswer || '这个问题建议联系本人电话咨询~' };
         }
 
         async function sendMessage() {
@@ -4937,6 +5062,10 @@
             chatMessages.scrollTop = chatMessages.scrollHeight;
         }
     </script>
+    <!-- site-config.js（安全可提交，只存公开代理URL；留空=线上自动走本地FAQ兜底） -->
+    <script src="./site-config.js"></script>
+    <!-- secret.js（.gitignore 忽略；只在本地开发注入API Key，线上不传此文件） -->
+    <script src="./secret.js"></script>
     <script defer src="https://vercount.one/js"></script>
     <script>
         window.addEventListener('load', function () {

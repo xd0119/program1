@@ -1,0 +1,19 @@
+# ===== 敏感文件：永远不要 commit 进公开仓库 =====
+secret.js
+.secret
+.env
+.env.local
+*.pem
+*.key
+
+# ===== IDE / OS =====
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# ===== 临时文件 =====
+*.tmp
+*.log
+_chat_check.js
+_chat_js_check.js
