@@ -1430,6 +1430,15 @@
             margin: 0 auto;
             max-width: 100%;
         }
+        .external-link-grid-label {
+            font-size: 0.78rem;
+            font-weight: 600;
+            letter-spacing: 3px;
+            color: var(--primary);
+            text-transform: uppercase;
+            margin-bottom: 0.6rem;
+            text-align: center;
+        }
         .external-link-card {
             display: flex;
             flex-direction: column;
@@ -1505,11 +1514,18 @@
         .external-link-card .elc-status-row {
             display: flex;
             align-items: center;
-            justify-content: flex-end;
-            gap: 0.3rem;
+            justify-content: space-between;
+            gap: 0.5rem;
             margin-top: auto;
-            padding-top: 0.4rem;
+            padding-top: 0.5rem;
             border-top: 1px dashed rgba(196, 167, 125, 0.25);
+        }
+        .external-link-card .elc-status-text {
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
         }
         .external-link-card .elc-status-dot {
             width: 6px;
@@ -1522,7 +1538,11 @@
         }
         .external-link-card .elc-arrow {
             color: var(--primary);
-            font-size: 0.72rem;
+            font-size: 0.74rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
             flex-shrink: 0;
         }
         @keyframes elc-pulse {
@@ -3206,6 +3226,7 @@
 
         <!-- ========== 上线小工具矩阵（过渡区：个人介绍 → 完整项目实践） ========== -->
         <section class="scroll-reveal mb-12">
+            <p class="external-link-grid-label">AIcoding 产品欢迎使用</p>
             <div class="external-link-grid">
 
                 <!-- 卡1：小红书小工具 - 文字麻将 -->
@@ -3222,8 +3243,14 @@
                         <span class="elc-badge">使用 200+</span>
                     </div>
                     <div class="elc-status-row">
-                        <span class="elc-status-dot"></span>
-                        <i class="fas fa-arrow-right elc-arrow"></i>
+                        <span class="elc-status-text">
+                            <span class="elc-status-dot"></span>
+                            上线运营中
+                        </span>
+                        <span class="elc-arrow">
+                            <span>立即体验</span>
+                            <i class="fas fa-external-link-alt"></i>
+                        </span>
                     </div>
                 </a>
 
@@ -3239,8 +3266,14 @@
                         </div>
                     </div>
                     <div class="elc-status-row">
-                        <span class="elc-status-dot"></span>
-                        <i class="fas fa-arrow-right elc-arrow"></i>
+                        <span class="elc-status-text">
+                            <span class="elc-status-dot"></span>
+                            上线运营中
+                        </span>
+                        <span class="elc-arrow">
+                            <span>立即体验</span>
+                            <i class="fas fa-external-link-alt"></i>
+                        </span>
                     </div>
                 </a>
 
@@ -3256,8 +3289,14 @@
                         </div>
                     </div>
                     <div class="elc-status-row">
-                        <span class="elc-status-dot"></span>
-                        <i class="fas fa-arrow-right elc-arrow"></i>
+                        <span class="elc-status-text">
+                            <span class="elc-status-dot"></span>
+                            上线运营中
+                        </span>
+                        <span class="elc-arrow">
+                            <span>立即体验</span>
+                            <i class="fas fa-external-link-alt"></i>
+                        </span>
                     </div>
                 </a>
 
