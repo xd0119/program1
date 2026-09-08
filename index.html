@@ -1422,6 +1422,88 @@
             margin-bottom: 0;
         }
 
+        /* 板块末尾轻量外链卡（无 STAR，单行横向布局） */
+        .external-link-card {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1.25rem;
+            padding: 1.25rem 1.75rem;
+            background: linear-gradient(135deg, rgba(196, 167, 125, 0.08) 0%, rgba(232, 220, 196, 0.12) 100%);
+            border: 1px dashed rgba(196, 167, 125, 0.4);
+            border-radius: 14px;
+            text-decoration: none;
+            color: var(--text-primary);
+            transition: all 0.3s ease;
+        }
+        .external-link-card:hover {
+            background: linear-gradient(135deg, rgba(196, 167, 125, 0.18) 0%, rgba(232, 220, 196, 0.22) 100%);
+            border-color: var(--primary);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(196, 167, 125, 0.15);
+        }
+        .external-link-card .elc-left {
+            display: flex;
+            align-items: center;
+            gap: 0.9rem;
+            min-width: 0;
+            flex: 1;
+        }
+        .external-link-card .elc-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 10px;
+            background: var(--gradient-main);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            flex-shrink: 0;
+        }
+        .external-link-card .elc-text { min-width: 0; }
+        .external-link-card .elc-title {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.15rem;
+        }
+        .external-link-card .elc-desc {
+            font-size: 0.78rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+        .external-link-card .elc-arrow {
+            color: var(--primary);
+            font-size: 0.85rem;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+        }
+        .external-link-card .elc-badge {
+            display: inline-block;
+            padding: 1px 8px;
+            background: rgba(196, 167, 125, 0.15);
+            color: var(--primary);
+            border-radius: 10px;
+            font-size: 0.68rem;
+            font-weight: 600;
+            margin-left: 0.4rem;
+            vertical-align: middle;
+        }
+        @media (max-width: 640px) {
+            .external-link-card {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.85rem;
+                padding: 1rem 1.25rem;
+            }
+            .external-link-card .elc-arrow {
+                align-self: flex-end;
+            }
+        }
+
         .feature-project {
             display: grid;
             grid-template-columns: 1fr 1.2fr;
@@ -3458,6 +3540,22 @@
                         </a>
                     </div>
                 </article>
+
+                <!-- 板块末尾轻量外链卡：小红书小工具（无 STAR，单行横向） -->
+                <a href="https://www.xiaohongshu.com/s/poster?bgimg=https%3A%2F%2Fsns-redskillhub-s1.xhscdn.com%2Fred_app_image%2F1040g4m8324rf91vdig5g5nq2g05g9cbgpdh0f0o%3Fsign%3D7c64f358157709ccfa6d79ba28cc01fc%26t%3D6c80b905&xhsshare=&appuid=5f42800b000000000100b170&apptime=1788839301&deeplink=xhsdiscover%3A%2F%2FminiTool%2F6a9aecfc33dcf5001578d5e7%3Fsource%3Dh5%26page_key%3D28%26xhsMpScreenMode%3Dfull%26share_id%3D37f0d8ef99574627b8046396b0e488c4%26share_channel%3Dcopy_link"
+                   target="_blank" rel="noopener noreferrer" class="external-link-card">
+                    <div class="elc-left">
+                        <div class="elc-icon"><i class="fas fa-gamepad"></i></div>
+                        <div class="elc-text">
+                            <div class="elc-title">文字麻将单机版<span class="elc-badge">使用人数 200+</span></div>
+                            <div class="elc-desc">小红书小工具 · 上线运行中</div>
+                        </div>
+                    </div>
+                    <span class="elc-arrow">
+                        <span>立即体验</span>
+                        <i class="fas fa-external-link-alt"></i>
+                    </span>
+                </a>
 
             </div>
         </section>
